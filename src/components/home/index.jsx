@@ -14,7 +14,7 @@ import {
 
 import styles from './styles';
 
-//import { LinearGradient } from 'expo-linear-gradient';
+import { LinearGradient } from 'expo-linear-gradient';
 
 
 export default function Home({ navigation }) {
@@ -138,7 +138,18 @@ export default function Home({ navigation }) {
      <ScrollView>
       
 
-        <View style={styles.containerMain}>
+      <LinearGradient
+               colors={['#66110A', '#FFB233']}
+               style={styles.containerMain}
+             > 
+
+
+       
+
+
+
+
+
 
            <Text>Tela Home</Text>
 
@@ -315,7 +326,7 @@ export default function Home({ navigation }) {
 
 
 
-        </View>
+        </LinearGradient>
 
 
 
@@ -557,6 +568,8 @@ export default function Home({ navigation }) {
              
              
              */}
+
+
 
 
       </ScrollView>

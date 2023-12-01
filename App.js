@@ -7,7 +7,7 @@
 
 import VisitConstructions  from './src/components/visitConstructions';
 import Home from './src/components/home';
-
+import CadConstructions from './src/components/cadConstructions';
 
 
 export default function App() {
@@ -15,9 +15,9 @@ export default function App() {
 
   return (
      
-       <VisitConstructions/>
-
-      // <Home/>
+     //  <VisitConstructions/>
+     // <Home/>
+     <CadConstructions/>
          
     /* 
     <NavigationContainer>

@@ -15,6 +15,10 @@ import {
 
  import styles from './styles';
 
+ import * as ImagePicker from 'expo-image-picker';
+
+ 
+
 //import { LinearGradient } from 'expo-linear-gradient';
 
 

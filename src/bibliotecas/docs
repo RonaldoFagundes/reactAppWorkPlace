@@ -1,0 +1,37 @@
+
+ https://docs.expo.dev/versions/latest/sdk/linear-gradient/
+ npx expo install expo-linear-gradient
+
+
+ https://docs.expo.dev/guides/using-firebase/
+ npx expo install firebase
+
+
+ https://docs.expo.dev/versions/latest/sdk/imagepicker/
+ npx expo install expo-image-picker
+
+
+ https://www.npmjs.com/package/react-native-safe-area-context/v/4.6.3
+ npm i react-native-safe-area-context@4.6.3
+
+
+ https://docs.expo.dev/versions/latest/sdk/camera/
+ npx expo install expo-camera
+
+
+ https://docs.expo.dev/versions/latest/sdk/print/
+ npx expo install expo-print
+
+
+ https://docs.expo.dev/versions/latest/sdk/sharing/
+ npx expo install expo-sharing
+
+
+ https://reactnative.dev/docs/asyncstorage
+ https://docs.expo.dev/versions/latest/sdk/async-storage/
+ npx expo install @react-native-async-storage/async-storage
+
+ https://docs.expo.dev/guides/icons/
+
+
+  
