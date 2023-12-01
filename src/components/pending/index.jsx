@@ -96,6 +96,124 @@ export default function Pending({ navigation }) {
 
               </View>
 
+
+
+
+
+
+              <FlatList
+
+                data={obras}
+
+                renderItem={({ item }) =>
+                
+                <View style={styles.listData}>
+
+                  <View style={styles.listHeader}>
+
+                   <Image 
+                     style={styles.resizeModel}
+                     source={item.img}
+                    />
+
+
+
+                   <Text style={styles.listText}>
+                     {`Staus: ${item.status}`}
+                   </Text>
+
+                  </View>
+
+
+                <View style={styles.listBody}>
+
+                  <Text style={styles.listText}>
+                    {`Nome : ${item.nome}`}
+                  </Text>
+
+                  <Text style={styles.listText}>
+                    {`Endereço : ${item.endereco.rua}`}
+                  </Text>
+
+                  <Text style={styles.listText}>
+                    {`Nº : ${item.endereco.numero}`}
+                  </Text>
+
+                  <Text style={styles.listText}>
+                    {`Complemento : ${item.endereco.complemento}`}
+                  </Text>
+
+                  <Text style={styles.listText}>
+                    {`Responsável : ${item.responsavel}`}
+                  </Text>
+
+               </View>
+
+
+
+               <View style={styles.listFotter}>
+                
+                  {  
+                  item.status  === 'em analise' 
+
+                   ?
+                  <Pressable style={styles.btnWarning}
+
+                      onPress={() => navigation.navigate("")}
+                   >
+                      <Text style={styles.textAlert}>Pendência</Text>
+
+                  </Pressable>
+                    
+                   :
+
+                  <Pressable style={styles.containerBtn}
+
+                      onPress={() => navigation.navigate("")}
+                   >
+                      <Text style={styles.textAlert}>Visitar Obra</Text>
+
+                  </Pressable>
+
+                  }
+
+
+
+
+                  <Pressable  style={styles.containerBtn}
+
+                      onPress={() => navigation.navigate("")}
+                   >
+                      <Text style={styles.textAlert}>Editar</Text>
+
+                  </Pressable>
+
+                  
+                  <Pressable  style={styles.containerBtn}
+
+                      onPress={() => navigation.navigate("")}
+                    >
+                    <Text style={styles.textAlert}>Excluir</Text>
+
+                 </Pressable>
+
+
+                </View>
+
+
+               </View>
+              
+            }
+             />
+
+
+
+
+
+
+
+
+
             </View>
 
 

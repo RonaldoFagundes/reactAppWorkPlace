@@ -136,6 +136,7 @@ export default function Home({ navigation }) {
 
 
      <ScrollView>
+      
 
         <View style={styles.containerMain}>
 
