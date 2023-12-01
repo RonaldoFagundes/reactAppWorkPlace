@@ -1,20 +1,33 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+//import {NavigationContainer} from '@react-navigation/native';
+
+//import AuthProvider from './src/contexts/auth';
+
+//import Routes from './src/routes';
+
+
+import VisitConstructions  from './src/components/visitConstructions';
+import Home from './src/components/home';
+
+
 
 export default function App() {
+
+
   return (
-    <View style={styles.container}>
-      <Text>Register your Work visit</Text>
-      <StatusBar style="auto" />
-    </View>
+     
+       <VisitConstructions/>
+
+      // <Home/>
+         
+    /* 
+    <NavigationContainer>
+       
+        <AuthProvider>
+           <Routes/>
+       </AuthProvider>
+        
+
+    </NavigationContainer> 
+    */
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
