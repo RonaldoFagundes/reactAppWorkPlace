@@ -1,10 +1,3 @@
-//import { AuthContext } from '../../context/auth';
-
-//import firebase from '../../database/firebase';
-
-//import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
-
-import React, { useContext, useEffect, useState } from 'react';
 
 import {
   FlatList,
@@ -13,21 +6,25 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
+  Pressable,
   KeyboardAvoidingView,
   Platform,
   Image,
   Modal
 } from 'react-native';
 
+import React, { useContext, useEffect, useState } from 'react';
+
 import styles from './styles';
 
+import { LinearGradient } from 'expo-linear-gradient';
 
-//import { LinearGradient } from 'expo-linear-gradient';
-
-
-
+import { AuthContext } from '../../contexts/auth';
 
 
+import firebase from '../../database/firebase';
+
+import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
 
 
 
@@ -36,12 +33,12 @@ export default function Login({ navigation }) {
 
 
 
-  //const db = firebase.firestore();
-  //const auth = getAuth();
+  const db = firebase.firestore();
+  const auth = getAuth();
 
 
 
- // const { setUser, setId, setModal } = useContext(AuthContext);
+  const { setEmail, setUser, setId, setModal, setLoad, load  } = useContext(AuthContext);
 
   const [modalPassword, setModalPassword] = useState(false);
 
@@ -79,11 +76,17 @@ export default function Login({ navigation }) {
 
 
 
+ 
+
+
+
   useEffect(() => {
 
     cleanInput();
 
-  }, [],);
+    navigation.addListener('focus', () => setLoad(!load))
+
+  }, [load, navigation]);
 
 
 
@@ -93,9 +96,6 @@ export default function Login({ navigation }) {
 
 
 
-
-
-/*
   const setLogar = async () => {
 
     await signInWithEmailAndPassword(auth, credencials.email, credencials.password)
@@ -103,7 +103,7 @@ export default function Login({ navigation }) {
 
         const user = userCredential.user;
         getUser(user.email)
-
+        setEmail(user.email)  
         console.log(user.email);
 
       })
@@ -130,13 +130,12 @@ export default function Login({ navigation }) {
 
   }
 
-*/
 
 
 
 
 
-/*
+
   const setForgetPassword = async () => {
 
     await sendPasswordResetEmail(auth, credencials.email)
@@ -162,26 +161,26 @@ export default function Login({ navigation }) {
       })
 
   }
-*/
 
 
 
-/*
+
+
   const getUser = async (id) => {
 
-    await db.collection(id).doc("Funcionario").get().then((snapshot) => {
+    await db.collection(id).doc("User").get().then((snapshot) => {
 
       if (snapshot.data() != undefined) {
 
         setUser(snapshot.data().nome)
-        setId(snapshot.data().matricula)
-        setModal(false)
+      //  setId(snapshot.data().matricula)
+      //  setModal(false)
 
         navigation.navigate("Home");
 
         console.log(
-          snapshot.data().matricula
-          + "  " +
+         // snapshot.data().matricula
+        //  + "  " +
           snapshot.data().nome
         );
 
@@ -207,7 +206,7 @@ export default function Login({ navigation }) {
     })
 
   }
-*/
+
 
 
 
@@ -249,10 +248,22 @@ const cleanInput = () => {
 
 
 
+  
+
+    <LinearGradient
+   
+        colors={
+          [
+            'rgba(10, 40, 90, 0.97)',
+            'rgba(19, 53, 75 ,1)',
+          ]
+        }
+        style={styles.containerMain}
+      > 
 
 
 
-  <View style={styles.containerMain}>
+  
 
 
 
@@ -285,7 +296,7 @@ const cleanInput = () => {
 
 
 
-<TextInput style={styles.input}
+         <TextInput style={styles.input}
             placeholder=" digite a senha"
             placeholderTextColor="#BBD441"
             secureTextEntry={true}
@@ -302,28 +313,32 @@ const cleanInput = () => {
             credencials.email == "" && credencials.password == ""
               ?
 
+
               <View>
 
-                <TouchableOpacity
+                <Pressable
                   style={styles.containerBtn}
                   disabled={true}
                 >
                   <Text style={styles.textInfo}>Login</Text>
-                </TouchableOpacity>
+                </Pressable>
+
 
               </View>
 
               :
+
               <View>
 
-                <TouchableOpacity
+                <Pressable
                   style={styles.containerBtn}
-                 // onPress={setLogar}
+                  onPress={setLogar}
                 >
                   <Text style={styles.textInfo}>Logar</Text>
-                </TouchableOpacity>
+                </Pressable>
 
               </View>
+
           }
 
 
@@ -353,7 +368,7 @@ const cleanInput = () => {
             {` não tem cadastro ?  `}
 
             <Text style={styles.textAlert}
-             // onPress={() => navigation.navigate("Cad")}
+              onPress={() => navigation.navigate("CadUser")}
             >
               {` faça o cadastro agora... `}
             </Text>
@@ -381,31 +396,46 @@ const cleanInput = () => {
 
 
 
+       </View>
+
+
+
       
+
+     </LinearGradient> 
        
       
 
 
 
 
-        </View>
-
-
-
-      </View>
+       
 
 
 
 
 
-        <Modal
+      <Modal
 
 
           animationType='fade'
           visible={modalPassword}
         >
 
-          <View style={styles.modalContent}>
+        
+
+          <LinearGradient
+   
+   colors={
+     [
+       'rgba(10, 40, 90, 0.97)',
+       'rgba(19, 53, 75 ,1)',
+     ]
+   }
+   style={styles.modalContent}
+ > 
+
+
 
             <TextInput style={styles.input}
               placeholder=" informe o e-mail"
@@ -422,33 +452,38 @@ const cleanInput = () => {
               credencials.email == ""
                 ?
 
+
                 <View>
 
-                  <TouchableOpacity
+                  <Pressable
                     style={styles.containerBtn}
                     disabled={true}
                   >
                     <Text style={styles.textInfo}>Enviar</Text>
-                  </TouchableOpacity>
+                  </Pressable>
 
                 </View>
 
+
                 :
+
+
                 <View>
 
-                  <TouchableOpacity
+                  <Pressable
                     style={styles.containerBtn}
-                  //  onPress={() => setForgetPassword()}
+                    onPress={() => setForgetPassword()}
 
                   >
                     <Text style={styles.textInfo}>Enviar</Text>
-                  </TouchableOpacity>
+                  </Pressable>
+
 
                 </View>
 
             }
 
-          </View>
+          </LinearGradient>
 
 
 
@@ -457,6 +492,7 @@ const cleanInput = () => {
 
 
 
+    
 
   
 </KeyboardAvoidingView>

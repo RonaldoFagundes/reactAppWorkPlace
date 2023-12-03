@@ -21,8 +21,9 @@ export default function Routes() {
          headerShown: false
          }} 
         >
-
-         <Stack.Screen
+       
+      
+       <Stack.Screen
             name='Login'
             component={Login}
           />
@@ -32,11 +33,11 @@ export default function Routes() {
             component={CadUser}
           />
 
-         <Stack.Screen
+          <Stack.Screen
              name='Home'
              component={Home}
-           />
-
+           /> 
+ 
 
          <Stack.Screen
             name='CadConstructions'

@@ -1,5 +1,3 @@
-import React, { useState, useEffect } from 'react';
-
 import {
   FlatList,
   View,
@@ -9,16 +7,48 @@ import {
   KeyboardAvoidingView,
   Platform,
   Image,
-  Pressable
+  Pressable,
+  Modal
 } from 'react-native';
+
+
+
+import React, { useContext, useEffect, useState } from 'react';
+
 
 import styles from './styles';
 
 import { LinearGradient } from 'expo-linear-gradient';
 
+import { AuthContext } from '../../contexts/auth';
+
+
+
+
+
+
+
+
+import firebase from '../../database/firebase';
+
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+
+import { doc, setDoc } from "firebase/firestore";
+
+
+
+
+
+
 
 export default function Home({ navigation }) {
 
+
+  const auth = getAuth();
+
+  const db = firebase.firestore();
 
 
  
@@ -33,9 +63,19 @@ export default function Home({ navigation }) {
 
 
   // let stat  = "pendente" ;
+   
+   
 
+   const { setEmail, email, setModal, modal ,setUser, user, setLoad, load } = useContext(AuthContext);
 
    const [welcome, setWelcome] = useState();
+
+  
+
+
+
+
+
 
 
    const helloApp = () => {
@@ -54,9 +94,17 @@ export default function Home({ navigation }) {
 
 
 
+ 
 
 
-  const obras = [
+
+
+
+ var constructions = [];
+
+
+/*
+  const obrass = [
     {
       nome: 'Pirituba',
 
@@ -91,7 +139,7 @@ export default function Home({ navigation }) {
 
   ];
 
-
+   */
 
  
 
@@ -108,16 +156,76 @@ export default function Home({ navigation }) {
     
         helloApp();
 
+        selectConstruction();
+
+        navigation.addListener('focus', () => setLoad(!load))
+
      // navigation.addListener('focus', () => setLoad(!load))
   
     // }, [load, navigation]);
 
-  }, []);
+  }, [load, navigation]);
     
     
 
 
   
+
+  const signOut = async () => {
+
+    await firebase.auth().signOut().then(() => {
+
+       setUser("") 
+         //&
+        //  setId("") &
+        navigation.navigate("Login")
+
+    }).catch((error) => {
+       consple.log("erro na funçao signOut")
+    });
+ }
+
+
+
+
+
+
+ 
+ const selectConstruction = async () => {
+
+
+  await db.collection(email).doc("Construcao").get().then((snapshot) => {
+
+
+   
+     if (snapshot.data() != undefined) {
+
+  
+        //constructions.push(snapshot.data.nome,  snapshot.data.endereco );
+        //snapshot.data().nome)
+
+        console.log(
+          " email  "+email+
+          " nome  "+snapshot.data.nome+
+          " endereço  : "+snapshot.data.endereco+
+          " nº  "+snapshot.data.numero+
+          " complemento  "+snapshot.data.complemento+
+          " nº  "+snapshot.data.numero+
+          " responsavel  "+snapshot.data.responsavel
+        );
+
+
+
+     }
+  })
+}
+
+
+
+
+
+
+
 
 
 
@@ -151,18 +259,22 @@ export default function Home({ navigation }) {
 
 
 
-           <Text>Tela Home</Text>
+          <Text>Tela Home</Text>
+
+
 
           <View style={styles.containerHeader}>
 
              <View style={styles.contentHeader}>
 
-               <Text style={styles.textInfo}>{`Bem vindo(a) user ! ${welcome}`}</Text>
+               <Text style={styles.textInfo}>{`Bem vindo(a) ${user} ! ${welcome}`}</Text>
 
 
                <Pressable style={styles.containerBtn}
                
-                 onPress={() => navigation.navigate("Login")}
+                // onPress={() => navigation.navigate("Login")}
+
+                onPress={signOut}
                >
 
                  <Text style={styles.textAlert}>Logout</Text>
@@ -211,62 +323,93 @@ export default function Home({ navigation }) {
 
             <View style={styles.contentData}>
 
-             <FlatList
 
-                data={obras}
+
+           
+
+
+          
+
+            <FlatList
+
+     
+               data={constructions}               
+     
 
                 renderItem={({ item }) =>
                 
                 <View style={styles.listData}>
 
+
                   <View style={styles.listHeader}>
 
+
+                  {/* 
                    <Image 
                      style={styles.resizeModel}
-                     source={item.img}
+                     source={item.img}                    
                     />
 
 
 
                    <Text style={styles.listText}>
-                     {`Staus: ${item.status}`}
+
+                       {`Staus: ${item.status}`}
+
                    </Text>
+
+                  */}
+
 
                   </View>
 
 
                 <View style={styles.listBody}>
 
+
                   <Text style={styles.listText}>
                     {`Nome : ${item.nome}`}
                   </Text>
 
+
+
+               {/* 
                   <Text style={styles.listText}>
                     {`Endereço : ${item.endereco.rua}`}
                   </Text>
+
 
                   <Text style={styles.listText}>
                     {`Nº : ${item.endereco.numero}`}
                   </Text>
 
+
                   <Text style={styles.listText}>
                     {`Complemento : ${item.endereco.complemento}`}
                   </Text>
+
 
                   <Text style={styles.listText}>
                     {`Responsável : ${item.responsavel}`}
                   </Text>
 
+               */}
+
+
                </View>
+
+
 
 
 
                <View style={styles.listFotter}>
                 
+
                   {  
                   item.status  === 'em analise' 
 
                    ?
+
                   <Pressable style={styles.btnWarning}
 
                       onPress={() => navigation.navigate("")}
@@ -276,6 +419,7 @@ export default function Home({ navigation }) {
                   </Pressable>
                     
                    :
+
 
                   <Pressable style={styles.containerBtn}
 
@@ -299,6 +443,8 @@ export default function Home({ navigation }) {
                   </Pressable>
 
                   
+
+
                   <Pressable  style={styles.containerBtn}
 
                       onPress={() => navigation.navigate("")}
@@ -308,13 +454,35 @@ export default function Home({ navigation }) {
                  </Pressable>
 
 
+
+
+
                 </View>
+
 
 
                </View>
               
             }
              />
+
+             
+           
+
+
+
+
+
+
+              <Pressable  style={styles.containerBtn}
+
+                      onPress={() => navigation.navigate("CadConstructions")}
+                  >
+                    <Text style={styles.textAlert}>Adcionar Obra </Text>
+
+              </Pressable>
+
+
 
 
 

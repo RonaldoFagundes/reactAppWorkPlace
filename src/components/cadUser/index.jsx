@@ -7,25 +7,29 @@ import {
    ScrollView,
    Text,
    TextInput,
+   Pressable,
    TouchableOpacity,
    KeyboardAvoidingView,
    Platform,
-   Image
+   Image,
+   Modal
  } from 'react-native';
 
  import styles from './styles';
 
-//import { LinearGradient } from 'expo-linear-gradient';
+ import { LinearGradient } from 'expo-linear-gradient';
 
 
-//import { AuthContext } from '../../context/auth';
+ import { AuthContext } from '../../contexts/auth';
 
 
-//import firebase from '../../database/firebase';
 
 
-//import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import firebase from '../../database/firebase';
 
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+
+import { doc, setDoc } from "firebase/firestore";
 
 
 
@@ -40,12 +44,17 @@ function CadUser({ navigation }) {
 
 
 
-  // const auth = getAuth();
+   const auth = getAuth();
+
+   const db = firebase.firestore();
+  // const storage = getStorage();
+
+
+   const { setEmail, email, setModal, modal ,setUser } = useContext(AuthContext);
 
 
 
 
- //  const { setEmail, setModal, setUser } = useContext(AuthContext);
 
 
    const [errorValidate, setErrorValidate] = useState({
@@ -55,10 +64,14 @@ function CadUser({ navigation }) {
 
 
 
+
+
+
    const [credencials, setCredencials] = useState(
       {
          email: "",
-         password: ""
+         password: "",
+         name:""
       }
    );
 
@@ -85,6 +98,7 @@ function CadUser({ navigation }) {
    useEffect(() => {
 
       cleanInput();
+      setModal(false);
 
    }, [],);
 
@@ -93,9 +107,25 @@ function CadUser({ navigation }) {
 
 
 
+ 
 
-   
-   /* 
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
    const setRegister = async () => {
 
       await createUserWithEmailAndPassword(auth, credencials.email, credencials.password)
@@ -105,7 +135,7 @@ function CadUser({ navigation }) {
 
             setEmail(user.email)
             setModal(true)
-            setUser("");
+           // setUser("");
             navigation.navigate("Home");
 
             console.log(user.email)
@@ -135,11 +165,61 @@ function CadUser({ navigation }) {
          });
 
    };
- */
+ 
 
 
 
 
+
+   
+   const setCompleteRegister = async () => {
+
+      await setDoc(doc(db, email, "User"), {
+        
+         nome: credencials.name,
+         
+   
+      }).then(() => {
+   
+         setModal(false)
+         getUser();
+         navigation.navigate("Home");
+
+       //  getImageUrl(credencials.nome);
+   
+         console.log("metodo setCompleteRegister")
+   
+      }).catch((error) => {
+         console.log(error);
+      });
+   
+   }
+  
+   
+
+   
+
+   const getUser = async () => {
+   
+
+      await db.collection(email).doc("User").get().then((snapshot) => {
+   
+         if (snapshot.data() != undefined) {
+   
+            setUser(snapshot.data().nome);
+           // setId(snapshot.data().matricula);
+   
+            console.log(
+             //  " metodo getUser matricula nº " + snapshot.data().matricula +
+               " nome   " + snapshot.data().nome
+            );
+   
+         }
+      })
+   }
+    
+
+   
 
 
    const validate = () => {
@@ -229,6 +309,23 @@ function CadUser({ navigation }) {
 
 
 
+  /* 
+   const signOut = async () => {
+
+      await firebase.auth().signOut().then(() => {
+
+           setUser("") &
+            setId("") &
+            navigation.navigate("Login")
+
+      }).catch((error) => {
+         consple.log("erro na funçao signOut")
+      });
+   }
+ */
+
+
+
 
 
 
@@ -244,7 +341,7 @@ function CadUser({ navigation }) {
 
 
 
-      {/*
+     
        <LinearGradient
          colors={
             [
@@ -254,9 +351,9 @@ function CadUser({ navigation }) {
          }
          style={styles.containerMain}
       > 
-      */}
+      
 
-       <View style={styles.containerMain}> 
+    
 
 
 
@@ -285,6 +382,7 @@ function CadUser({ navigation }) {
             style={styles.contentMain}
          >
         */}
+
 
         <View style={styles.contentMain}>
 
@@ -326,24 +424,24 @@ function CadUser({ navigation }) {
 
                   <View>
 
-                     <TouchableOpacity
+                     <Pressable
                         style={styles.containerBtn}
                         disabled={true}
                      >
                         <Text style={styles.textInfo}>Cadastro</Text>
-                     </TouchableOpacity>
+                     </Pressable>
 
                   </View>
 
                   :
                   <View>
 
-                     <TouchableOpacity
+                     <Pressable
                         style={styles.containerBtn}
                         onPress={validate}
                      >
                         <Text style={styles.textInfo}>Cadastrar</Text>
-                     </TouchableOpacity>
+                     </Pressable>
 
                   </View>
 
@@ -390,8 +488,66 @@ function CadUser({ navigation }) {
          
 
 
-      </View>
-    {/*   </LinearGradient> */}
+     </LinearGradient> 
+
+
+
+
+
+         <Modal
+           animationType="fade"
+           visible={modal}
+         >
+           
+              
+           <LinearGradient
+         colors={
+            [
+               'rgba(10, 40, 90, 0.97)',
+               'rgba(19, 53, 75 ,1)',
+            ]
+         }
+         style={styles.modalContent}
+      > 
+      
+       
+
+           
+             <TextInput style={styles.input}
+               placeholder="Informe seu Nome"
+               placeholderTextColor="#BBD441"               
+               type="text"
+               onChangeText={
+                  (valor) => handleInputChange('name', valor)
+
+               }
+               value={credencials.name}
+            />
+
+
+
+
+
+
+
+             <Pressable style={styles.containerBtn}
+                onPress={setCompleteRegister}
+              
+               >
+
+                <Text style={styles.textAlert}>Cadastar</Text>
+
+             </Pressable>
+
+
+
+
+          </LinearGradient>
+
+
+         </Modal>
+
+
 
 
 
@@ -403,9 +559,14 @@ function CadUser({ navigation }) {
 
 
 
+
+
 }
 
 export default CadUser;
+
+
+
 
 
 

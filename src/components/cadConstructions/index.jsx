@@ -8,29 +8,34 @@ import {
    Text,
    TextInput,
    TouchableOpacity,
+   Pressable,
    KeyboardAvoidingView,
    Platform,
    Image
  } from 'react-native';
 
+
  import styles from './styles';
 
- import * as ImagePicker from 'expo-image-picker';
+ import { LinearGradient } from 'expo-linear-gradient';
 
+
+ //import * as ImagePicker from 'expo-image-picker';
+
+ import firebase from '../../database/firebase';
+
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+
+import { doc, setDoc } from "firebase/firestore";
+
+
+ import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+ 
+ 
  
 
-//import { LinearGradient } from 'expo-linear-gradient';
 
-
-//import { AuthContext } from '../../context/auth';
-
-
-//import firebase from '../../database/firebase';
-
-
-//import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-
-
+ import { AuthContext } from '../../contexts/auth';
 
 
 
@@ -44,12 +49,27 @@ function CadConstructions({ navigation }) {
 
 
 
-  // const auth = getAuth();
+
+  const auth = getAuth();
+
+  const db = firebase.firestore();
 
 
 
 
- //  const { setEmail, setModal, setUser } = useContext(AuthContext);
+
+  
+  useEffect(() => {
+
+ //  cleanInput();
+
+}, [],);
+
+
+
+
+
+   const { setEmail, email, setModal, setUser } = useContext(AuthContext);
 
 
    /* 
@@ -68,7 +88,7 @@ function CadConstructions({ navigation }) {
       }
    );
 
- */
+ 
 
 
    const [construction, setConstruction] = useState(
@@ -83,11 +103,32 @@ function CadConstructions({ navigation }) {
 
 
 
+*/
 
 
 
 
-   const handleInputChange = (atribute, value) => {
+
+   const [construction,setConstruction] = useState ({
+
+      name:"",
+      img:"",
+    
+      
+       address: "",
+       number:"",
+       others: "",
+   
+    
+     responsable:"",    
+    
+    });
+
+
+
+
+
+    const handleInputChange = (atribute, value) => {
 
       setConstruction(
          {
@@ -99,19 +140,38 @@ function CadConstructions({ navigation }) {
 
 
 
+    const insertConstruction = async () => {
+     /*
+      console.log(
+      "email: "+email+   
+      "nome: "+construction.name+
+      "endereco: "+construction.address+
+      "numero: "+construction.number+
+      "complemento: "+construction.others+       
+      "responsavel: "+construction.responsable   
+         )
+       */
+      
+      await setDoc(doc(db, email, "Construcao"), {        
+         nome: construction.name,
+         endereco:construction.address,
+         numero:construction.number,
+         complemento:construction.others,       
+         responsavel:construction.responsable,   
+      }).then(() => {
+   
+         console.log("metodo addConstruction")
+   
+      }).catch((error) => {
+         console.log(error);
+      });
+      
 
 
+   
+   }
 
-
-   useEffect(() => {
-
-      cleanInput();
-
-   }, [],);
-
-
-
-
+   
 
 
 
@@ -259,6 +319,9 @@ function CadConstructions({ navigation }) {
 
 
 
+
+
+
    return (
 
 
@@ -271,7 +334,7 @@ function CadConstructions({ navigation }) {
 
 
 
-      {/*
+   
        <LinearGradient
          colors={
             [
@@ -281,9 +344,9 @@ function CadConstructions({ navigation }) {
          }
          style={styles.containerMain}
       > 
-      */}
+    
 
-       <View style={styles.containerMain}> 
+      
 
 
 
@@ -328,7 +391,7 @@ function CadConstructions({ navigation }) {
 
 
            <TextInput style={styles.input}
-               placeholder="Rua"
+               placeholder="Rua/Av"
                placeholderTextColor="#BBD441"
                type="text"
                onChangeText={
@@ -354,9 +417,9 @@ function CadConstructions({ navigation }) {
                placeholderTextColor="#BBD441"
                type="text"
                onChangeText={
-                  (valor) => handleInputChange('details', valor)
+                  (valor) => handleInputChange('others', valor)
                }
-               value={construction.details}
+               value={construction.others}
             />
 
 
@@ -373,12 +436,12 @@ function CadConstructions({ navigation }) {
 
 
 
-           <TouchableOpacity  style={styles.containerBtn} 
+           <Pressable  style={styles.containerBtn} 
               //disabled={true}
-           >
-              <Text style={styles.textAlert} >selecione uma foto</Text>
+              >
+               <Text style={styles.textAlert} >selecione uma foto</Text>
 
-          </TouchableOpacity>
+           </Pressable>
 
 
 
@@ -386,18 +449,18 @@ function CadConstructions({ navigation }) {
 
             {
 
-               construction.name == "" && construction.address == "" &&
+               construction.name   == "" && construction.address    == "" &&
                construction.number == "" && construction.responsable == ""
                   ?
 
                   <View>
 
-                     <TouchableOpacity
+                     <Pressable
                         style={styles.containerBtn}
                         disabled={true}
                      >
                         <Text style={styles.textInfo}>Cadastro</Text>
-                     </TouchableOpacity>
+                     </Pressable>
 
                   </View>
 
@@ -406,12 +469,12 @@ function CadConstructions({ navigation }) {
 
                   <View>
 
-                     <TouchableOpacity
-                        style={styles.containerBtn}
-                        onPress={validate}
-                     >
-                        <Text style={styles.textInfo}>Cadastrar</Text>
-                     </TouchableOpacity>
+                     <Pressable
+                         style={styles.containerBtn}
+                         onPress={insertConstruction}
+                        >
+                         <Text style={styles.textInfo}>Cadastrar</Text>
+                     </Pressable>
 
                   </View>
 
@@ -429,8 +492,10 @@ function CadConstructions({ navigation }) {
          
 
 
-      </View>
-    {/*   </LinearGradient> */}
+      
+
+
+      </LinearGradient> 
 
 
 

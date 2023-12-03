@@ -11,12 +11,28 @@ export const AuthContext = createContext({});
 function AuthProvider({children}){
 
 
+    const [email,setEmail] = useState ( ) ;   
+
     const [user,setUser] = useState ({});
 
-    const [construction,setConstruction] = useState ({});
+
+   
+
+
+
 
     const [trouble,setTrouble] = useState ({});
 
+
+
+
+    const [modal , setModal] = useState (true) ;
+
+
+    const [load, setLoad] = useState(true)
+
+   
+    const [id, setId] = useState ( ) ;
 
 
 
@@ -24,7 +40,13 @@ function AuthProvider({children}){
 
         <AuthContext.Provider value={
              {
-                setUser , user, setConstruction , construction , setTrouble , trouble 
+                setUser , user,                
+                setTrouble , trouble ,
+                setModal,  modal,
+                setLoad, load,
+                setEmail, email,
+                setUser , user,
+                setId, id    
              }
         }>
           {children}

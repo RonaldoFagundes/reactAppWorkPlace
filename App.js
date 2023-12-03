@@ -1,6 +1,6 @@
-//import {NavigationContainer} from '@react-navigation/native';
+import {NavigationContainer} from '@react-navigation/native';
 
-//import AuthProvider from './src/contexts/auth';
+import AuthProvider from './src/contexts/auth';
 
 //import Routes from './src/routes';
 
@@ -8,7 +8,7 @@
 import VisitConstructions  from './src/components/visitConstructions';
 import Home from './src/components/home';
 import CadConstructions from './src/components/cadConstructions';
-
+import Routes from './src/routes';
 
 export default function App() {
 
@@ -17,9 +17,11 @@ export default function App() {
      
      //  <VisitConstructions/>
      // <Home/>
-     <CadConstructions/>
+     //<CadConstructions/>
+
+     //<Routes/>
          
-    /* 
+    
     <NavigationContainer>
        
         <AuthProvider>
@@ -28,6 +30,6 @@ export default function App() {
         
 
     </NavigationContainer> 
-    */
+   
   );
 }

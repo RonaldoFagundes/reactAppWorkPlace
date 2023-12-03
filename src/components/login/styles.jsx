@@ -19,6 +19,7 @@ export default StyleSheet.create({
   },
 
 
+  
   contentMain: {
     alignItems: 'center',
     borderRadius: 10,

@@ -36,6 +36,15 @@ export default StyleSheet.create({
   },
 
 
+  modalContent: {
+    alignItems: 'center',
+    backgroundColor: 'black',
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    textAlign: 'center',
+  },
+
 
 
   input: {
