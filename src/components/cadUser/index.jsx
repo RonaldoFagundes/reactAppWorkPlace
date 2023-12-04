@@ -2,21 +2,18 @@ import React, { useContext, useEffect, useState } from 'react';
 
 
 import {
-   FlatList,
-   View,
-   ScrollView,
+   View, 
    Text,
    TextInput,
-   Pressable,
-   TouchableOpacity,
+   Pressable,  
    KeyboardAvoidingView,
    Platform,
    Image,
    Modal
  } from 'react-native';
 
- import styles from './styles';
 
+ import styles from './styles';
  import { LinearGradient } from 'expo-linear-gradient';
 
 
@@ -26,9 +23,7 @@ import {
 
 
 import firebase from '../../database/firebase';
-
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-
 import { doc, setDoc } from "firebase/firestore";
 
 
@@ -199,6 +194,8 @@ function CadUser({ navigation }) {
 
    
 
+
+
    const getUser = async () => {
    
 
@@ -220,6 +217,8 @@ function CadUser({ navigation }) {
     
 
    
+
+
 
 
    const validate = () => {
@@ -293,6 +292,8 @@ function CadUser({ navigation }) {
 
 
 
+   
+
 
    const cleanInput = () => {
 
@@ -365,8 +366,15 @@ function CadUser({ navigation }) {
 
 
 
+         <View style={styles.containerLogo}>
 
+          <Image
+            style={styles.resizeModel}
+              source={require('../../../assets/test.png')}
+             />
 
+          </View> 
+        
 
 
 

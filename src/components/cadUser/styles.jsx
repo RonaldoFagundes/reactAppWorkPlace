@@ -4,6 +4,8 @@ import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
 
+
+
   body: {
     flex: 1
   },
@@ -12,11 +14,14 @@ export default StyleSheet.create({
 
   containerMain: {
     height: '100%',
-    with: '100%'
+    with: '100%',
+    alignItems: 'center',
   },
 
 
  
+
+
   contentMain: {
     alignItems: 'center',
     backgroundColor: 'rgba(25, 126, 162, 0.3)',
@@ -28,14 +33,31 @@ export default StyleSheet.create({
 
 
 
+
   containerInfo: {
     alignItems: 'center',
     height: 'auto',
-    marginBottom: 100,
+    marginBottom: 10,
     padding: 40,
   },
 
 
+
+  containerLogo:{
+    width:200,
+    height:140,
+    marginBottom: 50,
+    backgroundColor:'white',
+    borderRadius: 10,
+ },
+
+ resizeModel:{
+  resizeMode:'cover',
+  height:'100%',
+  width:'100%' 
+  },
+
+  
   modalContent: {
     alignItems: 'center',
     backgroundColor: 'black',

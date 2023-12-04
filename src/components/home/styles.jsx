@@ -48,11 +48,14 @@ export default StyleSheet.create({
 
     
 
-    containerData: {
+
+
+
+    containerList: {
       alignItems: 'center',
       justifyContent: 'center',
       height:'auto',
-      width: '90%',
+      width: '96%',
       padding:10, 
       borderRadius:5,
      // paddingTop:10,
@@ -64,15 +67,34 @@ export default StyleSheet.create({
 
 
 
-   contentData: {
+   contentList: {
       width: 'auto',
-     // backgroundColor: 'orange',
-      flexDirection: 'row',
+      backgroundColor: 'orange',
+     // flexDirection: 'row',
       padding: 10,
-      height:'90%',
-      width: '90%',
+      height:'auto',
+     
       // borderRadius:20      
    },
+
+
+
+    cardList:{
+       width:"auto",
+       height:"auto",
+       padding:10,
+       borderRadius:10 ,
+       backgroundColor: 'grey', 
+       marginBottom:10 ,
+       borderBottomWidth:12,
+      borderBottomColor: 'orange',
+    },
+
+
+
+
+
+
 
 
 
@@ -86,29 +108,11 @@ export default StyleSheet.create({
 
 
 
-  /*  
-     contentImg:{
-      width:100,
-      height:100,
-       backgroundColor: '#C45511',
-      borderRadius: 50/2 ,
-      marginLeft: 5,     
-      },
-    */
-
-
+ 
 
 
   
-   listData:{
-    //  height:'auto',
-    //  width: 'auto',
-      backgroundColor: 'black', 
-      padding: 10, 
-      borderBottomWidth:12,
-      marginBottom:10,
-    // borderBottomColor: 'orange', 
-   },
+   
  
 
 
@@ -122,10 +126,7 @@ export default StyleSheet.create({
   },
 
 
-  listBody:{
-  //padding:10 ,
-  textAlign: 'center',
-},
+ 
 
 
 
@@ -139,7 +140,7 @@ export default StyleSheet.create({
 
 
 
-  listText:{
+  textList:{
      fontSize:12,
      color:'white',
      //borderRadius:20 ,
@@ -191,16 +192,17 @@ textData: {
 
 
      btnWarning:{
-      width: 'auto',
+      width: '30%',
       height: 'auto',
-      justifyContent: 'center',
+     // justifyContent: 'center',
       borderRadius: 10,
-      marginRight: 6,
-      marginLeft: 6,
+      //marginRight: 6,
+     // marginLeft: 6,
+      alignItems:'center',
       textAlign: 'center',
       backgroundColor: 'red',
-      padding:10
-
+      padding:10,
+      marginTop:10  
      },
 
  

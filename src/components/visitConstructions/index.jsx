@@ -16,7 +16,7 @@ import {
 
 import styles from './styles';
 
-// import CheckBox from './checkBox';
+
 
 import CheckBox from '../checkBox';
 

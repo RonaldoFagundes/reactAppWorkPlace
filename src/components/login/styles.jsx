@@ -11,6 +11,17 @@ export default StyleSheet.create({
    },
 
 
+   containerNoConnect: {
+    //flex: 1,
+    height: '14%',
+    with: '100%',
+    marginBottom:20,
+    padding:10,
+   
+    backgroundColor: 'rgba(75, 26, 62, 0.3)',
+  },
+
+
 
   containerMain: {
     height: '100%',
@@ -22,12 +33,15 @@ export default StyleSheet.create({
   
   contentMain: {
     alignItems: 'center',
+    backgroundColor: 'rgba(25, 126, 162, 0.3)',
     borderRadius: 10,
     height: "auto",
     padding: 20,
     with: "auto"
   },
 
+
+ 
 
 
 
@@ -37,15 +51,29 @@ export default StyleSheet.create({
   containerInfo: {
     alignItems: 'center',
     height: 'auto',
-    marginBottom: 140,
+    marginBottom: 10,
     padding: 40,
   },
 
 
 
-
+ containerLogo:{
+    width:200,
+    height:140,
+    marginBottom: 50,
+    backgroundColor:'white',
+    borderRadius: 10,
+ },
  
 
+ resizeModel:{
+  resizeMode:'cover',
+  height:'100%',
+  width:'100%' 
+  },
+
+
+  
 
 
   input: {
@@ -127,6 +155,21 @@ export default StyleSheet.create({
 
   textAlert: {
     color: '#BBD441',
+    fontSize: 14,
+    textAlign:'center'
+  },
+
+
+
+  textWarningB: {
+    color: 'red',
+    fontSize: 20,
+    textAlign:'center'
+  },
+
+
+  textWarningS: {
+    color: 'red',
     fontSize: 14,
     textAlign:'center'
   },

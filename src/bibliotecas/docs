@@ -34,4 +34,10 @@
  https://docs.expo.dev/guides/icons/
 
 
+ https://docs.expo.dev/versions/latest/sdk/netinfo/
+ npx expo install @react-native-community/netinfo
+
+
   
+
+  https://www.youtube.com/watch?v=0AM6AXlFwxM

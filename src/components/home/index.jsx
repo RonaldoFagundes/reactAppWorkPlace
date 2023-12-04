@@ -33,13 +33,13 @@ import firebase from '../../database/firebase';
 
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { getStorage, ref, uploadBytes, getDownloadURL, listAll } from "firebase/storage";
 
 import { doc, setDoc } from "firebase/firestore";
 
+import { collection, query, where } from "firebase/firestore";
 
-
-
+import {getDoc } from "firebase/firestore";
 
 
 
@@ -69,6 +69,9 @@ export default function Home({ navigation }) {
    const { setEmail, email, setModal, modal ,setUser, user, setLoad, load } = useContext(AuthContext);
 
    const [welcome, setWelcome] = useState();
+
+
+   const [construction, setConstruction] = useState([]);
 
   
 
@@ -100,7 +103,7 @@ export default function Home({ navigation }) {
 
 
 
- var constructions = [];
+ 
 
 
 /*
@@ -190,34 +193,78 @@ export default function Home({ navigation }) {
 
 
 
+
+
+
+
+
+
+
+
  
  const selectConstruction = async () => {
 
+  db.collection(email).onSnapshot((query) => {
 
-  await db.collection(email).doc("Construcao").get().then((snapshot) => {
+     const list = [];
 
+     query.forEach((doc) => {
 
+       list.push({...doc.data(), id: doc.id });
+
+     });
+
+     setConstruction(list);
+
+      console.log(list)
+   })
    
+
+ }
+
+
+
+
+
+
+
+
+ 
+ const selectConstruction2 = async () => {
+
+
+ /*
+  await db.collection(email).doc('construcao').get().then((snapshot) => {
+ 
      if (snapshot.data() != undefined) {
 
   
         //constructions.push(snapshot.data.nome,  snapshot.data.endereco );
         //snapshot.data().nome)
 
-        console.log(
+    
+         console.log(
           " email  "+email+
-          " nome  "+snapshot.data.nome+
-          " endereço  : "+snapshot.data.endereco+
-          " nº  "+snapshot.data.numero+
-          " complemento  "+snapshot.data.complemento+
-          " nº  "+snapshot.data.numero+
-          " responsavel  "+snapshot.data.responsavel
+          " nome  "+snapshot.data().nome+
+          " endereço  : "+snapshot.data().endereco+
+          " nº  "+snapshot.data().numero+
+          " complemento  "+snapshot.data().complemento+
+          " nº  "+snapshot.data().numero+
+          " responsavel  "+snapshot.data().responsavel
         );
+      
+
+        console.log(snapshot.data().guarulhos);
 
 
 
      }
+    
   })
+
+  */
+
+
 }
 
 
@@ -244,6 +291,7 @@ export default function Home({ navigation }) {
 
 
      <ScrollView>
+
       
 
       <LinearGradient
@@ -254,16 +302,12 @@ export default function Home({ navigation }) {
 
        
 
-
-
-
-
-
-          <Text>Tela Home</Text>
+            <Text>Tela Home</Text>
 
 
 
           <View style={styles.containerHeader}>
+
 
              <View style={styles.contentHeader}>
 
@@ -281,22 +325,6 @@ export default function Home({ navigation }) {
 
                </Pressable>
 
-
-
-              {/*
-                <TouchableOpacity
-
-                 onPress={() => navigation.navigate("Login")}
-                >
-
-                <Text style={styles.textAlert}>Logout</Text>
-
-               </TouchableOpacity>
-               */}
-
-
-
-
              </View>
 
 
@@ -304,452 +332,161 @@ export default function Home({ navigation }) {
 
 
 
-                   
-                      {/* 
-                      <View>
-                        <Image
-                          source={require(`../../../assets/test.png`)}
-                          style={styles.contentImg}
-                        />
-                      </View>
-                       */}
+        <View style={styles.containerList}>
+
+
+          <FlatList
+              
+               showsVerticalScrollIndicator={false}
+
+               data={construction}
+              
+                renderItem={ ({ item }) =>
+
+
+                <View style={styles.cardList}>
 
 
 
 
-          <View style={styles.containerData}>
+                    { item.nome === user
+                      
+                      ? 
+                      <Text></Text> 
+                      
+                      :
+                      
+                      <Text style={styles.textList}>
+                        {`Nome :  ${item.nome}`}
+                      </Text>
 
-
-
-            <View style={styles.contentData}>
-
-
-
-           
-
-
-          
-
-            <FlatList
-
-     
-               data={constructions}               
-     
-
-                renderItem={({ item }) =>
-                
-                <View style={styles.listData}>
-
-
-                  <View style={styles.listHeader}>
-
-
-                  {/* 
-                   <Image 
-                     style={styles.resizeModel}
-                     source={item.img}                    
-                    />
-
-
-
-                   <Text style={styles.listText}>
-
-                       {`Staus: ${item.status}`}
-
-                   </Text>
-
-                  */}
-
-
-                  </View>
-
-
-                <View style={styles.listBody}>
-
-
-                  <Text style={styles.listText}>
-                    {`Nome : ${item.nome}`}
-                  </Text>
-
-
-
-               {/* 
-                  <Text style={styles.listText}>
-                    {`Endereço : ${item.endereco.rua}`}
-                  </Text>
-
-
-                  <Text style={styles.listText}>
-                    {`Nº : ${item.endereco.numero}`}
-                  </Text>
-
-
-                  <Text style={styles.listText}>
-                    {`Complemento : ${item.endereco.complemento}`}
-                  </Text>
-
-
-                  <Text style={styles.listText}>
-                    {`Responsável : ${item.responsavel}`}
-                  </Text>
-
-               */}
-
-
-               </View>
+                      } 
 
 
 
 
 
-               <View style={styles.listFotter}>
-                
+                    { item.endereco === undefined
+                      
+                      ? 
+                      <Text></Text> 
+                      
+                      :
+                      
+                      <Text style={styles.textList}>
+                        {`Endereço :  ${item.endereco}`}
+                      </Text>
 
-                  {  
-                  item.status  === 'em analise' 
+                      } 
 
-                   ?
 
-                  <Pressable style={styles.btnWarning}
 
-                      onPress={() => navigation.navigate("")}
-                   >
-                      <Text style={styles.textAlert}>Pendência</Text>
 
-                  </Pressable>
+
+                    { item.numero === undefined
+                      
+                      ? 
+                      <Text></Text> 
+                      
+                      :
+                      
+                      <Text style={styles.textList}>
+                        {`Nº :  ${item.numero}`}
+                      </Text>
+
+                      } 
+
+
+
+
+
+                      { item.complemento === undefined
+                      
+                      ? 
+                      <Text></Text> 
+                      
+                      :
+                      
+                      <Text style={styles.textList}>
+                        {`Complemeto :  ${item.complemento}`}
+                      </Text>
+
+                      } 
                     
-                   :
-
-
-                  <Pressable style={styles.containerBtn}
-
-                      onPress={() => navigation.navigate("")}
-                   >
-                      <Text style={styles.textAlert}>Visitar Obra</Text>
-
-                  </Pressable>
-
-                  }
 
 
 
 
-                  <Pressable  style={styles.containerBtn}
+                     { item.responsavel === "usuario" 
+                      
+                      ? 
+                      <Text></Text> 
+                      
+                      :
+                      
+                      <Text style={styles.textList}>
+                        {`Responsavél :  ${item.responsavel}`}
+                      </Text>
 
-                      onPress={() => navigation.navigate("")}
-                   >
-                      <Text style={styles.textAlert}>Editar</Text>
+                      && 
+                   
+                      <Pressable style={styles.btnWarning}
 
-                  </Pressable>
+                          onPress={() => navigation.navigate("")}
+                         >
+                          <Text style={styles.textAlert}>Visitar</Text>
 
-                  
+                      </Pressable> 
 
-
-                  <Pressable  style={styles.containerBtn}
-
-                      onPress={() => navigation.navigate("")}
-                    >
-                    <Text style={styles.textAlert}>Excluir</Text>
-
-                 </Pressable>
-
-
-
-
-
-                </View>
-
-
-
-               </View>
-              
-            }
-             />
-
-             
-           
+                       }
+                   
 
 
 
-
-
-
-              <Pressable  style={styles.containerBtn}
-
-                      onPress={() => navigation.navigate("CadConstructions")}
-                  >
-                    <Text style={styles.textAlert}>Adcionar Obra </Text>
-
-              </Pressable>
-
-
-
-
-
-            </View>
-
-
-
-          </View>
-
-
-
-        </LinearGradient>
-
-
-
-
-
-
-
-
-
-
-
-
-        {/*
-            
-            
-            <LinearGradient
-               colors={['#66110A', '#FFB233']}
-               style={styles.containerMain}
-             >
-     
-   
-   
-              <LinearGradient
-     
-                 colors={
-                   [
-                     'rgba(250, 165, 35, 1.0)',
-                     'rgba(250, 185, 38, 0.5)'
-                   ]
-                 }
-     
-                 style={styles.containerHeader}
-               >
-     
-     
-   
-   
-              
-                <Text style={styles.textMain}>Tela Home</Text>
-     
-     
-                 <View style={styles.contentHeader}>
-     
-   
-                   <Text style={styles.textInfo}>{`Bem vindo(a)! ${user}`}</Text>
-     
-                   <LinearGradient
-                     colors={['#66110A', '#F42E16']}
-                     style={styles.containerBtn}
-                   >
-     
-   
-                     <TouchableOpacity
-                       onPress={() =>
-                         navigation.navigate("Login")}
-                     >
-   
-                       <Text style={styles.textAlert} >Logout</Text>
-   
-                     </TouchableOpacity>
-     
-   
-                   </LinearGradient>
-   
-     
                  </View>
-     
-               </LinearGradient>
-     
-     
-     
-               <LinearGradient
-                 colors={['#66110A', '#F42E16']}
-                 style={styles.containerBtn}
-               >
-     
-                 <TouchableOpacity
-                   onPress={() =>
-                     navigation.navigate("Insertproducts")}
-                 >
-                   <Text style={styles.textAlert}>Adcionar</Text>
-                 </TouchableOpacity>
-     
-               </LinearGradient>
-     
-     
-               <LinearGradient
-                 colors={['#FFB233', '#66110A']}
-                 style={styles.containerData}
-               >
-     
-                 <View style={styles.containerProducts}>
-     
-                  <View style={styles.contentProducts}>
-     
-     
-                     <View style={styles.contentProductsS}>
-                       <Text style={styles.textDados}>id</Text>
-                     </View>
-     
-     
-                     <View style={styles.contentProductsS}>
-                       <Text style={styles.textDados}>img</Text>
-                     </View>
-     
-     
-                     <View style={styles.contentProductsM}>
-                       <Text style={styles.textDados}>nome</Text>
-                     </View>
-     
-     
-                     <View style={styles.contentProductsX}>
-                       <Text style={styles.textDados}>informações</Text>
-                     </View>
-     
-     
-                     <View style={styles.contentProductsM}>
-                       <Text style={styles.textDados}>preço</Text>
-                     </View>
-     
-     
-                     <View style={styles.contentProductsS}>
-                       <Text style={styles.textDados}>Estoque</Text>
-                     </View>
-     
-     
-                     <View style={styles.contentProductsS}>
-                       <Text style={styles.textDados}>Produção</Text>
-                     </View>
-     
-     
-                     <View style={styles.contentProductsX}>
-                       <Text style={styles.textDados}>Ações</Text>
-                     </View>
-     
-     
-                   </View>
-     
-     
-                   {
-     
-                     products.map(
-     
-                       (produto) =>
-     
-                         <View style={styles.contentProducts} key={produto.id}>
-     
-     
-     
-                           <View style={styles.contentProductsS}>
-                             <Text style={styles.textDados}>{produto.id}</Text>
-                           </View>
-     
-     
-                           <View>
-                             <Image
-                               source={require(`../../../assets/${produto.img}.png`)}
-                               style={styles.contentProductsImg}
-                             />
-                           </View>
-     
-     
-     
-                           <View style={styles.contentProductsM}>
-                             <Text style={styles.textDados}>{produto.nome}</Text>
-                           </View>
-     
-     
-                           <View style={styles.contentProductsX}>
-                             <Text style={styles.textDados} >{produto.info}</Text>
-                           </View>
-     
-     
-                           <View style={styles.contentProductsM}>
-                             <Text style={styles.textDados}>{`R$ ${produto.preco},00`}</Text>
-                           </View>
-     
-     
-                           <View style={styles.contentProductsS}>
-                             <Text style={styles.textDados} >{produto.estoque}</Text>
-                           </View>
-     
-     
-     
-     
-                           <View style={styles.contentProductsS}>
-                             <Text style={styles.textDados} >{produto.producao}</Text>
-                           </View>
-     
-     
-     
-     
-                           <LinearGradient
-                             colors={['#66110A', '#F42E16']}
-                             style={styles.containerBtn}
-                           >
-     
-                             <TouchableOpacity
-                               onPress={() => updateProduct(produto.id, produto.img)}>
-                               <Text style={styles.textAlert}>Update</Text>
-                             </TouchableOpacity>
-     
-     
-                           </LinearGradient>
-     
-     
-     
-                           <LinearGradient
-                             colors={['#66110A', '#F42E16']}
-                             style={styles.containerBtn}
-                           >
-     
-     
-                             <TouchableOpacity
-     
-                               onPress={() => deleteProduct(produto.id, produto.img)}>
-                               <Text style={styles.textAlert} >Delete</Text>
-                             </TouchableOpacity>
-     
-                           </LinearGradient>
-     
-     
-                         </View>
-     
-                     )
-     
-                   }
-     
-     
-     
-                 </View>
-     
-     
-     
-               </LinearGradient>
-     
-     
-             </LinearGradient>
-             
-             
-             */}
+
+               }
+            
+          > 
+
+          </FlatList>
+
+
+         </View>
+   
+       </LinearGradient>
+   
+      
+   </ScrollView>
+   
+   
+<View style={{ height: 100 }}></View>
+
+
+</KeyboardAvoidingView>
 
 
 
-
-      </ScrollView>
-
-
-
-      <View style={{ height: 100 }}></View>
-
-
-    </KeyboardAvoidingView>
-
-
-
-  );
+);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+

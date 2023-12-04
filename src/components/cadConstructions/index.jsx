@@ -121,7 +121,7 @@ function CadConstructions({ navigation }) {
    
     
      responsable:"",    
-    
+      
     });
 
 
@@ -140,7 +140,9 @@ function CadConstructions({ navigation }) {
 
 
 
-    const insertConstruction = async () => {
+
+
+  const insertConstruction = async () => {
      /*
       console.log(
       "email: "+email+   
@@ -152,12 +154,13 @@ function CadConstructions({ navigation }) {
          )
        */
       
-      await setDoc(doc(db, email, "Construcao"), {        
-         nome: construction.name,
+      await setDoc(doc(db, email, construction.name), {   
+         
          endereco:construction.address,
          numero:construction.number,
          complemento:construction.others,       
-         responsavel:construction.responsable,   
+         responsavel:construction.responsable,           
+
       }).then(() => {
    
          console.log("metodo addConstruction")
@@ -166,12 +169,78 @@ function CadConstructions({ navigation }) {
          console.log(error);
       });
       
-
-
-   
+  
    }
 
+
+
+   /*
+   const insertConstruction = async () => {     
+       
+      await setDoc(doc(db, email, "Construcao"), construcao);
+         
+      console.log("cadasrado com sucesso! ");
+   }
+   */
+
+
+
+
+
+   const construcao2 =
+
+      {
+        nome: 'Pirituba',
+  
+        //img: require(`../../../assets/test.png`),
+  
+        endereco: {
+          rua: 'Av pirituba',
+          numero: '123',
+          complemento: 'frente'
+        },
+  
+        responsavel: 'Geronimo',
+        status: 'em analise'
+
+      }
+  
+
+
+
+      const construcao =
+
+      {
+        nome: 'Sorocaba',
+  
+        //img: require(`../../../assets/test.png`),
+  
+        endereco: {
+          rua: 'Av sorocaba',
+          numero: '476',
+          complemento: 'frente'
+        },
+  
+        responsavel: 'Renato',
+        status: 'em analise'
+
+      }
+  
+  
+  
+       
+
+
+
    
+
+   
+
+
+
+
+
+
 
 
 
@@ -487,7 +556,7 @@ function CadConstructions({ navigation }) {
 
 
           </View>
-         {/* </LinearGradient> */}
+        
 
          
 

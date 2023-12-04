@@ -12,7 +12,7 @@ export default StyleSheet.create({
 
 
   containerMain: {
-    height: '100%',
+    height: 'auto',
     with: '100%'
   },
 

@@ -1,11 +1,8 @@
 
-import {
-  FlatList,
-  View,
-  ScrollView,
+import {  
+  View,  
   Text,
-  TextInput,
-  TouchableOpacity,
+  TextInput,  
   Pressable,
   KeyboardAvoidingView,
   Platform,
@@ -15,16 +12,19 @@ import {
 
 import React, { useContext, useEffect, useState } from 'react';
 
-import styles from './styles';
 
+import styles from './styles';
 import { LinearGradient } from 'expo-linear-gradient';
 
 import { AuthContext } from '../../contexts/auth';
 
+import NetInfo from '@react-native-community/netinfo';
+
 
 import firebase from '../../database/firebase';
-
 import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
+
+
 
 
 
@@ -37,6 +37,7 @@ export default function Login({ navigation }) {
   const auth = getAuth();
 
 
+  const [connect, setConnect] = useState(false);
 
   const { setEmail, setUser, setId, setModal, setLoad, load  } = useContext(AuthContext);
 
@@ -82,6 +83,8 @@ export default function Login({ navigation }) {
 
   useEffect(() => {
 
+    getConnect();
+
     cleanInput();
 
     navigation.addListener('focus', () => setLoad(!load))
@@ -90,6 +93,26 @@ export default function Login({ navigation }) {
 
 
 
+
+
+
+ 
+  const getConnect=()=>{
+     
+    NetInfo.fetch().then(state => {
+
+      setConnect(state.isConnected);
+      //console.log('Connection type', state.type);    
+
+      console.log(connect);
+    });
+
+
+
+  
+
+  }
+  
 
 
 
@@ -166,6 +189,8 @@ export default function Login({ navigation }) {
 
 
 
+
+
   const getUser = async (id) => {
 
     await db.collection(id).doc("User").get().then((snapshot) => {
@@ -173,15 +198,11 @@ export default function Login({ navigation }) {
       if (snapshot.data() != undefined) {
 
         setUser(snapshot.data().nome)
-      //  setId(snapshot.data().matricula)
-      //  setModal(false)
-
+   
         navigation.navigate("Home");
 
         console.log(
-         // snapshot.data().matricula
-        //  + "  " +
-          snapshot.data().nome
+            snapshot.data().nome
         );
 
 
@@ -206,6 +227,8 @@ export default function Login({ navigation }) {
     })
 
   }
+
+
 
 
 
@@ -248,7 +271,10 @@ const cleanInput = () => {
 
 
 
-  
+   
+
+   
+
 
     <LinearGradient
    
@@ -263,25 +289,48 @@ const cleanInput = () => {
 
 
 
-  
+      
 
 
 
      
          <View style={styles.containerInfo}>
-            <Text style={styles.textMain}>{` Tela Login `}</Text>
+            <Text style={styles.textMain}>{` Tela de Login `}</Text>
          </View>
 
+
+
+       {
     
-
-
+        !connect ?  
   
+        <View style={styles.containerNoConnect}>
+           <Text style={styles.textWarningB}>Não Conectado</Text>
+           <Text style={styles.textWarningS}>Conect álguma rede de internet</Text>
+        </View>
+
+          :
+    
+         <View style={styles.containerLogo}>
+
+           <Image
+           style={styles.resizeModel}
+           source={require('../../../assets/test.png')}
+           />
+
+          </View> 
+
+        }
+         
+
+
         <View style={styles.contentMain}>
 
 
 
 
            <TextInput style={styles.input}
+             disabled={!connect}
              placeholder=" digite o e-mail"
              placeholderTextColor="#BBD441"
              type="text"
@@ -297,6 +346,7 @@ const cleanInput = () => {
 
 
          <TextInput style={styles.input}
+            disabled={!connect}
             placeholder=" digite a senha"
             placeholderTextColor="#BBD441"
             secureTextEntry={true}
@@ -357,11 +407,13 @@ const cleanInput = () => {
           }
 
 
+         
 
 
-       <View>
+        {connect ?
 
-
+        <View>
+      
 
           <Text style={styles.textInfo}>
 
@@ -385,13 +437,21 @@ const cleanInput = () => {
               {` esqueceu a senha ? `}
             </Text>
 
+           
 
+              <View></View>
+
+         
           </View>
  
 
         </View>
 
 
+            :
+          <View></View>
+          }
+  
 
 
 
@@ -399,16 +459,11 @@ const cleanInput = () => {
        </View>
 
 
-
+       
       
 
      </LinearGradient> 
        
-      
-
-
-
-
        
 
 
@@ -424,16 +479,16 @@ const cleanInput = () => {
 
         
 
-          <LinearGradient
+       <LinearGradient
    
-   colors={
-     [
-       'rgba(10, 40, 90, 0.97)',
-       'rgba(19, 53, 75 ,1)',
-     ]
-   }
-   style={styles.modalContent}
- > 
+        colors={
+         [
+           'rgba(10, 40, 90, 0.97)',
+           'rgba(19, 53, 75 ,1)',
+         ]
+         }
+         style={styles.modalContent}
+       > 
 
 
 
@@ -492,7 +547,9 @@ const cleanInput = () => {
 
 
 
-    
+
+
+
 
   
 </KeyboardAvoidingView>
@@ -519,236 +576,3 @@ const cleanInput = () => {
 
 
 
-{/* 
-       <LinearGradient
-        colors={
-          [
-            'rgba(10, 40, 90, 0.97)',
-            'rgba(19, 53, 75 ,1)',
-          ]
-        }
-        style={Style.containerMain}
-      > 
-      
-
-
-
-        <View style={styles.containerInfo}>
-            <Text style={styles.textMain}>{` Tela Login `}</Text>
-        </View>
-
-
-
-       
-
-
-
-        
-
-      
-        <LinearGradient
-          colors={
-            [
-              'rgba(19, 50, 27, 0.4)',
-              'rgba(10, 13, 35 ,0.6)',
-            ]
-          }
-          style={Style.contentMain}
-        >
-     
-
-
-
-
-        
-           <TextInput style={styles.input}
-             placeholder=" digite o e-mail"
-             placeholderTextColor="#BBD441"
-             type="text"
-
-            onChangeText={
-              (valor) => handleInputChange('email', valor)
-            }
-            value={credencials.email}
-          />
-
-      
-
-
-         <TextInput style={styles.input}
-            placeholder=" digite a senha"
-            placeholderTextColor="#BBD441"
-            secureTextEntry={true}
-            type="text"
-            onChangeText={
-              (valor) => handleInputChange('password', valor)
-            }
-            value={credencials.password}
-          />
-
-
-          {
-
-            credencials.email == "" && credencials.password == ""
-              ?
-
-              <View>
-
-                <TouchableOpacity
-                  style={styles.containerBtn}
-                  disabled={true}
-                >
-                  <Text style={styles.textInfo}>Login</Text>
-                </TouchableOpacity>
-
-              </View>
-
-              :
-              <View>
-
-                <TouchableOpacity
-                  style={styles.containerBtn}
-                 // onPress={setLogar}
-                >
-                  <Text style={styles.textInfo}>Logar</Text>
-                </TouchableOpacity>
-
-              </View>
-          }
-
-
-
-
-          {
-            errorValidate.error === true
-              ?
-
-              <View>
-                <Text style={styles.textAlert}>{errorValidate.msg}</Text>
-              </View>
-
-              :
-              <View></View>
-          }
-
-
-
-
-       <View>
-
-
-
-          <Text style={styles.textInfo}>
-
-            {` não tem cadastro ?  `}
-
-            <Text style={styles.textAlert}
-             // onPress={() => navigation.navigate("Cad")}
-            >
-              {` faça o cadastro agora... `}
-            </Text>
-
-          </Text>
-
-
-
-          <View style={styles.openModal} >
-
-            <Text style={styles.textAlert}
-              onPress={() => setModalPassword(true)}
-            >
-              {` esqueceu a senha ? `}
-            </Text>
-
-
-          </View>
- 
-
-        </View>
-
-
-
-
-
-
-      
-        </LinearGradient> 
-      
-
-
-
-
-        </View>
-
-
-
-
-
-
-
-
-
-        <Modal
-
-
-          animationType='fade'
-          visible={modalPassword}
-        >
-
-          <View style={styles.modalContent}>
-
-            <TextInput style={styles.input}
-              placeholder=" informe o e-mail"
-              placeholderTextColor="#BBD441"
-              type="text"
-              onChangeText={
-                (valor) => handleInputChange('email', valor)
-              }
-              value={credencials.email}
-            />
-
-            {
-
-              credencials.email == ""
-                ?
-
-                <View>
-
-                  <TouchableOpacity
-                    style={styles.containerBtn}
-                    disabled={true}
-                  >
-                    <Text style={styles.textInfo}>Enviar</Text>
-                  </TouchableOpacity>
-
-                </View>
-
-                :
-                <View>
-
-                  <TouchableOpacity
-                    style={styles.containerBtn}
-                  //  onPress={() => setForgetPassword()}
-
-                  >
-                    <Text style={styles.textInfo}>Enviar</Text>
-                  </TouchableOpacity>
-
-                </View>
-
-            }
-
-          </View>
-
-
-
-        </Modal> 
-
-
-
-    
-
-      </LinearGradient>
-      
-  
- */}
