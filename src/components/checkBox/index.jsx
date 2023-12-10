@@ -2,18 +2,13 @@
 
 import React, { useState, useEffect , useContext,} from 'react';
 
-
 import {
     View,
     Text,
-    Pressable,
-    TouchableOpacity ,
-    StyleSheet  
+    Pressable    
   } from 'react-native';
 
- // import { AuthContext } from '../../contexts/auth';
-
-  
+ // import { AuthContext } from '../../contexts/auth';  
 
  // import Icon from 'react-native-vector-icons/dist/MaterialCommunityIcons';
 
@@ -27,15 +22,29 @@ import {
 
    const CheckBox  = ({ options = [] , onChange , multiple = false }) => {
 
-    const [selected, setSelected] = useState([]);
+
+   const [selected, setSelected] = useState([]);
 
    
-
-
+  // useEffect (() => onChange(selected),[selected]);
    
 
+    useEffect(() => {
 
-   
+      try{
+
+        onChange(selected),[selected]
+
+       } catch (error) {
+        console.error(error+' Error check box');
+     }
+
+  
+    }, []);
+  
+
+
+
 
 
 
@@ -44,7 +53,7 @@ import {
 
         let index = selected.findIndex( i => i === id);
         let arrSelecteds = [...selected];
- 
+
             if (index !== -1 ) {
 
               arrSelecteds.splice(index,1);
@@ -54,13 +63,16 @@ import {
              multiple ? arrSelecteds.push(id) : (arrSelecteds = [id] ) ;
 
             }
-            setSelected(arrSelecteds);           
+            setSelected(arrSelecteds);         
+
+
        }
 
 
 
-     useEffect (() => onChange(selected),[selected]);
-        
+     
+  
+
 
      return (
 
@@ -70,14 +82,17 @@ import {
 
                <View style={styles.optionsContainner}>
 
-
                 <Pressable style={ [styles.touchable,{ 
 
                        backgroundColor:selected.findIndex(i=> i === op.id) !== -1
                        
-                       ? 'BEBD93' 
+                       //? 'BEBD93' 
+
+                       ? 'green'
 
                        : '#fff'
+
+                        
                     
                        } ] }
                       
@@ -86,36 +101,28 @@ import {
 
                     {selected.findIndex(i=> i=== op.id) !== -1 ? (
               
-                      /*  <Icon name="check-bold" color={'#fff'} size={16} /> */
+                     /*  <Icon name="check-bold" color={'#fff'} size={16} /> */
                            
                         <Ionicons name="md-checkmark-circle" size={18} color="white" />
 
                     ):
                     
-                    null}
+                    null}                    
 
-                     
-
-
-                </Pressable> 
-                    
+                </Pressable>                     
 
                   <Text style={styles.openText}>{op?.text}</Text> 
 
                </View>
 
-            )
+            )           
             
-            
-            )}
+          )}
 
          </View>
      );
 
-
-
-
-    };
+  };
     
 
 

@@ -18,9 +18,22 @@ export default StyleSheet.create({
     marginBottom:20,
     padding:10,
    
-    backgroundColor: 'rgba(75, 26, 62, 0.3)',
+    backgroundColor: 'rgba(250, 12, 12, 0.9)',
+    borderRadius: 10,
   },
 
+
+
+  containerInfo: {
+    backgroundColor: 'rgba(25, 126, 162, 0.6)',
+    borderRadius: 10,
+    alignItems:'center',
+    height: 'auto',
+    width:'auto', 
+    marginTop:30,   
+    marginBottom: 10,
+    padding: 10,
+  },
 
 
   containerMain: {
@@ -33,7 +46,8 @@ export default StyleSheet.create({
   
   contentMain: {
     alignItems: 'center',
-    backgroundColor: 'rgba(25, 126, 162, 0.3)',
+    // backgroundColor: 'rgba(25, 126, 162, 0.3)',
+    backgroundColor: 'rgba(185, 245, 133, 0.4)',
     borderRadius: 10,
     height: "auto",
     padding: 20,
@@ -42,34 +56,29 @@ export default StyleSheet.create({
 
 
  
+ 
 
 
 
 
 
-
-  containerInfo: {
-    alignItems: 'center',
-    height: 'auto',
-    marginBottom: 10,
-    padding: 40,
-  },
+ 
 
 
 
  containerLogo:{
     width:200,
     height:140,
-    marginBottom: 50,
-    backgroundColor:'white',
-    borderRadius: 10,
+    marginBottom: 50,    
+    //borderRadius: 10,
  },
  
 
  resizeModel:{
   resizeMode:'cover',
   height:'100%',
-  width:'100%' 
+  width:'100%' ,
+  borderRadius: 10,
   },
 
 
@@ -85,7 +94,8 @@ export default StyleSheet.create({
     borderBottomColor: "#6BA995",
     marginLeft: 'auto',
     marginRight: 'auto',
-    color: "#0BF5AB"
+    //color: "#0BF5AB"
+    color: 'green',
   },
 
 
@@ -93,7 +103,8 @@ export default StyleSheet.create({
 
   containerBtn: {
     alignItems: 'center',
-    backgroundColor: 'rgba(6, 12, 127, 0.8)',
+    //backgroundColor: 'rgba(6, 12, 127, 0.8)',
+    backgroundColor: 'rgba(14, 85, 85, 0.8)',
     height: 40,
     justifyContent: 'center',
     borderRadius: 10,
@@ -107,7 +118,8 @@ export default StyleSheet.create({
 
 
   openModal: {
-    backgroundColor: 'rgba(6, 12, 127, 0.3)',
+    //backgroundColor: 'rgba(6, 12, 127, 0.3)',
+    backgroundColor: 'rgba(75, 139, 117, 0.7)',
     height: 'auto',
     marginTop: 30,
     width: 'auto',
@@ -138,7 +150,8 @@ export default StyleSheet.create({
 
 
   textMain: {
-    color: '#3AF1A3',
+    color: 'white',
+    //color: '#3AF1A3',
     fontWeight: 'bold',
     fontSize: 28
   },
@@ -146,15 +159,24 @@ export default StyleSheet.create({
 
 
   textInfo: {
-    color: '#3AF1A3',
+    color: 'green',
+   // color: '#3AF1A3',
     fontWeight: 'bold',
     fontSize: 14,
   },
 
 
+  textBtn: {
+    color: 'white',
+    //color: '#3AF1A3',
+    fontWeight: 'bold',
+    fontSize: 14,
+  },
+
 
   textAlert: {
-    color: '#BBD441',
+    color: 'brown',
+    //color: '#BBD441',
     fontSize: 14,
     textAlign:'center'
   },
@@ -162,14 +184,14 @@ export default StyleSheet.create({
 
 
   textWarningB: {
-    color: 'red',
+    color: 'rgba(185, 245, 133, 0.9)',
     fontSize: 20,
     textAlign:'center'
   },
 
 
   textWarningS: {
-    color: 'red',
+    color: 'rgba(185, 245, 133, .8)',
     fontSize: 14,
     textAlign:'center'
   },

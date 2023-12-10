@@ -24,6 +24,9 @@ import NetInfo from '@react-native-community/netinfo';
 import firebase from '../../database/firebase';
 import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
 
+import { Camera } from 'expo-camera';
+
+
 
 
 
@@ -38,6 +41,11 @@ export default function Login({ navigation }) {
 
 
   const [connect, setConnect] = useState(false);
+
+  const [hasPermission, setHasPermission] = useState(null);
+
+   
+
 
   const { setEmail, setUser, setId, setModal, setLoad, load  } = useContext(AuthContext);
 
@@ -80,18 +88,22 @@ export default function Login({ navigation }) {
  
 
 
-
+ 
   useEffect(() => {
 
     getConnect();
+
+    getPermission();
 
     cleanInput();
 
     navigation.addListener('focus', () => setLoad(!load))
 
+
+
   }, [load, navigation]);
-
-
+ 
+ 
 
 
 
@@ -107,12 +119,26 @@ export default function Login({ navigation }) {
       console.log(connect);
     });
 
-
-
-  
-
   }
   
+
+
+
+
+  const getPermission = async()=>{
+
+      const {status} = await Camera.requestCameraPermissionsAsync();
+       setHasPermission(status === 'granted');
+  }
+
+  if(hasPermission === null){
+      return <View/>;
+  }
+
+
+  if(hasPermission === false){
+    return <Text>Acesso negado!</Text>;
+}
 
 
 
@@ -234,7 +260,7 @@ export default function Login({ navigation }) {
 
 
 
-const cleanInput = () => {
+function cleanInput () {
 
     setCredencials(
       {
@@ -270,28 +296,18 @@ const cleanInput = () => {
 
 
 
-
-   
-
-   
-
-
     <LinearGradient
    
         colors={
           [
-            'rgba(10, 40, 90, 0.97)',
-            'rgba(19, 53, 75 ,1)',
+            //'rgba(10, 40, 90, 0.97)',
+            //'rgba(19, 53, 75 ,1)',
+            'rgba(75, 139, 117, 0.6)',
+            'rgba(75, 139, 117, 0.2)',
           ]
         }
         style={styles.containerMain}
       > 
-
-
-
-      
-
-
 
      
          <View style={styles.containerInfo}>
@@ -315,7 +331,7 @@ const cleanInput = () => {
 
            <Image
            style={styles.resizeModel}
-           source={require('../../../assets/test.png')}
+           source={require('../../../assets/logo_one.png')}
            />
 
           </View> 
@@ -332,7 +348,7 @@ const cleanInput = () => {
            <TextInput style={styles.input}
              disabled={!connect}
              placeholder=" digite o e-mail"
-             placeholderTextColor="#BBD441"
+             placeholderTextColor="green"
              type="text"
 
             onChangeText={
@@ -348,7 +364,7 @@ const cleanInput = () => {
          <TextInput style={styles.input}
             disabled={!connect}
             placeholder=" digite a senha"
-            placeholderTextColor="#BBD441"
+            placeholderTextColor="green"
             secureTextEntry={true}
             type="text"
             onChangeText={
@@ -370,7 +386,7 @@ const cleanInput = () => {
                   style={styles.containerBtn}
                   disabled={true}
                 >
-                  <Text style={styles.textInfo}>Login</Text>
+                  <Text style={styles.textBtn}>Login</Text>
                 </Pressable>
 
 
@@ -384,7 +400,7 @@ const cleanInput = () => {
                   style={styles.containerBtn}
                   onPress={setLogar}
                 >
-                  <Text style={styles.textInfo}>Logar</Text>
+                  <Text style={styles.textBtn}>Logar</Text>
                 </Pressable>
 
               </View>

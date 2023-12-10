@@ -14,7 +14,11 @@ export default StyleSheet.create({
 
 
 
-  
+   
+
+
+    
+
 
    containerMain: {
       alignItems: 'center',
@@ -24,15 +28,25 @@ export default StyleSheet.create({
 
 
 
+    containerInfo: {
+      backgroundColor: 'rgba(25, 126, 162, 0.6)',
+      borderRadius: 10,
+      alignItems:'center',
+      height: 'auto',
+      width:'auto',  
+      marginTop:30,  
+      marginBottom: 10,
+      padding: 10,
+    },
 
 
 
     containerHeader: {
-      height: 180,
+      height: 80,
       width: '100%',
       flexDirection:'col',
       textAlign: 'center',
-      padding:20, 
+      padding:10, 
       marginBottom: 30
    },
 
@@ -41,17 +55,38 @@ export default StyleSheet.create({
 
     contentHeader: {
       flexDirection: 'row',
-      justifyContent: 'space-between ',
-      marginTop:40      
+      justifyContent: 'space-between',
+      //marginTop:10      
+      padding:10
     },
 
 
-    
+   
+    containerLogo:{
+      width:40,
+      height:40,
+     // marginBottom: 50,       
+   },
+
+
+
+
+   resizeModel:{
+      resizeMode:'cover',
+      height:40,
+      width:40,
+      borderRadius:10 ,
+      //marginLeft: 5,    
+      },
+
 
 
 
 
     containerList: {
+     // alignItems: 'center',
+     // justifyContent: 'center',
+      flexDirection:'column',
       alignItems: 'center',
       justifyContent: 'center',
       height:'auto',
@@ -61,81 +96,59 @@ export default StyleSheet.create({
      // paddingTop:10,
      // paddingBottom: 3,  
       marginTop:10 ,      
-      backgroundColor: 'blue',
+      backgroundColor: 'rgba(185, 245, 133, 0.4)',
    },
 
 
 
-
+     /*
    contentList: {
       width: 'auto',
-      backgroundColor: 'orange',
+      backgroundColor: 'rgba(75, 139, 117, 0.6)',
      // flexDirection: 'row',
       padding: 10,
       height:'auto',
      
       // borderRadius:20      
    },
-
+    */
 
 
     cardList:{
-       width:"auto",
+       width:"100%",
        height:"auto",
-       padding:10,
+       padding:20,
        borderRadius:10 ,
-       backgroundColor: 'grey', 
+       backgroundColor: 'rgba(75, 139, 117, 0.8)',
        marginBottom:10 ,
        borderBottomWidth:12,
-      borderBottomColor: 'orange',
+       borderBottomColor: 'white',
     },
 
 
 
 
 
-
-
-
-
-
-   resizeModel:{
-      resizeMode:'cover',
-      height:80,
-      width:80,
-      marginLeft: 5,    
-      },
-
-
-
- 
-
-
-  
-   
- 
-
-
-
-
+    
 
   listHeader:{
        flexDirection:'row',
        justifyContent: 'space-between ',
-       marginBottom:20      
+       marginBottom:20,
+       padding:10      
   },
 
 
  
 
 
-
+ /*
   listFotter:{
    flexDirection:'row',
    justifyContent: 'space-between ',
    marginTop:20      
 },
-
+*/
 
 
 
@@ -177,10 +190,6 @@ textData: {
 
 
 
-
-
-
-
    textInfo: {
      // color: '#452F0C',
      color: '#4E1313',
@@ -192,7 +201,7 @@ textData: {
 
 
      btnWarning:{
-      width: '30%',
+      width: '50%',
       height: 'auto',
      // justifyContent: 'center',
       borderRadius: 10,
@@ -218,7 +227,8 @@ textData: {
       marginRight: 6,
       marginLeft: 6,
       textAlign: 'center',
-      backgroundColor: 'green',
+      //backgroundColor: 'green',
+      backgroundColor: 'rgba(14, 85, 85, 0.8)',
       padding:10
    },
 

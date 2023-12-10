@@ -11,17 +11,19 @@ export default StyleSheet.create({
 
 
 
-  containerMain: {
-    height: 'auto',
-    with: '100%'
+  containerMain: {    
+    height:'100%',
+    with:"100%"
   },
 
 
+
   contentMain: {
+    marginTop:20,
     alignItems: 'center',
     backgroundColor: 'rgba(25, 126, 162, 0.3)',
     borderRadius: 10,
-    height: "auto",
+    height: "100%",
     padding: 20,
     with: "auto"
   },
@@ -30,10 +32,14 @@ export default StyleSheet.create({
 
 
   containerInfo: {
-    alignItems: 'center',
+    backgroundColor: 'rgba(25, 126, 162, 0.6)',
+    borderRadius: 10,
+    alignItems:'center',
     height: 'auto',
-    marginBottom: 100,
-    padding: 40,
+    width:'auto', 
+    marginTop:30, 
+    marginBottom: 10,
+    padding: 10,
   },
 
 
@@ -68,9 +74,10 @@ export default StyleSheet.create({
 
   
   textMain: {
-    color: '#3AF1A3',
+    color: 'white',
+    //color: '#3AF1A3',
     fontWeight: 'bold',
-    fontSize: 28
+    fontSize: 24
   },
 
 
@@ -87,6 +94,28 @@ export default StyleSheet.create({
   },
 
 
+
+
+
+
+
+   containnerCamera:{
+       flexDirection:'column',
+       alignItems:'center'
+      
+   },
+
+
+   contentCamera:{
+     flex: 1,
+     backgroundColor: 'transparent',
+     flexDirection: 'row'       
+   },
+
+
+
+  
+  
 
 
 });

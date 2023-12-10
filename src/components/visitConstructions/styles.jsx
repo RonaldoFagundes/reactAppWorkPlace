@@ -21,46 +21,59 @@ export default StyleSheet.create({
     },
 
 
+    containerInfo: {
+      backgroundColor: 'rgba(25, 126, 162, 0.6)',
+      borderRadius: 10,
+      alignItems:'center',
+      height: 'auto',
+      width:'80%',
+      marginTop:30,  
+      marginBottom: 10,
+      padding: 10,
+    },
 
 
 
     containerHeader: {
-      height: 180,
+      height: 'auto',
       width: '100%',
       flexDirection:'col',
       textAlign: 'center',
-      padding:20, 
-      marginBottom: 30
-   },
-
-
-
-
-
-   containerInfo:{
-        
-     // alignItems: 'center',
-     // justifyContent: 'center',
-
-      height:'auto',
-      width: '98%',
       padding:10, 
-
-      borderRadius:5,
-
-     // paddingTop:10,
-     // paddingBottom: 3,  
-     // marginTop:10 ,
-      
-      backgroundColor: 'orange',
+      marginBottom: 20
    },
 
 
+   contentHeader: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      //marginTop:10      
+    },
 
-   contentInfo:{
-   },
+
+
+
+  
+
+
+
+    containerDesc: {
+      backgroundColor: 'rgba(25, 126, 162, 0.6)',
+      borderRadius: 10,
+      height: 'auto',
+      width:'80%',  
+      marginBottom: 20,
+      padding: 18,
+    },
 
    
+    contentDesc: {
+      marginBottom:10
+   },
+
+
+
+
 
    resizeModel:{
       resizeMode:'cover',
@@ -69,12 +82,15 @@ export default StyleSheet.create({
       marginLeft: 5,    
       },
 
-    contentHeader: {
-      flexDirection: 'row',
-      justifyContent: 'space-between ',
-      marginTop:40
-      
-    },
+
+      resizeModelS:{
+         resizeMode:'cover',
+         height:60,
+         width:60,
+         marginLeft: 5,    
+         },
+
+   
 
 
     
@@ -83,18 +99,11 @@ export default StyleSheet.create({
       flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'center',
-
       height:'auto',
       width: '98%',
       padding:10, 
-
       borderRadius:5,
-
-     // paddingTop:10,
-     // paddingBottom: 3,  
-      marginTop:10 ,
-      
-      backgroundColor: 'gray',
+      backgroundColor: 'rgba(75, 139, 117, 0.3)'
    },
 
 
@@ -103,10 +112,10 @@ export default StyleSheet.create({
 
    contentData: {
       width: '98%',
-      backgroundColor: 'blue',
+      backgroundColor: 'rgba(25, 22, 12, 0.2)',
+      //backgroundColor: 'rgba(75, 139, 117, 0.6)',
       flexDirection: 'column',
-      alignItems:'center',
-      padding: 20,
+      alignItems:'center',    
       borderRadius:10  ,
       marginBottom:40 
    },
@@ -115,38 +124,48 @@ export default StyleSheet.create({
 
 
 
+
    containerHeaderData: {
       width:'98%',
-      flexDirection: 'row',
+      height:'auto',
+      flexDirection: 'col',
+     // alignItems: 'center',
+     // justifyContent: 'space-between',
+      padding: 10,
+      borderRadius:10  ,
+      backgroundColor: 'rgba(25, 126, 162, 0.6)',
+   },
+
+
+
+
+
+   contentHeaderDataInfoOne: {     
+      flexDirection: 'row',     
+      padding: 10,     
       alignItems: 'center',
       justifyContent: 'space-between',
-      padding: 20,
-      borderRadius:10  ,
-   //   backgroundColor: 'red', 
    },
 
 
-
-   contentHeaderData: {
-     
+   contentHeaderDataInfoTwo: {     
       flexDirection: 'column',
       alignItems: 'center',
-      padding: 20,
-      borderRadius:10  ,
-      
+      padding: 10,     
    },
 
 
 
-   containerImgSpace:{
-       
+
+
+
+
+   containerImgSpace:{       
       height: 160,
       width: '98%',
       flexDirection:'row',
-      justifyContent: 'space-between ',
-      padding:10, 
-     
-     // backgroundColor: 'orange',
+      justifyContent: 'space-around',
+      padding:10,    
     },
 
 
@@ -155,46 +174,53 @@ export default StyleSheet.create({
         width:140,
         height:140,
         borderBottomWidth: 1,
-        borderBottomColor: "#6BA995", 
-
+        borderBottomColor: "#6BA995",
         backgroundColor: 'white',
-
+        borderRadius:10  ,
     },
 
 
 
 
 
-    textMain: {
-      color: '#5D3806',
-      fontWeight: 'bold',
-      fontSize: 24
-   },
 
 
 
-
-
-
-
-   textInfo: {
-     // color: '#452F0C',
-      color: '#4E1313',
-      fontWeight: 'bold',
-      fontSize: 16,
-   },
-
-
-
- 
-     textAlert: {
-      color: '#F4A716',
+    textAlert: {
+      //color: '#F4A716',
+      color: '#FFF',
       fontWeight: 'bold',
       fontSize: 14,
    },
+   
+   
+   
+   
+   textData: {
+      color: '#4E1313',
+      fontWeight: 'bold',
+      fontSize: 13,
+   },
+   
+   
+   
+       textMain: {
+         color: 'white',
+         fontWeight: 'bold',
+         fontSize: 24
+      },
+   
+   
+   
+      textInfo: {
+        // color: '#452F0C',
+        color: '#4E1313',
+         fontWeight: 'bold',
+         fontSize: 16,
+      },
 
 
-
+ 
 
 
    textDados: {
@@ -208,13 +234,16 @@ export default StyleSheet.create({
 
 
 
+
+
    input: {
       width: 300,
       height: 50,
       marginTop: 10,
       padding: 10,
       borderBottomWidth: 1,
-      borderBottomColor: "#6BA995",
+      //borderBottomColor: "#6BA995",
+      borderBottomColor: "white",
       marginLeft: 'auto',
       marginRight: 'auto',
       color: "#0BF5AB"
@@ -227,10 +256,10 @@ export default StyleSheet.create({
 
     textAreaContainer: {
       width: '98%',
-      borderColor: 'grey',
+      borderColor: 'green',
       borderWidth: 1,
       padding: 5,
-      marginTop:15,
+      marginTop:15,      
     },
   
 
@@ -248,7 +277,6 @@ export default StyleSheet.create({
 
     checkBoxContent: {
         alignSelf:'center'
-
     },
 
 
@@ -260,10 +288,27 @@ export default StyleSheet.create({
 
 
     containerBtn: {
-      backgroundColor: 'rgba(6, 12, 127, 0.8)',
+      //backgroundColor: 'rgba(6, 12, 127, 0.8)',
+      backgroundColor: 'rgba(14, 85, 85, 0.8)',
       borderRadius: 10,
       height: 60,
       width: 200,
+      marginTop: 30,     
+      alignItems: 'center',      
+      justifyContent: 'center',
+      borderRadius: 10,      
+      marginBottom: 30,
+    },
+
+
+
+
+    containerBtnS: {
+      //backgroundColor: 'rgba(6, 12, 127, 0.8)',
+      backgroundColor: 'rgba(14, 85, 85, 0.8)',
+      borderRadius: 10,
+      height: 60,
+      width: 80,
       marginTop: 30,     
       alignItems: 'center',      
       justifyContent: 'center',
@@ -286,6 +331,8 @@ export default StyleSheet.create({
        borderColor:'#3EBD93',
        borderWidth:2
      },
+
+
 
 
 

@@ -131,7 +131,7 @@ function CadUser({ navigation }) {
             setEmail(user.email)
             setModal(true)
            // setUser("");
-            navigation.navigate("Home");
+           // navigation.navigate("Home");
 
             console.log(user.email)
 
@@ -166,6 +166,8 @@ function CadUser({ navigation }) {
 
 
 
+
+
    
    const setCompleteRegister = async () => {
 
@@ -193,6 +195,7 @@ function CadUser({ navigation }) {
    
 
    
+
 
 
 
@@ -346,8 +349,10 @@ function CadUser({ navigation }) {
        <LinearGradient
          colors={
             [
-               'rgba(10, 40, 90, 0.97)',
-               'rgba(19, 53, 75 ,1)',
+             //  'rgba(10, 40, 90, 0.97)',
+             //  'rgba(19, 53, 75 ,1)',
+             'rgba(75, 139, 117, 0.6)',
+             'rgba(75, 139, 117, 0.2)',
             ]
          }
          style={styles.containerMain}
@@ -365,39 +370,34 @@ function CadUser({ navigation }) {
          </View>
 
 
-
          <View style={styles.containerLogo}>
+
+           <Image
+            style={styles.resizeModel}
+            source={require('../../../assets/logo_one.png')}
+           />
+
+         </View> 
+
+
+        {/*  <View style={styles.containerLogo}>
 
           <Image
             style={styles.resizeModel}
               source={require('../../../assets/test.png')}
              />
 
-          </View> 
+          </View>  */}
         
-
-
-
-
-        {/* 
-         <LinearGradient
-            colors={
-               [
-                  'rgba(19, 50, 27, 0.4)',
-                  'rgba(10, 13, 35 ,0.6)',
-               ]
-            }
-            style={styles.contentMain}
-         >
-        */}
-
+ 
 
         <View style={styles.contentMain}>
 
 
             <TextInput style={styles.input}
                placeholder=" digite o seu e-mail"
-               placeholderTextColor="#BBD441"
+               placeholderTextColor="green"
+               //placeholderTextColor="#BBD441"
                type="text"
                onChangeText={
                   (valor) => handleInputChange('email', valor)
@@ -411,7 +411,8 @@ function CadUser({ navigation }) {
 
             <TextInput style={styles.input}
                placeholder=" senha com no minímo 8 caracteres"
-               placeholderTextColor="#BBD441"
+               placeholderTextColor="green"
+               //placeholderTextColor="#BBD441"
                secureTextEntry={true}
                type="text"
                onChangeText={
@@ -436,7 +437,7 @@ function CadUser({ navigation }) {
                         style={styles.containerBtn}
                         disabled={true}
                      >
-                        <Text style={styles.textInfo}>Cadastro</Text>
+                        <Text style={styles.textBtn}>Cadastro</Text>
                      </Pressable>
 
                   </View>
@@ -448,7 +449,7 @@ function CadUser({ navigation }) {
                         style={styles.containerBtn}
                         onPress={validate}
                      >
-                        <Text style={styles.textInfo}>Cadastrar</Text>
+                        <Text style={styles.textBtn}>Cadastrar</Text>
                      </Pressable>
 
                   </View>
@@ -491,10 +492,7 @@ function CadUser({ navigation }) {
 
 
           </View>
-         {/* </LinearGradient> */}
-
-         
-
+      
 
      </LinearGradient> 
 
@@ -504,15 +502,17 @@ function CadUser({ navigation }) {
 
          <Modal
            animationType="fade"
-           visible={modal}
+           visible={modal}           
          >
            
               
-           <LinearGradient
+       <LinearGradient
          colors={
             [
-               'rgba(10, 40, 90, 0.97)',
-               'rgba(19, 53, 75 ,1)',
+              // 'rgba(10, 40, 90, 0.97)',
+              // 'rgba(19, 53, 75 ,1)',
+              'rgba(75, 139, 117, 0.6)',
+              'rgba(75, 139, 117, 0.2)',
             ]
          }
          style={styles.modalContent}
@@ -523,7 +523,8 @@ function CadUser({ navigation }) {
            
              <TextInput style={styles.input}
                placeholder="Informe seu Nome"
-               placeholderTextColor="#BBD441"               
+               //placeholderTextColor="#BBD441"               
+               placeholderTextColor="green"
                type="text"
                onChangeText={
                   (valor) => handleInputChange('name', valor)

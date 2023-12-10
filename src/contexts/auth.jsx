@@ -11,28 +11,28 @@ export const AuthContext = createContext({});
 function AuthProvider({children}){
 
 
+
+
     const [email,setEmail] = useState ( ) ;   
 
     const [user,setUser] = useState ({});
 
-
-   
-
-
-
-
-    const [trouble,setTrouble] = useState ({});
-
-
-
-
     const [modal , setModal] = useState (true) ;
-
 
     const [load, setLoad] = useState(true)
 
+
+    const [day, setDay] = useState(true)
    
-    const [id, setId] = useState ( ) ;
+
+   const [selectContruction, setSelectContruction] = useState({
+            name:"",
+            responsable:""
+      });
+
+
+
+    
 
 
 
@@ -40,13 +40,13 @@ function AuthProvider({children}){
 
         <AuthContext.Provider value={
              {
-                setUser , user,                
-                setTrouble , trouble ,
-                setModal,  modal,
-                setLoad, load,
+                setUser,  user,    
+                setModal, modal,
+                setLoad,  load,
                 setEmail, email,
-                setUser , user,
-                setId, id    
+                setDay,  day,        
+                setSelectContruction,  
+                selectContruction,
              }
         }>
           {children}
