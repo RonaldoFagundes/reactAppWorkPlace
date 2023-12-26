@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext,  useRef} from 'react';
+import React, { useState, useEffect, useContext, useRef } from 'react';
 
 import {
   View,
@@ -17,7 +17,8 @@ import {
 import styles from './styles';
 import { LinearGradient } from 'expo-linear-gradient';
 
-import CheckBox from '../checkBox';
+//import CheckBox from '../checkBox';
+import { Switch } from 'react-native-switch';
 
 import { AuthContext } from '../../contexts/auth';
 
@@ -38,7 +39,7 @@ export default function VisitConstructions({ navigation }) {
 
 
 
-  const { user, day, selectContruction ,setLoad, load} = useContext(AuthContext);
+  const { user, day, selectContruction, setLoad, load } = useContext(AuthContext);
 
 
   const [selectedPrinter, setSelectedPrinter] = useState();
@@ -55,30 +56,50 @@ export default function VisitConstructions({ navigation }) {
   const [type, setType] = useState(Camera.Constants.Type.back)
 
 
-  const optionsSolutionsIR = [
-    { text: 'Resolvido', id: 1 },
-    { text: 'Pendente', id: 2 }
-  ]
 
 
-  const optionsSolutionsMF = [
-    { text: 'Resolvido', id: 1 },
-    { text: 'Pendente', id: 2 }
-  ]
 
 
-  const optionsSolutionsFR = [
-    { text: 'Resolvido', id: 1 },
-    { text: 'Pendente', id: 2 }
-  ]
+  const pendente = require('../../../assets/pendente.png');
+  const resolvido = require('../../../assets/resolvido.png');
 
 
-  const optionsSolutionsO = [
-    { text: 'Resolvido', id: 1 },
-    { text: 'Pendente', id: 2 }
-  ]
+
+  const [checkIR, setCheckIR] = useState(true);
+  const [checkMF, setCheckMF] = useState(true);
+  const [checkFR, setCheckFR] = useState(true);
+  const [checkO, setCheckO] = useState(true);
 
 
+
+
+  /*
+    const optionsSolutionsIR = [
+      { text: 'Resolvido', id: 1 },
+      { text: 'Pendente', id: 2 }
+    ]
+  
+  
+    const optionsSolutionsMF = [
+      { text: 'Resolvido', id: 1 },
+      { text: 'Pendente', id: 2 }
+    ]
+  
+  
+    const optionsSolutionsFR = [
+      { text: 'Resolvido', id: 1 },
+      { text: 'Pendente', id: 2 }
+    ]
+  
+  
+    const optionsSolutionsO = [
+      { text: 'Resolvido', id: 1 },
+      { text: 'Pendente', id: 2 }
+    ]
+  */
+
+
+  /*
   const [checkIR, setCheckIR] = useState({
     opcao: 0,
     statusType: "",
@@ -105,6 +126,8 @@ export default function VisitConstructions({ navigation }) {
     statusType: "",
     flag: require(`../../../assets/logo_one.png`),
   });
+  */
+
 
 
 
@@ -112,11 +135,11 @@ export default function VisitConstructions({ navigation }) {
 
   async function takePicture() {
     if (camRef) {
-       const dataImg = await camRef.current.takePictureAsync();
-       setCapturedPhoto(dataImg.uri)
-       console.log(dataImg);
+      const dataImg = await camRef.current.takePictureAsync();
+      setCapturedPhoto(dataImg.uri)
+      console.log(dataImg);
     }
- }
+  }
 
 
 
@@ -127,19 +150,20 @@ export default function VisitConstructions({ navigation }) {
 
   const [illnessRisk, setIllnessRisk] = useState(
     {
-      title:"Risco de Doenças",
-      subtitle:"Ploliferação de insetos",
+      title: "Risco de Doenças",
+      subtitle: "Ploliferação de insetos",
       cause: "",
       policy: "",
       action: "",
     }
   );
+
 
 
   const [materialFalling, setMaterialFalling] = useState(
     {
-      title:"Queda de Materiais",
-      subtitle:"Limpeza das badejas",
+      title: "Queda de Materiais",
+      subtitle: "Limpeza das badejas",
       cause: "",
       policy: "",
       action: "",
@@ -147,10 +171,11 @@ export default function VisitConstructions({ navigation }) {
   );
 
 
+
   const [fallingRisk, setFallingRisk] = useState(
     {
-      title:"Risco de Queda",
-      subtitle:"Passagem do elevador",
+      title: "Risco de Queda",
+      subtitle: "Passagem do elevador",
       cause: "",
       policy: "",
       action: "",
@@ -160,8 +185,8 @@ export default function VisitConstructions({ navigation }) {
 
   const [organization, setOrganization] = useState(
     {
-      title:"Organização",
-      subtitle:"Limpeza dos entulhos",
+      title: "Organização",
+      subtitle: "Limpeza dos entulhos",
       cause: "",
       policy: "",
       action: "",
@@ -182,7 +207,7 @@ export default function VisitConstructions({ navigation }) {
 
 
 
-  useEffect(() => {    
+  useEffect(() => {
 
     navigation.addListener('focus', () => setLoad(!load))
 
@@ -191,8 +216,8 @@ export default function VisitConstructions({ navigation }) {
 
 
 
-  const toBack =  () => {   
-      navigation.navigate("Home")
+  const toBack = () => {
+    navigation.navigate("Home")
   }
 
 
@@ -204,160 +229,160 @@ export default function VisitConstructions({ navigation }) {
 
 
 
-
-
-  const inspectionIR = async (key) => {
-
-    console.log(key);
-
-    if (key == 1) {
-
-      console.log("marcado com 1");
-
-      setCheckIR({
-        ...checkIR, opcao: (1),
-        checkIR, statusType: "resolvido",
-        checkIR, flag: require(`../../../assets/resolvido.png`)
-
-      })
-
-    } else if (key == 2) {
-
-      console.log("marcado com 2");
-
-      setCheckIR({
-        ...checkIR, opcao: (2),
-        checkIR, statusType: "pendente",
-        checkIR, flag: require('../../../assets/pendente.png')
-      })
-
-    } else {
-
-      console.log("desmarcado");
-
-      setCheckIR({
-        ...checkIR, opcao: (0),
-        checkIR, flag: require(`../../../assets/logo_one.png`)
-
-      })
-
+  /*
+  
+    const inspectionIR = async (key) => {
+  
+      console.log(key);
+  
+      if (key == 1) {
+  
+        console.log("marcado com 1");
+  
+        setCheckIR({
+          ...checkIR, opcao: (1),
+          checkIR, statusType: "resolvido",
+          checkIR, flag: require(`../../../assets/resolvido.png`)
+  
+        })
+  
+      } else if (key == 2) {
+  
+        console.log("marcado com 2");
+  
+        setCheckIR({
+          ...checkIR, opcao: (2),
+          checkIR, statusType: "pendente",
+          checkIR, flag: require('../../../assets/pendente.png')
+        })
+  
+      } else {
+  
+        console.log("desmarcado");
+  
+        setCheckIR({
+          ...checkIR, opcao: (0),
+          checkIR, flag: require(`../../../assets/logo_one.png`)
+  
+        })
+  
+      }
     }
-  }
-
-
-  const inspectionMF = async (key) => {
-
-    console.log(key);
-
-    if (key == 1) {
-
-      console.log("marcado com 1");
-
-      setCheckMF({
-        ...checkMF, opcao: (1),
-        checkMF, statusType: "resolvido",
-        checkMF, flag: require(`../../../assets/resolvido.png`)
-
-      })
-
-
-    } else if (key == 2) {
-
-      console.log("marcado com 2");
-
-      setCheckMF({
-        ...checkMF, opcao: (2),
-        checkMF, statusType: "pendente",
-        checkIR, flag: require('../../../assets/pendente.png')
-      })
-
-    } else {
-
-      console.log("desmarcado");
-
-      setCheckMF({
-        ...checkMF, opcao: (0),
-        checkMF, flag: require(`../../../assets/logo_one.png`)
-      })
-
+  
+  
+    const inspectionMF = async (key) => {
+  
+      console.log(key);
+  
+      if (key == 1) {
+  
+        console.log("marcado com 1");
+  
+        setCheckMF({
+          ...checkMF, opcao: (1),
+          checkMF, statusType: "resolvido",
+          checkMF, flag: require(`../../../assets/resolvido.png`)
+  
+        })
+  
+  
+      } else if (key == 2) {
+  
+        console.log("marcado com 2");
+  
+        setCheckMF({
+          ...checkMF, opcao: (2),
+          checkMF, statusType: "pendente",
+          checkIR, flag: require('../../../assets/pendente.png')
+        })
+  
+      } else {
+  
+        console.log("desmarcado");
+  
+        setCheckMF({
+          ...checkMF, opcao: (0),
+          checkMF, flag: require(`../../../assets/logo_one.png`)
+        })
+  
+      }
+  
     }
-
-  }
-
-
-  const inspectionFR = async (key) => {
-    console.log(key);
-
-    if (key == 1) {
-
-      console.log("marcado com 1");
-
-      setCheckFR({
-        ...checkFR, opcao: (1),
-        checkFR, statusType: "resolvido",
-        checkFR, flag: require(`../../../assets/resolvido.png`)
-
-      })
-
-
-    } else if (key == 2) {
-
-      console.log("marcado com 2");
-
-      setCheckFR({
-        ...checkFR, opcao: (2),
-        checkFR, statusType: "pendente",
-        checkIR, flag: require('../../../assets/pendente.png')
-      })
-
-    } else {
-
-      console.log("desmarcado");
-
-      setCheckFR({
-        ...checkFR, opcao: (0),
-        checkFR, flag: require(`../../../assets/logo_one.png`)
-
-      })
+  
+  
+    const inspectionFR = async (key) => {
+      console.log(key);
+  
+      if (key == 1) {
+  
+        console.log("marcado com 1");
+  
+        setCheckFR({
+          ...checkFR, opcao: (1),
+          checkFR, statusType: "resolvido",
+          checkFR, flag: require(`../../../assets/resolvido.png`)
+  
+        })
+  
+  
+      } else if (key == 2) {
+  
+        console.log("marcado com 2");
+  
+        setCheckFR({
+          ...checkFR, opcao: (2),
+          checkFR, statusType: "pendente",
+          checkIR, flag: require('../../../assets/pendente.png')
+        })
+  
+      } else {
+  
+        console.log("desmarcado");
+  
+        setCheckFR({
+          ...checkFR, opcao: (0),
+          checkFR, flag: require(`../../../assets/logo_one.png`)
+  
+        })
+      }
     }
-  }
-
-
-  const inspectionO = async (key) => {
-    console.log(key);
-
-    if (key == 1) {
-
-      console.log("marcado com 1");
-
-      setCheckO({
-        ...checkO, opcao: (1),
-        checkO, statusType: "resolvido",
-        checkO, flag: require(`../../../assets/resolvido.png`)
-      })
-
-    } else if (key == 2) {
-
-      console.log("marcado com 2");
-
-      setCheckO({
-        ...checkO, opcao: (2),
-        checkO, statusType: "pendente",
-        checkIR, flag: require('../../../assets/pendente.png')
-      })
-
-    } else {
-
-      console.log("desmarcado");
-
-      setCheckO({
-        ...checkO, opcao: (0),
-        checkO, flag: require(`../../../assets/logo_one.png`)
-
-      })
+  
+  
+    const inspectionO = async (key) => {
+      console.log(key);
+  
+      if (key == 1) {
+  
+        console.log("marcado com 1");
+  
+        setCheckO({
+          ...checkO, opcao: (1),
+          checkO, statusType: "resolvido",
+          checkO, flag: require(`../../../assets/resolvido.png`)
+        })
+  
+      } else if (key == 2) {
+  
+        console.log("marcado com 2");
+  
+        setCheckO({
+          ...checkO, opcao: (2),
+          checkO, statusType: "pendente",
+          checkIR, flag: require('../../../assets/pendente.png')
+        })
+  
+      } else {
+  
+        console.log("desmarcado");
+  
+        setCheckO({
+          ...checkO, opcao: (0),
+          checkO, flag: require(`../../../assets/logo_one.png`)
+  
+        })
+      }
     }
-  }
-
+  */
 
 
 
@@ -440,13 +465,13 @@ export default function VisitConstructions({ navigation }) {
     if (illnessRisk.cause != "") {
 
       dataArray.push({
-        t:illnessRisk.title,
-        sb:illnessRisk.subtitle,
+        t: illnessRisk.title,
+        sb: illnessRisk.subtitle,
         c: illnessRisk.cause,
         p: illnessRisk.policy,
         a: illnessRisk.action,
-        st: checkIR.statusType,
-        sf: checkIR.flag
+        // st: checkIR.statusType,
+        // sf: checkIR.flag
       })
 
     }
@@ -455,13 +480,13 @@ export default function VisitConstructions({ navigation }) {
     if (materialFalling.cause != "") {
 
       dataArray.push({
-        t:materialFalling.title,
-        sb:materialFalling.subtitle,
+        t: materialFalling.title,
+        sb: materialFalling.subtitle,
         c: materialFalling.cause,
         p: materialFalling.policy,
         a: materialFalling.action,
-        st: checkMF.statusType,
-        sf: checkMF.flag
+        //  st: checkMF.statusType,
+        //  sf: checkMF.flag
       })
 
     }
@@ -470,13 +495,13 @@ export default function VisitConstructions({ navigation }) {
     if (fallingRisk.cause != "") {
 
       dataArray.push({
-        t:fallingRisk.title,
-        sb:fallingRisk.subtitle,
+        t: fallingRisk.title,
+        sb: fallingRisk.subtitle,
         c: fallingRisk.cause,
         p: fallingRisk.policy,
         a: fallingRisk.action,
-        st: checkFR.statusType,
-        sf: checkFR.flag
+        //  st: checkFR.statusType,
+        //  sf: checkFR.flag
       })
 
     }
@@ -485,13 +510,13 @@ export default function VisitConstructions({ navigation }) {
     if (organization.cause != "") {
 
       dataArray.push({
-        t:organization.title,
-        sb:organization.subtitle,
+        t: organization.title,
+        sb: organization.subtitle,
         c: organization.cause,
         p: organization.policy,
         a: organization.action,
-        st: checkO.statusType,
-        sf: checkO.flag
+        // st: checkO.statusType,
+        //  sf: checkO.flag
       })
 
     }
@@ -512,7 +537,7 @@ export default function VisitConstructions({ navigation }) {
 
       inspectionData = inspectionData +
 
-       `
+        `
         <div
           
          style=
@@ -787,7 +812,7 @@ export default function VisitConstructions({ navigation }) {
 
 
 
-  const html =
+    const html =
 
       `
   <!DOCTYPE html>
@@ -1194,13 +1219,13 @@ border-radius: 10px;
 
               <Text style={styles.textInfo}>{`Logado com ${user}`}</Text>
 
-              
-                <Pressable style={styles.containerBtnS}
-                  onPress={toBack}                 
-                 >
-                  <Text style={styles.textAlert}>Voltar</Text>
-                </Pressable>
-              
+
+              <Pressable style={styles.containerBtnS}
+                onPress={toBack}
+              >
+                <Text style={styles.textAlert}>Voltar</Text>
+              </Pressable>
+
 
             </View>
 
@@ -1228,10 +1253,10 @@ border-radius: 10px;
 
             <View style={styles.contentDesc}>
 
-              
+
               <Text style={styles.textInfo}>{`Nome ${selectContruction.name}`}</Text>
               <Text style={styles.textInfo}>{`Responsável ${selectContruction.responsable}`}</Text>
-             
+
 
               {/* 
               <Text style={styles.textInfo}>{`Nome selectContruction.name}`}</Text>
@@ -1263,7 +1288,25 @@ border-radius: 10px;
 
 
                   <View>
+
                     {
+                      checkIR ?
+                        <Image
+                          style={styles.resizeModelS}
+                          source={resolvido}
+                        />
+                        :
+                        <Image
+                          style={styles.resizeModelS}
+                          source={pendente}
+                        />
+                    }
+
+
+
+
+                    {/*  
+                     {
                       checkIR.opcao == 0
                         ?
                         <View>
@@ -1288,7 +1331,12 @@ border-radius: 10px;
                               source={checkIR.flag}
                             />
                           </View>
-                    }
+                        }
+                     */}
+
+
+
+
                   </View>
 
 
@@ -1364,6 +1412,9 @@ border-radius: 10px;
                 }
               />
 
+
+
+              {/* 
               <CheckBox
                 options={optionsSolutionsIR}
                 onChange={
@@ -1372,18 +1423,33 @@ border-radius: 10px;
                   op => { inspectionIR(op) }
                 }
               />
+               */}
 
-              {/*
-              <CheckBox               
-              options={optionsSolutionsIR}              
-              onChange={ 
-                     // op=> console.log("valor "+op) 
-                      op=>  { ir = op }
-                       }            
+
+              <Switch
+
+                value={checkIR}
+                onValueChange={() => setCheckIR(!checkIR)}
+                //disabled={true}
+                activeText={'Resolvido'}
+                inActiveText={'Pendente'}
+                circleSize={24}
+                barHeight={30}
+                backgroundActive='blue'
+                backgroundInactive='red'
+                //renderInsideCircle={()=><Text>S.G</Text>}
+                switchBorderRadius={5}
+                switchWidthMultiplier={4}
+
+                switchLeftPx={2}
+                switchRightPx={2}
               />
-              */}
+
 
             </View>
+
+
+
 
 
 
@@ -1401,7 +1467,9 @@ border-radius: 10px;
 
 
                   <View>
-                    {
+                 
+                    {/* 
+                     {
                       checkMF.opcao == 0
                         ?
                         <View>
@@ -1426,7 +1494,12 @@ border-radius: 10px;
                               source={checkMF.flag}
                             />
                           </View>
-                    }
+                        }
+                        */}
+
+
+
+
                   </View>
 
 
@@ -1494,16 +1567,19 @@ border-radius: 10px;
               // value={materialFalling.action} 
               />
 
+
+
+              {/* 
+
               <CheckBox
                 options={optionsSolutionsMF}
                 onChange={
                   // op => alert(op)
                   op => { inspectionMF(op, 'mf') }
                 }
+               />
 
-              />
-
-              {/* 
+             
              <CheckBox 
               
               options={optionsSolutionsMF}
@@ -1514,6 +1590,8 @@ border-radius: 10px;
                 }            
                  />    
              */}
+
+
 
             </View>
 
@@ -1532,7 +1610,9 @@ border-radius: 10px;
 
 
                   <View>
-                    {
+
+                     {/* 
+                      {
                       checkFR.opcao == 0
                         ?
                         <View>
@@ -1557,7 +1637,12 @@ border-radius: 10px;
                               source={checkFR.flag}
                             />
                           </View>
-                    }
+                        }
+                       */}
+
+
+
+
                   </View>
 
 
@@ -1621,6 +1706,7 @@ border-radius: 10px;
                 }
               />
 
+             {/* 
               <CheckBox
                 options={optionsSolutionsFR}
                 onChange={
@@ -1628,6 +1714,9 @@ border-radius: 10px;
                   op => { inspectionFR(op) }
                 }
               />
+             */}
+
+
 
             </View>
 
@@ -1645,6 +1734,9 @@ border-radius: 10px;
 
 
                   <View>
+
+
+                     {/* 
                     {
                       checkO.opcao == 0
                         ?
@@ -1671,6 +1763,9 @@ border-radius: 10px;
                             />
                           </View>
                     }
+                  */}
+
+
                   </View>
 
                 </View>
@@ -1733,6 +1828,8 @@ border-radius: 10px;
                 }
               />
 
+
+             {/* 
               <CheckBox
                 options={optionsSolutionsO}
                 onChange={
@@ -1740,8 +1837,11 @@ border-radius: 10px;
                   op => { inspectionO(op) }
                 }
               />
+             */}
 
-            </View>         
+
+
+            </View>
 
 
             <Pressable style={styles.containerBtn}
