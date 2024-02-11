@@ -223,7 +223,7 @@ export default function Login({ navigation }) {
 
       if (snapshot.data() != undefined) {
 
-        setUser(snapshot.data().nome)
+        setUser(snapshot.data().nomeUser)
    
         navigation.navigate("Home");
 
@@ -237,7 +237,7 @@ export default function Login({ navigation }) {
         setErrorValidate(
           {
             ...errorValidate, ['error']: true,
-            errorValidate, ['msg']: " erro, favor mais tarde ou entre em contato com suporte "
+            errorValidate, ['msg']: " erro, favor tentar mais tarde ou entre em contato com suporte "
           }
         )
 

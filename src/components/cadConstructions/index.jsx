@@ -5,11 +5,12 @@ import {
    View,
    ScrollView,
    Text,
-   TextInput,   
+   TextInput,
    Pressable,
    KeyboardAvoidingView,
    Platform,
-   Image
+   Image,
+   Modal
 } from 'react-native';
 
 
@@ -22,7 +23,7 @@ import { FontAwesome } from '@expo/vector-icons';
 
 import firebase from '../../database/firebase';
 
-import { getAuth} from "firebase/auth";
+import { getAuth } from "firebase/auth";
 
 import { doc, setDoc } from "firebase/firestore";
 
@@ -53,79 +54,28 @@ function CadConstructions({ navigation }) {
 
    const db = firebase.firestore();
 
-   const [onCamera, setOnCamera] = useState(false);
+
+
+
+
+
+
+
+
+   const [modalCamera, setModalCamera] = useState(false);
 
    const camRef = useRef(null);
 
-   const [capturedPhoto, setCapturedPhoto] = useState(null);
-
-
-
-
-
-   useEffect(() => {
-
-      cleanInput();
-
-   }, [],);
-
-
-
-   async function takePicture() {
-      if (camRef) {
-         const dataImg = await camRef.current.takePictureAsync();
-         setCapturedPhoto(dataImg.uri)
-         console.log(dataImg);
-      }
-   }
-
-
-
-
-
-
-   /* 
-   
-   const [errorValidate, setErrorValidate] = useState({
-      error: false,
-      msg: ""
-   });
-
-
-
-   const [credencials, setCredencials] = useState(
-      {
-         email: "",
-         password: ""
-      }
-   );
-
- 
-
-
-   const [construction, setConstruction] = useState(
-      {
-         name: "",
-         address: "",
-         number:"",
-         details:"",
-         responsable:""
-      }
-   );
-
-
-
-*/
-
-
    const [type, setType] = useState(Camera.Constants.Type.back)
+
+
 
 
 
    const [construction, setConstruction] = useState({
 
       name: "",
-      img: "",
+      img: null,
 
       address: "",
       number: "",
@@ -134,6 +84,100 @@ function CadConstructions({ navigation }) {
       responsable: "",
 
    });
+
+
+
+
+   useEffect(() => {
+
+      cleanInput();
+
+      // getPermission();
+
+   }, [],);
+
+
+
+
+
+
+   const changeImg = async () => {
+
+      setConstruction(
+         {
+            ...construction, 'img': null,
+         }
+      )
+
+      setModalCamera(true);
+   }
+
+
+
+
+
+
+   async function takePicture() {
+
+
+      if (camRef) {
+
+         //const options = { quality: 0.5, base64: true };
+         const dataImg = await camRef.current.takePictureAsync();
+
+         console.log(dataImg);
+
+         setModalCamera(false);
+
+         if (construction.img == null) {
+
+            setConstruction(
+               {
+                  ...construction, 'img': dataImg.uri,
+               }
+            )
+
+         }
+
+
+      }
+
+   }
+
+
+
+
+
+
+   /* 
+     
+     const [errorValidate, setErrorValidate] = useState({
+        error: false,
+        msg: ""
+     });
+  
+  
+     const [credencials, setCredencials] = useState(
+        {
+           email: "",
+           password: ""
+        }
+     );
+  
+  
+     const [construction, setConstruction] = useState(
+        {
+           name: "",
+           address: "",
+           number:"",
+           details:"",
+           responsable:""
+        }
+     );
+  
+  */
+
+
 
 
 
@@ -163,7 +207,7 @@ function CadConstructions({ navigation }) {
        "complemento: "+construction.others+       
        "responsavel: "+construction.responsable   
           )
-        */
+       */
 
       await setDoc(doc(db, email, construction.name), {
          nome: construction.name,
@@ -171,6 +215,8 @@ function CadConstructions({ navigation }) {
          numero: construction.number,
          complemento: construction.others,
          responsavel: construction.responsable,
+        // img: `data:image/png;base64,${construction.img}`
+        img: construction.img
 
       }).then(() => {
 
@@ -183,6 +229,10 @@ function CadConstructions({ navigation }) {
 
 
    }
+
+
+
+
 
 
 
@@ -241,17 +291,6 @@ function CadConstructions({ navigation }) {
 
     }
    */
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -391,6 +430,7 @@ function CadConstructions({ navigation }) {
             construction, ['number']: "",
             construction, ['details']: "",
             construction, ['responsable']: "",
+            construction, ['img']: null,
          }
       )
    }
@@ -416,206 +456,81 @@ function CadConstructions({ navigation }) {
 
 
 
-      <ScrollView>
-
-
-         <LinearGradient
-            colors={
-               [
-                  // 'rgba(10, 40, 90, 0.97)',
-                  // 'rgba(19, 53, 75 ,1)',
-
-                  'rgba(75, 139, 117, 0.6)',
-                  'rgba(75, 139, 117, 0.2)',
-               ]
-            }
-            style={styles.containerMain}
-         >
-
-
-
-
-
-
-
-
-            <View style={styles.containerInfo}>
-               <Text style={styles.textMain}>{` Tela Cadastro de Obras `}</Text>
-            </View>
-
-
-
-
+         <ScrollView>
 
             <LinearGradient
                colors={
                   [
-                     // 'rgba(19, 50, 27, 0.4)',
-                     'rgba(25, 126, 162, 0.6)',
-                     'rgba(10, 13, 35 ,0.6)',
+                     // 'rgba(10, 40, 90, 0.97)',
+                     // 'rgba(19, 53, 75 ,1)',
+
+                     'rgba(75, 139, 117, 0.6)',
+                     'rgba(75, 139, 117, 0.2)',
                   ]
                }
-               style={styles.contentMain}
+               style={styles.containerMain}
             >
 
 
+               <View style={styles.containerInfo}>
+                  <Text style={styles.textMain}>{` Tela Cadastro de Obras `}</Text>
+               </View>
 
 
 
-               <TextInput style={styles.input}
-                  placeholder=" digite o nome da obra"
-                  //placeholderTextColor="#BBD441"
-                  placeholderTextColor="white"
-                  type="text"
-                  onChangeText={
-                     (valor) => handleInputChange('name', valor)
+               <LinearGradient
+                  colors={
+                     [
+                        // 'rgba(19, 50, 27, 0.4)',
+                        'rgba(25, 126, 162, 0.6)',
+                        'rgba(10, 13, 35 ,0.6)',
+                     ]
                   }
-                  value={construction.name}
-               />
+                  style={styles.contentMain}
+               >
+
+                  <View style={styles.containerImgSpace}>
 
 
+                     <View style={styles.contentImgSpace}>
 
-               <TextInput style={styles.input}
-                  placeholder="Rua/Av"
-                  //placeholderTextColor="#BBD441"
-                  placeholderTextColor="white"
-                  type="text"
-                  onChangeText={
-                     (valor) => handleInputChange('address', valor)
-                  }
-                  value={construction.address}
-               />
+                        {/* 
+                        <Image source={{ uri: `data:image/png;base64,${construction.img}` }}
+                           style={styles.resizeModel}
+                        />
+ */}
+                        <Image source={{ uri: construction.img }}
+                           style={styles.resizeModel}
+                        />
 
+                     </View>
 
+                     {
+                        construction.img == null ?
 
-               <TextInput style={styles.input}
-                  placeholder="Nº"
-                  //placeholderTextColor="#BBD441"
-                  placeholderTextColor="white"
-                  type="text"
-                  onChangeText={
-                     (valor) => handleInputChange('number', valor)
-                  }
-                  value={construction.number}
-               />
-
-
-
-               <TextInput style={styles.input}
-                  placeholder="Complemento"
-                  //placeholderTextColor="#BBD441"
-                  placeholderTextColor="white"
-                  type="text"
-                  onChangeText={
-                     (valor) => handleInputChange('others', valor)
-                  }
-                  value={construction.others}
-               />
-
-
-
-               <TextInput style={styles.input}
-                  placeholder="Responsável"
-                  //placeholderTextColor="#BBD441"
-                  placeholderTextColor="white"
-                  type="text"
-                  onChangeText={
-                     (valor) => handleInputChange('responsable', valor)
-                  }
-                  value={construction.responsable}
-               />
-
-
-
-
-
-
-
-
-
-
-
-
-
-               {
-                  onCamera === true
-                     ?
-
-
-                     <View style={styles.containnerCamera}>
-
-                        <Camera
-                           style={{ height: 200, width: 200, marginTop: 60 }}
-                           type={type}
-                           ref={camRef}
-
-                        >
-
-                           <View style={styles.contentCamera} >
-
-                              <Pressable 
-                                 style={{ position: 'absolute', bottom: 20, left: 20 }}                              
-
+                           <View>
+                              <Pressable style={styles.styleBtn}
                                  onPress={() => {
-                                    setType(
-                                       type === Camera.Constants.Type.back
-                                          ? Camera.Constants.Type.front
-                                          : Camera.Constants.Type.back
-                                    );
+                                    setModalCamera(true)
                                  }}
                               >
-                                 <Text style={styles.textInfo} >selecione camera frontal</Text>
+                                 <Text style={styles.textInfo} >Tirar Foto</Text>
                               </Pressable>
-
                            </View>
-
-                        </Camera>
-
-
-                        <Pressable style={styles.containerBtn}
-                           //disabled={true}
-                           onPress={takePicture}
-                        >
-                           <FontAwesome name='camera' size={20} color={"#fff"} />
-                           {/* <Text style={styles.textInfo} >selecione uma foto</Text> */}
-
-                        </Pressable>
-
-
-                        <Pressable style={styles.containerBtn}
-                           //disabled={true}
-                           // onPress={setOnCamera(true)}
-                           onPress={() => {
-                              setOnCamera(false);
-                           }}
-                        >
-
-                           <Text style={styles.textInfo} >desligar a camera</Text>
-
-                        </Pressable>
-
-                     </View>
+                           :
+                           <View style={{ marginTop: 50, marginLeft: 24 }}>
+                              <Pressable style={styles.styleBtn}
+                                 onPress={() => {
+                                    changeImg()
+                                 }}
+                              >
+                                 <Text style={styles.textInfo} >Mudar a foto</Text>
+                              </Pressable>
+                           </View>
+                     }
 
 
-                     :
-
-
-                     <View >
-
-                        <Pressable style={styles.containerBtn}
-                           //disabled={true}
-                           // onPress={setOnCamera(true)}
-                           onPress={() => {
-                              setOnCamera(true);
-                           }}
-                        >
-
-                           <Text style={styles.textInfo} >ligar a camera</Text>
-
-                        </Pressable>
-
-                     </View>
-               }
+                  </View>
 
 
 
@@ -627,51 +542,179 @@ function CadConstructions({ navigation }) {
 
 
 
-               {
 
-                  construction.name == "" && construction.address == "" &&
-                     construction.number == "" && construction.responsable == ""
-                     ?
-
-                     <View>
-
-                        <Pressable
-                           style={styles.containerBtn}
-                           disabled={true}
-                        >
-                           <Text style={styles.textInfo}>Cadastrar</Text>
-                        </Pressable>
-
-                     </View>
-
-                     :
-
-
-                     <View >
-
-                        <Pressable
-                           style={styles.containerBtn}
-                           onPress={insertConstruction}
-                        >
-                           <Text style={styles.textInfo}>Cadastrar</Text>
-                        </Pressable>
-
-                     </View>
-
-               }
+                  <TextInput style={styles.input}
+                     placeholder=" digite o nome da obra"
+                     //placeholderTextColor="#BBD441"
+                     placeholderTextColor="white"
+                     type="text"
+                     onChangeText={
+                        (valor) => handleInputChange('name', valor)
+                     }
+                     value={construction.name}
+                  />
 
 
 
+                  <TextInput style={styles.input}
+                     placeholder="Rua/Av"
+                     //placeholderTextColor="#BBD441"
+                     placeholderTextColor="white"
+                     type="text"
+                     onChangeText={
+                        (valor) => handleInputChange('address', valor)
+                     }
+                     value={construction.address}
+                  />
 
 
+
+                  <TextInput style={styles.input}
+                     placeholder="Nº"
+                     //placeholderTextColor="#BBD441"
+                     placeholderTextColor="white"
+                     type="text"
+                     onChangeText={
+                        (valor) => handleInputChange('number', valor)
+                     }
+                     value={construction.number}
+                  />
+
+
+
+                  <TextInput style={styles.input}
+                     placeholder="Complemento"
+                     //placeholderTextColor="#BBD441"
+                     placeholderTextColor="white"
+                     type="text"
+                     onChangeText={
+                        (valor) => handleInputChange('others', valor)
+                     }
+                     value={construction.others}
+                  />
+
+
+
+                  <TextInput style={styles.input}
+                     placeholder="Responsável"
+                     //placeholderTextColor="#BBD441"
+                     placeholderTextColor="white"
+                     type="text"
+                     onChangeText={
+                        (valor) => handleInputChange('responsable', valor)
+                     }
+                     value={construction.responsable}
+                  />
+
+
+
+
+
+
+                  {
+
+                     construction.name == "" && construction.address == "" &&
+                        construction.number == "" && construction.responsable == ""
+                        ?
+
+                        <View>
+
+                           <Pressable
+                              style={styles.styleBtn}
+                              disabled={true}
+                           >
+                              <Text style={styles.textInfo}>Cadastrar</Text>
+                           </Pressable>
+
+                        </View>
+
+                        :
+
+                        <View >
+
+                           <Pressable
+                              style={styles.styleBtn}
+                              onPress={insertConstruction}
+                           >
+                              <Text style={styles.textInfo}>Cadastrar</Text>
+                           </Pressable>
+
+                        </View>
+
+                  }
+
+               </LinearGradient>
 
             </LinearGradient>
 
-         </LinearGradient>
 
-        </ScrollView>
 
-        <View style={{ height: 10 }}></View>
+
+
+            <Modal
+               animationType='fade'
+               visible={modalCamera}
+            >
+
+               <LinearGradient
+                  colors={
+                     [
+                        'rgba(10, 40, 90, 0.97)',
+                        'rgba(19, 53, 75 ,1)',
+                     ]
+                  }
+                  style={styles.modalContent}
+               >
+
+                  <Text style={styles.textInfo}>Camera</Text>
+
+                  <Camera
+                     style={styles.containnerCamera}
+                     type={type}
+                     ref={camRef}
+                  >
+
+                     <View style={styles.contentCamera}>
+
+                        <Pressable style={styles.btnCameraFlip}
+
+                           onPress={() => {
+                              setType(
+                                 type === Camera.Constants.Type.back
+                                    ? Camera.Constants.Type.front
+                                    : Camera.Constants.Type.back
+                              );
+                           }}
+                        >
+                           <FontAwesome name='exchange' size={22} color={"#F3102F"} />
+                        </Pressable>
+
+
+                        <Pressable style={styles.btnCameraTake}
+                           onPress={() => takePicture()}
+                        >
+                           <FontAwesome name='camera' size={22} color={"#FCF9F8"} />
+                        </Pressable>
+
+                     </View>
+
+                  </Camera>
+
+
+                  <Pressable style={styles.styleBtn}
+                     onPress={() => setModalCamera(false)}
+                  >
+                     <Text style={styles.textInfo} >desligar a camera</Text>
+                  </Pressable>
+
+               </LinearGradient>
+
+            </Modal>
+
+
+         </ScrollView>
+
+         <View style={{ height: 10 }}></View>
 
       </KeyboardAvoidingView>
    )

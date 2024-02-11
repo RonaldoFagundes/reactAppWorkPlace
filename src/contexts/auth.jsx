@@ -27,7 +27,8 @@ function AuthProvider({children}){
 
    const [selectContruction, setSelectContruction] = useState({
             name:"",
-            responsable:""
+            responsable:"",
+            img:""
       });
 
 

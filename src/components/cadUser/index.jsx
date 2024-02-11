@@ -173,7 +173,7 @@ function CadUser({ navigation }) {
 
       await setDoc(doc(db, email, "User"), {
         
-         nome: credencials.name,
+         nomeUser: credencials.name,
          
    
       }).then(() => {
@@ -206,12 +206,12 @@ function CadUser({ navigation }) {
    
          if (snapshot.data() != undefined) {
    
-            setUser(snapshot.data().nome);
+            setUser(snapshot.data().nomeUser);
            // setId(snapshot.data().matricula);
    
             console.log(
              //  " metodo getUser matricula nº " + snapshot.data().matricula +
-               " nome   " + snapshot.data().nome
+               " nome   " + snapshot.data().nomeUser
             );
    
          }

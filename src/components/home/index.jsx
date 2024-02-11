@@ -1,4 +1,5 @@
 import {
+  SafeAreaView,
   FlatList,
   View,
   ScrollView,
@@ -70,15 +71,26 @@ export default function Home({ navigation }) {
     setLoad, load,
     setDay, day,
     setSelectContruction,
+    selectContruction 
 
   } = useContext(AuthContext);
+
+
+
+  // const email = "ronaldofagundes@gmail.com";
+  // const user = "Ronaldo";
+
+
+  const [constructionName, setConstructionName] = useState();
 
 
 
 
   const [welcome, setWelcome] = useState();
 
-  const [construction, setConstruction, selectContruction] = useState([]);
+  //const [construction, setConstruction, selectContruction] = useState([]);
+
+  const [construction, setConstruction] = useState([]);
 
 
 
@@ -168,6 +180,16 @@ export default function Home({ navigation }) {
 
 
 
+  /*
+   useEffect(() => {
+ 
+     helloApp();
+ 
+     selectConstruction();
+ 
+   }, []);
+  */
+
 
 
   const signOut = async () => {
@@ -213,15 +235,23 @@ export default function Home({ navigation }) {
       setConstruction(list);
 
       console.log(list)
+
+      console.log("----------------------------------")
+
+      console.log(list[0].nome)
+
+      setConstructionName(list[0].nome);
+
     })
-
-
   }
 
 
 
 
-  function getConstruction(n, r) {
+
+
+
+  function getConstruction(n, r, i) {
 
     setDay(today);
 
@@ -232,7 +262,8 @@ export default function Home({ navigation }) {
     setSelectContruction(
       {
         ...selectContruction, ['name']: n,
-        selectContruction, ['responsable']: r,
+           selectContruction, ['responsable']: r,
+           selectContruction, ['img']: i,
       }
     )
 
@@ -240,9 +271,32 @@ export default function Home({ navigation }) {
 
     navigation.navigate("VisitConstructions")
 
-    console.log(" nome " + n + " responsabel " + r)
+    console.log(" nome " + n + " responsabel " + r + " img " + i)
 
   }
+
+
+
+  /* 
+     setSelectContruction(
+        {
+          ...selectContruction,'name':nome,
+        }
+      )
+
+      setSelectContruction(
+        {
+          ...selectContruction,'responsable':nome,
+        }
+      )
+      setSelectContruction(
+        {
+          ...selectContruction,'img':nome,
+        }
+      )  
+  */
+
+
 
 
 
@@ -301,6 +355,8 @@ export default function Home({ navigation }) {
 
 
 
+
+
       <ScrollView>
 
 
@@ -313,6 +369,10 @@ export default function Home({ navigation }) {
           ]}
           style={styles.containerMain}
         >
+
+
+
+
 
 
 
@@ -330,163 +390,249 @@ export default function Home({ navigation }) {
           <View style={styles.containerHeader}>
 
 
-            <View style={styles.containerLogo}>
-
-              <Image
-                style={styles.resizeModel}
-                source={require('../../../assets/logo_one.png')}
-              />
-
-            </View>
-            
-
             <View style={styles.contentHeader}>
 
+
+              <View style={styles.containerLogo}>
+                <Image
+                  style={styles.resizeModel}
+                  source={require('../../../assets/logo_one.png')}
+                />
+              </View>
 
               <Text style={styles.textInfo}>{` ${welcome} ${user} `}</Text>
 
 
-              <Pressable style={styles.containerBtn}
-
-                onPress={signOut}
-              >
-
-                <Text style={styles.textAlert}>Logout</Text>
-
-              </Pressable>
-
-
             </View>
+
+
+
+
+            <Pressable style={styles.styleBtnOne}
+
+              onPress={signOut}
+            >
+
+              <Text style={styles.textAlert}>Logout</Text>
+
+            </Pressable>
 
 
           </View>
 
 
 
-          <View style={styles.containerList}>
 
 
-            <FlatList
-
-              // showsVerticalScrollIndicator={false}
-
-              data={construction}
-
-              renderItem={({ item }) =>
-
-                <View style={styles.cardList}>
-
-
-                  {
-                    item.nome === user
-                      ?
-                      <Text></Text>
-                      :
-                      <Text style={styles.textList}>
-                        {`Nome :  ${item.nome}`}
-                      </Text>
-                  }
+          {
+            constructionName == undefined
+              ?
 
 
 
-                  {
-                    item.responsavel === undefined
-                      ?
-                      <Text></Text>
-                      :
-                      <Text style={styles.textList}>
-                        {`Responsavel :  ${item.responsavel}`}
-                      </Text>
-                  }
+              <View style={styles.containertEmpty}>
 
 
-                  {
-                    item.endereco === undefined
-                      ?
-                      <Text></Text>
-                      :
-                      <Text style={styles.textList}>
-                        {`Endereço :  ${item.endereco}`}
-                      </Text>
-                  }
+                <View style={styles.contentEmpty}>
 
+                  <Text style={styles.textAlert}>{`${user} Bem vindo ! cadastre sua 1ª obra `}</Text>
+                  <View>
+                    <Pressable style={styles.styleBtnTwo}
 
+                      onPress={() => navigation.navigate("CadConstructions")}
+                    >
+                      <Text style={styles.textAlert}>Cadastrar Obra</Text>
 
-                  {
-                    item.numero === undefined
-                      ?
-                      <Text></Text>
-                      :
-                      <Text style={styles.textList}>
-                        {`Nº :  ${item.numero}`}
-                      </Text>
-                  }
+                    </Pressable>
+                  </View>
+
+                </View>
+
+              </View>
 
 
 
-                  {
-                    item.complemento === undefined
-                      ?
-                      <Text></Text>
-                      :
-                      <Text style={styles.textList}>
-                        {`Complemeto :  ${item.complemento}`}
-                      </Text>
-                  }
+              :
 
 
 
-                  {
-                    item.responsavel === "usuario"
-                      ?
-                      <Text></Text>
-                      :
-                      <Text></Text>
-                     /* 
-                      <Text style={styles.textList}>
-                        {`Responsavél :  ${item.responsavel}`}
-                      </Text>
-                       */
+              <View style={styles.containerList}>
 
-                      &&
 
-                      <Pressable style={styles.btnWarning}
 
-                        onPress={() => getConstruction(item.nome, item.responsavel)}
-                      >
-                        <Text style={styles.textAlert}>Visitar</Text>
+                <View style={styles.contentList}>
 
-                      </Pressable>
-                  }
+
+                  <FlatList
+
+                    // showsVerticalScrollIndicator={false}
+
+                    data={construction}
+
+                    renderItem={({ item }) =>
+
+                    <View >
+
+                        {
+
+                          item.nome === undefined
+
+                            ?
+
+                            <View></View>
+
+                            :
+
+
+                            <View style={styles.cardList}>
+
+
+
+                              {
+                                item.img === undefined
+                                  ?
+                                  <View></View>
+                                  :
+
+                                  <View style={styles.cardImg}>
+                                    {/* 
+                                    <Image source={{ uri: `data:image/png;base64,${item.img}` }}
+                                     style={styles.resizeModel} 
+                                     />
+                                  */}
+                                    <Image source={{ uri: item.img }}
+                                      style={styles.resizeModel}
+                                    />
+                                  </View>
+                              }
+
+
+
+                              {
+                                item.nome === undefined
+                                  ?
+                                  <View></View>
+                                  :
+                                  <Text style={styles.textList}>
+                                    {`Nome :  ${item.nome}`}
+                                  </Text>
+                              }
+
+
+
+
+
+                              {
+                                item.responsavel === undefined
+                                  ?
+                                  <View></View>
+                                  :
+                                  <Text style={styles.textList}>
+                                    {`Responsavel :  ${item.responsavel}`}
+                                  </Text>
+                              }
+
+
+
+
+                              {
+                                item.endereco === undefined
+                                  ?
+                                  <View></View>
+                                  :
+                                  <Text style={styles.textList}>
+                                    {`Endereço :  ${item.endereco}`}
+                                  </Text>
+                              }
+
+
+
+
+
+                              {
+                                item.numero === undefined
+                                  ?
+                                  <View></View>
+                                  :
+                                  <Text style={styles.textList}>
+                                    {`Nº :  ${item.numero}`}
+                                  </Text>
+                              }
+
+
+
+
+
+
+                              {
+                                item.complemento === undefined
+                                  ?
+                                  <View></View>
+                                  :
+                                  <Text style={styles.textList}>
+                                    {`Complemeto :  ${item.complemento}`}
+                                  </Text>
+                              }
+
+
+                              <View>
+                                <Pressable style={styles.styleBtnTwo}
+
+                                  onPress={() => getConstruction(item.nome , item.responsavel, item.img)}
+                                >
+                                  <Text style={styles.textAlert}>Inspecionar Obra</Text>
+
+                                </Pressable>
+                              </View>
+
+                            </View>
+
+                        }
+
+                      </View>
+
+                    }
+
+                  >
+
+                  </FlatList>
+
+
+                  <View>
+                    <Pressable style={styles.styleBtnTwo}
+
+                      onPress={() => navigation.navigate("CadConstructions")}
+                    >
+                      <Text style={styles.textAlert}>Cadastrar Obra</Text>
+
+                    </Pressable>
+                  </View>
+
+
 
 
                 </View>
 
-              }
 
-            >
+              </View>
 
-            </FlatList>
 
-            <View>
-              <Pressable style={styles.containerBtn}
+          }
 
-                onPress={() => navigation.navigate("CadConstructions")}
-              >
-                <Text style={styles.textAlert}>Cadastrar Obra</Text>
 
-              </Pressable>
-            </View>
 
-          </View>
+
 
         </LinearGradient>
+
 
 
       </ScrollView>
 
 
+
       <View style={{ height: 10 }}></View>
+
 
 
     </KeyboardAvoidingView>

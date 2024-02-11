@@ -13,19 +13,23 @@ export default StyleSheet.create({
 
   containerMain: {    
     height:'100%',
-    with:"100%"
+    with:"100%",
+    flexDirection:'column',
+    //alignItems:'center'
+    padding:10
   },
 
 
 
   contentMain: {
-    marginTop:20,
+    flexDirection:'column',
     alignItems: 'center',
+    textAlign:"center",
     backgroundColor: 'rgba(25, 126, 162, 0.3)',
     borderRadius: 10,
     height: "100%",
     padding: 20,
-    with: "auto"
+    
   },
 
 
@@ -60,7 +64,11 @@ export default StyleSheet.create({
 
 
 
-  containerBtn: {
+ 
+
+
+
+    styleBtn: {  
     alignItems: 'center',
     backgroundColor: 'rgba(6, 12, 127, 0.8)',
     width: 140,
@@ -72,7 +80,21 @@ export default StyleSheet.create({
   },
 
 
+
+
+  imgBtn: {
+    alignItems: 'center',
+    backgroundColor: 'rgba(6, 12, 127, 0.8)',
+    width: 100,
+    height: 20,
+    justifyContent: 'center',
+    borderRadius: 4,
+    marginTop: 76,
+    padding: 5
+  },
   
+
+
   textMain: {
     color: 'white',
     //color: '#3AF1A3',
@@ -81,11 +103,13 @@ export default StyleSheet.create({
   },
 
 
+
   textInfo: {
     color: '#3AF1A3',
     fontWeight: 'bold',
     fontSize: 14,
   },
+
 
 
   textAlert: {
@@ -96,26 +120,98 @@ export default StyleSheet.create({
 
 
 
+  containerImgSpace:{   
+    flexDirection:'column', 
+    justifyContent:'center',
+    alignItems:'center' , 
+    height: 320,
+    width: '98%',
+    //padding:10,  
+    marginBottom:20,
+    
+    
+  },
 
 
 
-   containnerCamera:{
-       flexDirection:'column',
-       alignItems:'center'
-      
-   },
-
-
-   contentCamera:{
-     flex: 1,
-     backgroundColor: 'transparent',
-     flexDirection: 'row'       
-   },
+  contentImgSpace:{
+      width:140,
+      height:140,
+      borderBottomWidth: 1,
+      borderBottomColor: "#6BA995",
+      backgroundColor: 'white',
+      borderRadius:10,      
+      },
 
 
 
+  resizeModel: {
+    resizeMode: 'cover',
+    height: 180,
+    width: 180, 
+    borderRadius:10   
+  },
+
+
+
+   
+
+
+   modalContent: {
+    alignItems: 'center',
+    backgroundColor:'black',
+    flex: 1,
+    flexDirection: 'column',    
+    textAlign: 'center',
+  },
   
-  
+
+
+  containnerCamera:{
+    width: 380,   
+    marginTop: 60,
+    marginBottom:40,
+    flex: 1, 
+    backgroundColor: 'transparent', 
+},
+
+
+
+contentCamera:{
+  backgroundColor: 'transparent', 
+  flexDirection: 'row',
+  justifyContent:'space-between',  
+  height: 'auto',
+  width: 'auto',  
+  marginTop:500
+},
+
+
+
+
+
+
+btnCameraFlip: {  
+  backgroundColor: '#FCF9F8',
+  width: 50,
+  height: 50, 
+  borderRadius: 50, 
+  alignItems:'center',
+  justifyContent:'center'
+  //position: 'absolute', 
+ // bottom: 20, 
+ // left: 20
+},
+
+btnCameraTake: {   
+  backgroundColor: '#F3102F',
+  width: 50,
+  height: 50, 
+  borderRadius: 50,  
+  alignItems:'center',
+  justifyContent:'center'
+},
+
 
 
 });

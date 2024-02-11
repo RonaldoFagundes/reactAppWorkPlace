@@ -13,92 +13,147 @@ export default StyleSheet.create({
    },
 
 
-
-   
-
-
-    
-
-
-   containerMain: {
-      alignItems: 'center',
-      justifyContent: 'center',
-      height:'auto'  
-    },
-
-
-
-    containerInfo: {
+   containerInfo: {
       backgroundColor: 'rgba(25, 126, 162, 0.6)',
       borderRadius: 10,
       alignItems:'center',
       height: 'auto',
       width:'auto',  
-      marginTop:30,  
+      marginTop:10,  
       marginBottom: 10,
       padding: 10,
     },
 
 
 
-    containerHeader: {
-      height: 80,
+   containerMain: {
+      height:'auto',
+      width:'auto',
+     // flexDirection:'column',
+     // alignItems: 'center',
+     // justifyContent: 'center',     
+    },
+
+    
+
+   
+   containerHeader: {
+      height: "auto",
       width: '100%',
-      flexDirection:'col',
-      textAlign: 'center',
+      flexDirection:'row',
+      justifyContent:'space-between',
       padding:10, 
-      marginBottom: 30
+      marginBottom: 30,   
    },
 
 
 
 
     contentHeader: {
-      flexDirection: 'row',
+      height: 180,
+      width: "auto",
+      flexDirection: 'column',
       justifyContent: 'space-between',
-      //marginTop:10      
-      padding:10
+      padding:5,       
+    },
+
+    
+
+
+    containerLogo:{
+      width:40,
+      height:40,           
+   },
+
+
+
+
+
+
+ 
+     
+  
+
+
+
+
+  
+
+
+   containertEmpty:{
+      height:'30%',
+      width: '100%',
+      
+      
+       //justifyContent:'center',   
+      // paddingTop:100,
+       //paddingBottom:100,
+      // marginTop:100,
+      // padding:20,
+      // borderRadius:10 ,
+      
+      // marginBottom:10 ,
+      // borderBottomWidth:12,
+      // borderBottomColor: 'white',
     },
 
 
-   
-    containerLogo:{
-      width:40,
-      height:40,
-     // marginBottom: 50,       
+    
+    contentEmpty: {
+      height:400,
+      width:'auto',
+      backgroundColor: 'black',
+      flexDirection:'column',
+      alignItems:'center',
+      padding:50
    },
 
 
 
 
-   resizeModel:{
-      resizeMode:'cover',
-      height:40,
-      width:40,
-      borderRadius:10 ,
-      //marginLeft: 5,    
-      },
 
 
 
 
+   
 
     containerList: {
+      height:'auto',
+      width: '100%',
+      padding:10,
+ 
      // alignItems: 'center',
      // justifyContent: 'center',
+
+     // flexDirection:'column',
+     // alignItems: 'center',
+     // justifyContent: 'center',
+      
+     // padding:10, 
+    //  borderRadius:5,
+
+     // paddingTop:10,
+     // paddingBottom: 3,
+
+     // marginTop:10 ,      
+      //backgroundColor: 'rgba(185, 245, 133, 0.4)',
+      
+   },
+
+
+
+
+   contentList: {
+      height:'auto',
+      width:'auto',
+      backgroundColor: 'black',
+      padding:10,
+
       flexDirection:'column',
       alignItems: 'center',
       justifyContent: 'center',
-      height:'auto',
-      width: '96%',
-      padding:10, 
-      borderRadius:5,
-     // paddingTop:10,
-     // paddingBottom: 3,  
-      marginTop:10 ,      
-      backgroundColor: 'rgba(185, 245, 133, 0.4)',
+      
    },
-
 
 
      /*
@@ -114,16 +169,41 @@ export default StyleSheet.create({
     */
 
 
+
+
     cardList:{
-       width:"100%",
-       height:"auto",
-       padding:20,
-       borderRadius:10 ,
-       backgroundColor: 'rgba(75, 139, 117, 0.8)',
-       marginBottom:10 ,
-       borderBottomWidth:12,
-       borderBottomColor: 'white',
+      width:"100%",
+      height:"auto",
+      padding:40,
+      borderRadius:10 ,
+      backgroundColor: 'rgba(75, 139, 117, 0.8)',
+      marginBottom:10 ,
+      borderBottomWidth:12,
+      borderBottomColor: 'white',
+   },
+
+
+
+
+
+
+
+   cardImg: {
+      height: 160,
+      width: 160,
+      padding:10,
+      borderBottomWidth: 1,
+      borderBottomColor: "#6BA995",
+      backgroundColor: 'white',
+      borderRadius: 10,
     },
+
+      resizeModel: {
+         resizeMode: 'cover',
+         height: 140,
+         width: 140,
+         borderRadius:10 ,    
+       },
 
 
 
@@ -200,39 +280,48 @@ textData: {
 
 
 
-     btnWarning:{
-      width: '50%',
-      height: 'auto',
-     // justifyContent: 'center',
-      borderRadius: 10,
-      //marginRight: 6,
-     // marginLeft: 6,
-      alignItems:'center',
-      textAlign: 'center',
-      backgroundColor: 'red',
-      padding:10,
-      marginTop:10  
-     },
+     
 
  
      
 
 
    
-   containerBtn: {
+ 
+
+   styleBtnOne: {  
       width: 'auto',
-      height: 'auto',
+      height: '20%',
+
       justifyContent: 'center',
+
       borderRadius: 10,
       marginRight: 6,
       marginLeft: 6,
       textAlign: 'center',
       //backgroundColor: 'green',
+
       backgroundColor: 'rgba(14, 85, 85, 0.8)',
       padding:10
-   },
+    },
 
 
+    styleBtnTwo: {  
+      width: 180,
+      height: 40,
+
+      justifyContent: 'center',
+
+      borderRadius: 10,
+      marginTop:20,
+      //marginRight: 6,
+      //marginLeft: 6,
+      alignItems:'center',
+     // textAlign: 'center',     
+      backgroundColor: 'rgba(14, 85, 85, 0.8)',
+      padding:10
+    },
+  
 
 
 
