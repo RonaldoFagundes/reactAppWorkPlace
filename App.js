@@ -15,8 +15,8 @@ import TestPrint from './src/components/testPrint';
 import TestCamera from './src/components/testCamera'; 
 import TestDefault from './src/components/testDefault';
 import TestDataBase from './src/components/testDataBase';
-
-
+import TestGaleria from './src/components/testGaleria';
+import TestComponent from './src/components/testComponent';
 
 export default function App() {
 
@@ -25,10 +25,10 @@ export default function App() {
      
      
       //<VisitConstructions/>
-     // <Home/>
+      //<Home/>
      // <CadConstructions/>
      // <CadUser/>
-     // <Login/>
+      <Login/>
      // <Routes/>
 
 
@@ -36,8 +36,9 @@ export default function App() {
     // <TestPrint/>
     // <TestCamera/>
     // <TestDefault/>
-    <TestDataBase/>
-    
+   // <TestDataBase/>
+    //<TestGaleria/>
+   // <TestComponent/>
     
     
    

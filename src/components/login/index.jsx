@@ -10,23 +10,20 @@ import {
   Modal
 } from 'react-native';
 
-import React, { useContext, useEffect, useState } from 'react';
 
+import React, { useContext, useEffect, useState } from 'react';
 
 import styles from './styles';
 import { LinearGradient } from 'expo-linear-gradient';
 
 import { AuthContext } from '../../contexts/auth';
 
-import NetInfo from '@react-native-community/netinfo';
 
 
-import firebase from '../../database/firebase';
-import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
-
-import { Camera } from 'expo-camera';
+//import NetInfo from '@react-native-community/netinfo';
 
 
+//import { Camera } from 'expo-camera';
 
 
 
@@ -34,22 +31,28 @@ import { Camera } from 'expo-camera';
 
 export default function Login({ navigation }) {
 
+  
 
+  //const [connect, setConnect] = useState(false);
 
-  const db = firebase.firestore();
-  const auth = getAuth();
-
-
-  const [connect, setConnect] = useState(false);
-
-  const [hasPermission, setHasPermission] = useState(null);
+  //const [hasPermission, setHasPermission] = useState(null);
 
    
+  
 
 
-  const { setEmail, setUser, setId, setModal, setLoad, load  } = useContext(AuthContext);
+ // const { setEmail, setUser, setId, setModal, setLoad, load  } = useContext(AuthContext);
 
-  const [modalPassword, setModalPassword] = useState(false);
+
+
+  
+ const { setUser ,  endpointPhp} = useContext(AuthContext);
+ 
+
+  const [errorLogin, setErrorLogin] = useState({
+    status: '',
+    msg: ''
+  });
 
 
 
@@ -64,14 +67,7 @@ export default function Login({ navigation }) {
 
 
 
-  const [errorValidate, setErrorValidate] = useState(
-    {
-      error: false,
-      msg: ""
-    }
-  );
-
-
+ 
 
 
   const handleInputChange = (atribute, value) => {
@@ -88,7 +84,7 @@ export default function Login({ navigation }) {
  
 
 
- 
+ /*
   useEffect(() => {
 
     getConnect();
@@ -103,12 +99,17 @@ export default function Login({ navigation }) {
 
   }, [load, navigation]);
  
- 
+ */
 
 
 
 
- 
+
+
+
+
+
+   /*
   const getConnect=()=>{
      
     NetInfo.fetch().then(state => {
@@ -120,11 +121,14 @@ export default function Login({ navigation }) {
     });
 
   }
-  
+   */
 
 
 
 
+
+
+   /*
   const getPermission = async()=>{
 
       const {status} = await Camera.requestCameraPermissionsAsync();
@@ -139,120 +143,76 @@ export default function Login({ navigation }) {
   if(hasPermission === false){
     return <Text>Acesso negado!</Text>;
 }
+ */
 
 
 
 
 
-
-  const setLogar = async () => {
-
-    await signInWithEmailAndPassword(auth, credencials.email, credencials.password)
-      .then((userCredential) => {
-
-        const user = userCredential.user;
-        getUser(user.email)
-        setEmail(user.email)  
-        console.log(user.email);
-
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-
-        setErrorValidate(
-          {
-            ...errorValidate, ['error']: true,
-            errorValidate, ['msg']: "email ou senha incorretos!"
-          }
-        )
-
-        setCredencials(
-          {
-            ...credencials, ['email']: "",
-            credencials, ['password']: "",
-          }
-        )
-
-        console.log(" erro nas credenciais de login " + errorCode + " " + errorMessage)
-      });
-
-  }
+const logar = async () => {
 
 
+  await fetch(`${endpointPhp}/?action=Login`,{
+     method:'POST',
+     headers:{
+      'Content-Type': 'application/json'
+     },
+     body: JSON.stringify({
+       credencials
+     })
+  }) 
+   .then(res=>res.json())
+   .then(
+    (result) => {
 
+  
+      if (result != "email ou senha incorretos!") {
 
+        setUser(result);
 
+        setErrorLogin({
+          ...errorLogin, ['status']: false
+        });
 
+        setCredencials({
+          ...credencials, ["email"]: "",
+             credencials, ["password"]: ""
+        });
 
-  const setForgetPassword = async () => {
-
-    await sendPasswordResetEmail(auth, credencials.email)
-
-      .then(() => {
-
-        alert('VERIFIQUE SUA CAIXA DE E-MAIL');
-
-        setModalPassword(false)
-
-        setCredencials(
-          {
-            ...credencials, ['email']: "",
-            credencials, ['password']: "",
-          }
-        )
-
-        console.log("verifique sua caixa de email")
-
-      }).catch((error) => {
-        alert('email incorreto');
-        console.log(error)
-      })
-
-  }
-
-
-
-
-
-
-
-  const getUser = async (id) => {
-
-    await db.collection(id).doc("User").get().then((snapshot) => {
-
-      if (snapshot.data() != undefined) {
-
-        setUser(snapshot.data().nomeUser)
-   
         navigation.navigate("Home");
 
-        console.log(
-            snapshot.data().nome
-        );
-
+        console.log(" email " + credencials.email + " senha " + credencials.password + " conectado com sucesso com ususario  " + result);
 
       } else {
 
-        setErrorValidate(
-          {
-            ...errorValidate, ['error']: true,
-            errorValidate, ['msg']: " erro, favor tentar mais tarde ou entre em contato com suporte "
-          }
-        )
+        setErrorLogin({
+          ...errorLogin, ['status']: true,
+             errorLogin, ['msg']: result
+        });
 
-        setCredencials(
-          {
-            ...credencials, ['email']: "",
-            credencials, ['password']: "",
-          }
-        )
 
-        console.log(" erro ao carregrar dados no firebase  " + errorCode + " " + errorMessage)
+        setCredencials({
+          ...credencials, ["email"]: "",
+             credencials, ["password"]: ""
+        });
+
+        console.log("erro " + credencials.email + " " + credencials.password + " " + result)
       }
-    })
 
-  }
+
+    });
+
+}
+
+
+
+
+
+
+
+ 
+
+
 
 
 
@@ -287,296 +247,156 @@ function cleanInput () {
 
   return (
 
-
-
-  <KeyboardAvoidingView
+    <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={styles.body}
-    > 
+    >
 
 
+      <LinearGradient
 
-    <LinearGradient
-   
         colors={
           [
-            //'rgba(10, 40, 90, 0.97)',
-            //'rgba(19, 53, 75 ,1)',
-            'rgba(75, 139, 117, 0.6)',
-            'rgba(75, 139, 117, 0.2)',
+            'rgba(251, 195, 95, 1.0)',
+            'rgba(251, 195, 95, 0.5)'
           ]
         }
         style={styles.containerMain}
-      > 
-
-     
-         <View style={styles.containerInfo}>
-            <Text style={styles.textMain}>{` Tela de Login `}</Text>
-         </View>
-
-
-
-       {
-    
-        !connect ?  
-  
-        <View style={styles.containerNoConnect}>
-           <Text style={styles.textWarningB}>Não Conectado</Text>
-           <Text style={styles.textWarningS}>Conect álguma rede de internet</Text>
-        </View>
-
-          :
-    
-         <View style={styles.containerLogo}>
-
-           <Image
-           style={styles.resizeModel}
-           source={require('../../../assets/logo_one.png')}
-           />
-
-          </View> 
-
-        }
-         
+      >
 
 
         <View style={styles.contentMain}>
 
 
-
-
-           <TextInput style={styles.input}
-             disabled={!connect}
-             placeholder=" digite o e-mail"
-             placeholderTextColor="green"
-             type="text"
-
-            onChangeText={
-              (valor) => handleInputChange('email', valor)
-            }
-            
-            value={credencials.email}
-          />
+          <View>
+            <Text style={styles.textMain}>Tela de Login</Text>
+          </View>
 
 
 
+          <View>
 
-         <TextInput style={styles.input}
-            disabled={!connect}
-            placeholder=" digite a senha"
-            placeholderTextColor="green"
-            secureTextEntry={true}
-            type="text"
-            onChangeText={
-              (valor) => handleInputChange('password', valor)
-            }
-            value={credencials.password}
-          />
+            <TextInput
+              style={styles.input}
+              placeholder=" digite seu email"
+              placeholderTextColor="#cc0000"
+              type="text"
 
+              onChangeText={
+                (valor) => handleInputChange("email", (valor))
+              }
+              value={credencials.email}
+            />
 
-          {
-
-            credencials.email == "" && credencials.password == ""
-              ?
+          </View>
 
 
-              <View>
+          <View>
+            <TextInput
+              style={styles.input}
+              secureTextEntry={true}
+              placeholder="digite sua senha"
+              placeholderTextColor="#cc0000"
+              type="text"
 
-                <Pressable
-                  style={styles.containerBtn}
-                  disabled={true}
-                >
-                  <Text style={styles.textBtn}>Login</Text>
-                </Pressable>
-
-
-              </View>
-
-              :
-
-              <View>
-
-                <Pressable
-                  style={styles.containerBtn}
-                  onPress={setLogar}
-                >
-                  <Text style={styles.textBtn}>Logar</Text>
-                </Pressable>
-
-              </View>
-
-          }
-
+              onChangeText={
+                (valor) => handleInputChange("password", (valor))
+              }
+              value={credencials.password}
+            />
+          </View>
 
 
 
           {
-            errorValidate.error === true
+
+
+            errorLogin.status === true
               ?
-
               <View>
-                <Text style={styles.textAlert}>{errorValidate.msg}</Text>
+                <Text style={styles.textAlert}>{errorLogin.msg}</Text>
               </View>
-
               :
               <View></View>
           }
 
 
-         
+
+          {
+            credencials.email === "" || credencials.password === ""
+
+              ?
+
+              <LinearGradient
+                colors={['#EB610C', '#FFA533']}
+                style={styles.containerBtn}
+              >
+
+                
+
+                <Pressable>
+                    <Text style={styles.textInfo}>Login</Text>
+                </Pressable>
 
 
-        {connect ?
 
-        <View>
-      
+              </LinearGradient>
+
+              :
+
+              <LinearGradient
+                colors={['#D4580B', '#FA6326']}
+                style={styles.containerBtn}
+              >
+
+                   <Pressable
+                    style={styles.containerBtn}
+                    onPress={() => logar()}                  >
+                    <Text style={styles.textInfo}>Logar</Text>
+                  </Pressable>
+
+              
+
+
+
+              </LinearGradient>
+
+          }
+
 
           <Text style={styles.textInfo}>
 
             {` não tem cadastro ?  `}
 
             <Text style={styles.textAlert}
-              onPress={() => navigation.navigate("CadUser")}
+              onPress={() => navigation.navigate("Insertuser")}
             >
-              {` faça o cadastro agora... `}
+              {` cadastre-se agora... `}
             </Text>
 
           </Text>
 
-
-
-          <View style={styles.openModal} >
-
-            <Text style={styles.textAlert}
-              onPress={() => setModalPassword(true)}
-            >
-              {` esqueceu a senha ? `}
-            </Text>
-
-           
-
-              <View></View>
-
-         
-          </View>
- 
-
         </View>
 
-
-            :
-          <View></View>
-          }
-  
+        <View style={{ height: 100 }}></View>
 
 
+      </LinearGradient>
 
-
-       </View>
-
-
-       
-      
-
-     </LinearGradient> 
-       
-       
-
-
-
-
-
-      <Modal
-
-
-          animationType='fade'
-          visible={modalPassword}
-        >
-
-        
-
-       <LinearGradient
-   
-        colors={
-         [
-           'rgba(10, 40, 90, 0.97)',
-           'rgba(19, 53, 75 ,1)',
-         ]
-         }
-         style={styles.modalContent}
-       > 
-
-
-
-            <TextInput style={styles.input}
-              placeholder=" informe o e-mail"
-              placeholderTextColor="#BBD441"
-              type="text"
-              onChangeText={
-                (valor) => handleInputChange('email', valor)
-              }
-              value={credencials.email}
-            />
-
-            {
-
-              credencials.email == ""
-                ?
-
-
-                <View>
-
-                  <Pressable
-                    style={styles.containerBtn}
-                    disabled={true}
-                  >
-                    <Text style={styles.textInfo}>Enviar</Text>
-                  </Pressable>
-
-                </View>
-
-
-                :
-
-
-                <View>
-
-                  <Pressable
-                    style={styles.containerBtn}
-                    onPress={() => setForgetPassword()}
-
-                  >
-                    <Text style={styles.textInfo}>Enviar</Text>
-                  </Pressable>
-
-
-                </View>
-
-            }
-
-          </LinearGradient>
-
-
-
-        </Modal> 
-
-
-
-
-
-
-
-
-  
-</KeyboardAvoidingView>
-
-
-
+    </KeyboardAvoidingView>
 
   )
 
 }
 
+
+
+
+
+
+
+
+  
 
 
 
