@@ -1,5 +1,4 @@
 import {
-  SafeAreaView,
   FlatList,
   View,
   ScrollView,
@@ -11,9 +10,7 @@ import {
 } from 'react-native';
 
 
-
 import React, { useContext, useEffect, useState } from 'react';
-
 
 import styles from './styles';
 
@@ -23,67 +20,24 @@ import { AuthContext } from '../../contexts/auth';
 
 
 
-
-import firebase from '../../database/firebase';
-
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-
-
-
-
-import { getStorage, ref, uploadBytes, getDownloadURL, listAll } from "firebase/storage";
-
-import { doc, setDoc } from "firebase/firestore";
-
-import { collection, query, where } from "firebase/firestore";
-
-import { getDoc } from "firebase/firestore";
-
-
-
-
-
 export default function Home({ navigation }) {
 
 
-  const auth = getAuth();
-
-  const db = firebase.firestore();
 
 
-  var dta = new Date();
-  var hours = dta.getHours();
-  //  var minutes = dta.getMinutes();
-  var dd = dta.getDate().toString().padStart(2, '0');
-  var mm = (dta.getMonth() + 1).toString().padStart(2, '0');
-  var yyyy = dta.getFullYear();
-
-  var today = dd + "/" + mm + "/" + yyyy;
-
-
-
-
+  var status = "pendente";
 
   const {
-    setEmail, email,
-    setModal, modal,
+    endpointPhp,
     setUser, user,
     setLoad, load,
-    setDay, day,
-    setSelectContruction,
-    selectContruction 
+    setIdConstruction,
+    idConstruction,
 
   } = useContext(AuthContext);
 
 
-
-  // const email = "ronaldofagundes@gmail.com";
-  // const user = "Ronaldo";
-
-
-  const [constructionName, setConstructionName] = useState();
-
-
+  // const [constructionName, setConstructionName] = useState();
 
 
   const [welcome, setWelcome] = useState();
@@ -122,88 +76,42 @@ export default function Home({ navigation }) {
 
 
 
-
   /*
-    const obrass = [
-      {
-        nome: 'Pirituba',
+    useEffect(() => {
   
-        img: require(`../../../assets/test.png`),
+      helloApp();
   
-        endereco: {
-          rua: 'Av pirituba',
-          numero: '123',
-          complemento: 'frente'
-        },
+      selectConstruction();
   
-        responsavel: 'Geronimo',
-        status: 'em analise'
-      },
+      navigation.addListener('focus', () => setLoad(!load))
   
   
-  
-      {
-        nome: 'Santo Amaro',
-        
-        img: require(`../../../assets/test.png`),
-  
-        endereco: {
-          rua: 'Av Nossa Sehora do Sabara',
-          numero: '54',
-          complemento: 'frente'
-        },
-  
-        responsavel: 'Pedro',
-        status: 'resolvido'
-      },
-  
-    ];
-  
-     */
-
-
+    }, [load, navigation]);
+  */
 
 
 
 
   useEffect(() => {
 
-    helloApp();
+    //listConstruction();
+    // helloApp();
 
-    selectConstruction();
+    //selectConstruction();
 
-    navigation.addListener('focus', () => setLoad(!load))
-
-
-  }, [load, navigation]);
+  }, []);
 
 
 
-
-  /*
-   useEffect(() => {
- 
-     helloApp();
- 
-     selectConstruction();
- 
-   }, []);
-  */
 
 
 
   const signOut = async () => {
 
-    await firebase.auth().signOut().then(() => {
-
-      setUser("")
-      //&
-      //  setId("") &
-      navigation.navigate("Login")
-
-    }).catch((error) => {
-      consple.log("erro na funçao signOut")
-    });
+    setUser("")
+    //&
+    //  setId("") &
+    navigation.navigate("Login")
   }
 
 
@@ -213,128 +121,29 @@ export default function Home({ navigation }) {
 
 
 
+  const listConstruction = async () => {
 
-
-
-
-
-
-
-  const selectConstruction = async () => {
-
-    db.collection(email).onSnapshot((query) => {
-
-      const list = [];
-
-      query.forEach((doc) => {
-
-        list.push({ ...doc.data(), id: doc.id });
-
+    await fetch(`${endpointPhp}/?action=list_construction`)
+      .then(res => res.json())
+      .then(
+        (result) => {
+          setConstruction(result);
+        }
+      )
+      .catch(() => {
+        console.log('Erro', 'Não foi possível carregar os dados da construtora');
       });
 
-      setConstruction(list);
-
-      console.log(list)
-
-      console.log("----------------------------------")
-
-      console.log(list[0].nome)
-
-      setConstructionName(list[0].nome);
-
-    })
-  }
-
-
-
-
-
-
-
-  function getConstruction(n, r, i) {
-
-    setDay(today);
-
-    //  setSelectContruction.name = n;
-    //  setSelectContruction.responsable = r ;
-
-
-    setSelectContruction(
-      {
-        ...selectContruction, ['name']: n,
-           selectContruction, ['responsable']: r,
-           selectContruction, ['img']: i,
-      }
-    )
-
-
-
-    navigation.navigate("VisitConstructions")
-
-    console.log(" nome " + n + " responsabel " + r + " img " + i)
 
   }
 
 
 
-  /* 
-     setSelectContruction(
-        {
-          ...selectContruction,'name':nome,
-        }
-      )
 
-      setSelectContruction(
-        {
-          ...selectContruction,'responsable':nome,
-        }
-      )
-      setSelectContruction(
-        {
-          ...selectContruction,'img':nome,
-        }
-      )  
-  */
-
-
-
-
-
-
-  /*
-  const selectConstruction2 = async () => {
- 
-  
-   await db.collection(email).doc('construcao').get().then((snapshot) => {
-  
-      if (snapshot.data() != undefined) {
- 
-   
-         //constructions.push(snapshot.data.nome,  snapshot.data.endereco );
-         //snapshot.data().nome)
- 
-     
-          console.log(
-           " email  "+email+
-           " nome  "+snapshot.data().nome+
-           " endereço  : "+snapshot.data().endereco+
-           " nº  "+snapshot.data().numero+
-           " complemento  "+snapshot.data().complemento+
-           " nº  "+snapshot.data().numero+
-           " responsavel  "+snapshot.data().responsavel
-         );
-       
- 
-         console.log(snapshot.data().guarulhos);
- 
- 
- 
-      }
-     
-   }) 
- 
- }
- */
+  const getConstruction = async (id, name, enterprise) => {
+    setIdConstruction(id);
+    console.log(" id " + id + " name " + name + " enterprise " + enterprise);
+  }
 
 
 
@@ -347,298 +156,160 @@ export default function Home({ navigation }) {
 
   return (
 
-
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={styles.body}
     >
 
 
 
+      <LinearGradient
+        colors={[
+          'rgba(255, 249, 145, 0.07)',
+          'rgba(249, 225, 175 ,0.09)',
+        ]}
+        style={styles.containerMain}
+      >
 
 
-      <ScrollView>
+        <View style={styles.containerInfo}>
+          <Text style={styles.textMain}>{` Tela Home `}</Text>
+        </View>
 
 
+        <View style={styles.containerHeader}>
 
-        <LinearGradient
-          // colors={['#66110A', '#FFB233']}
-          colors={[
-            'rgba(75, 139, 117, 0.6)',
-            'rgba(75, 139, 117, 0.2)',
-          ]}
-          style={styles.containerMain}
-        >
+          <View style={styles.userHeader}>
 
-
-
-
-
-
-
-          <View style={styles.containerInfo}>
-            <Text style={styles.textMain}>{` Tela Home `}</Text>
-          </View>
-
-
-
-
-
-
-
-
-          <View style={styles.containerHeader}>
-
-
-            <View style={styles.contentHeader}>
-
-
+            {/* 
               <View style={styles.containerLogo}>
                 <Image
                   style={styles.resizeModel}
                   source={require('../../../assets/logo_one.png')}
                 />
               </View>
+               */}
 
-              <Text style={styles.textInfo}>{` ${welcome} ${user} `}</Text>
+            {/* <Text style={styles.textInfo}>{` ${welcome} ${user} `}</Text> */}
 
-
-            </View>
-
-
-
-
-            <Pressable style={styles.styleBtnOne}
-
-              onPress={signOut}
-            >
-
-              <Text style={styles.textAlert}>Logout</Text>
-
-            </Pressable>
-
+            <Text style={styles.textInfo}>user</Text>
 
           </View>
 
 
+          <LinearGradient
+            colors={['#B1B2AB', '#7D7F72']}
+            style={styles.styleBtnOne}
+          >
+            <Pressable onPress={signOut}>
+              <Text style={styles.textAlert}>Logout</Text>
+            </Pressable>
+          </LinearGradient>
 
+        </View>
 
+        {
+          construction == "" ?
 
-          {
-            constructionName == undefined
-              ?
+            <View style={styles.containertEmpty}>
+              <Text>Nenhuma Construtora cadastrada</Text>
 
+              <LinearGradient
+                colors={['#B1B2AB', '#7D7F72']}
+                style={styles.styleBtnOne}
+              >
+                <Pressable onPress={signOut}>
+                  <Text style={styles.textAlert}>Cadastre Agora!</Text>
+                </Pressable>
+              </LinearGradient>
+            </View>
+            :
 
+            <View >
+              <ScrollView>
+                <FlatList
+                  // showsVerticalScrollIndicator={false}
 
-              <View style={styles.containertEmpty}>
+                  data={construction}
 
+                  renderItem={({ item }) =>
 
-                <View style={styles.contentEmpty}>
+                    <View style={styles.contentList}>
 
-                  <Text style={styles.textAlert}>{`${user} Bem vindo ! cadastre sua 1ª obra `}</Text>
-                  <View>
-                    <Pressable style={styles.styleBtnTwo}
+                      <View style={styles.cardList}>
 
-                      onPress={() => navigation.navigate("CadConstructions")}
-                    >
-                      <Text style={styles.textAlert}>Cadastrar Obra</Text>
+                        <View >
+                          <Image
+                            style={styles.resizeModel}
+                            source={{ uri: item.img_cts }}
+                          />
+                        </View>
 
-                    </Pressable>
-                  </View>
+                        <View style={styles.dataList}>
 
-                </View>
+                          <View style={styles.contentData}>
+                            <Text style={styles.textAlert}>{`Id : `}</Text>
+                            <Text style={styles.textAlert}>{item.id_cts}</Text>
+                          </View>
 
-              </View>
+                          <View style={styles.contentData}>
+                            <Text style={styles.textAlert}>{`Nome : `}</Text>
+                            <Text style={styles.textAlert}>{item.name_cts}</Text>
+                          </View>
 
+                          <View style={styles.contentData}>
+                            <Text style={styles.textAlert}>{`Empreendimento: `}</Text>
+                            <Text style={styles.textAlert}>{item.enterprise_cts}</Text>
+                          </View>
 
+                          <View style={styles.contentData}>
+                            <Text style={styles.textAlert}>{`Endereço: `}</Text>
+                            <Text style={styles.textAlert}>{item.address_cts}</Text>
+                          </View>
 
-              :
+                        </View>
 
+                        <View>
 
+                          {
+                            status === 'pendente'
+                              ?
 
-              <View style={styles.containerList}>
+                              <Pressable style={styles.styleBtnTwo}
 
+                                onPress={() => getConstruction(item.id_cts, item.name_cts, item.enterprise_cts)}
+                              >
+                                <Text style={styles.textAlert}>Pendente</Text>
 
+                              </Pressable>
 
-                <View style={styles.contentList}>
+                              :
 
+                              <Pressable style={styles.styleBtnOne}
 
-                  <FlatList
+                                onPress={() => getConstruction(item.id_cts, item.name_cts, item.enterprise_cts)}
+                              >
+                                <Text style={styles.textAlert}>Inspecionar Obra</Text>
 
-                    // showsVerticalScrollIndicator={false}
+                              </Pressable>
+                          }
 
-                    data={construction}
-
-                    renderItem={({ item }) =>
-
-                    <View >
-
-                        {
-
-                          item.nome === undefined
-
-                            ?
-
-                            <View></View>
-
-                            :
-
-
-                            <View style={styles.cardList}>
-
-
-
-                              {
-                                item.img === undefined
-                                  ?
-                                  <View></View>
-                                  :
-
-                                  <View style={styles.cardImg}>
-                                    {/* 
-                                    <Image source={{ uri: `data:image/png;base64,${item.img}` }}
-                                     style={styles.resizeModel} 
-                                     />
-                                  */}
-                                    <Image source={{ uri: item.img }}
-                                      style={styles.resizeModel}
-                                    />
-                                  </View>
-                              }
-
-
-
-                              {
-                                item.nome === undefined
-                                  ?
-                                  <View></View>
-                                  :
-                                  <Text style={styles.textList}>
-                                    {`Nome :  ${item.nome}`}
-                                  </Text>
-                              }
-
-
-
-
-
-                              {
-                                item.responsavel === undefined
-                                  ?
-                                  <View></View>
-                                  :
-                                  <Text style={styles.textList}>
-                                    {`Responsavel :  ${item.responsavel}`}
-                                  </Text>
-                              }
-
-
-
-
-                              {
-                                item.endereco === undefined
-                                  ?
-                                  <View></View>
-                                  :
-                                  <Text style={styles.textList}>
-                                    {`Endereço :  ${item.endereco}`}
-                                  </Text>
-                              }
-
-
-
-
-
-                              {
-                                item.numero === undefined
-                                  ?
-                                  <View></View>
-                                  :
-                                  <Text style={styles.textList}>
-                                    {`Nº :  ${item.numero}`}
-                                  </Text>
-                              }
-
-
-
-
-
-
-                              {
-                                item.complemento === undefined
-                                  ?
-                                  <View></View>
-                                  :
-                                  <Text style={styles.textList}>
-                                    {`Complemeto :  ${item.complemento}`}
-                                  </Text>
-                              }
-
-
-                              <View>
-                                <Pressable style={styles.styleBtnTwo}
-
-                                  onPress={() => getConstruction(item.nome , item.responsavel, item.img)}
-                                >
-                                  <Text style={styles.textAlert}>Inspecionar Obra</Text>
-
-                                </Pressable>
-                              </View>
-
-                            </View>
-
-                        }
+                        </View>
 
                       </View>
 
-                    }
+                    </View>
+                  }
+                >
+                </FlatList>
 
-                  >
+              </ScrollView>
 
-                  </FlatList>
+            </View>
+        }
 
-
-                  <View>
-                    <Pressable style={styles.styleBtnTwo}
-
-                      onPress={() => navigation.navigate("CadConstructions")}
-                    >
-                      <Text style={styles.textAlert}>Cadastrar Obra</Text>
-
-                    </Pressable>
-                  </View>
-
-
-
-
-                </View>
-
-
-              </View>
-
-
-          }
-
-
-
-
-
-        </LinearGradient>
-
-
-
-      </ScrollView>
-
-
-
+      </LinearGradient>
       <View style={{ height: 10 }}></View>
-
-
-
     </KeyboardAvoidingView>
-
-
-
   );
 }
 

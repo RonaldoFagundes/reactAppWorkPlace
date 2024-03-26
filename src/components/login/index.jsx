@@ -1,12 +1,11 @@
 
-import {  
-  View,  
+import {
+  View,
   Text,
-  TextInput,  
+  TextInput,
   Pressable,
   KeyboardAvoidingView,
   Platform,
-  Image,
   Modal
 } from 'react-native';
 
@@ -22,32 +21,29 @@ import { AuthContext } from '../../contexts/auth';
 
 //import NetInfo from '@react-native-community/netinfo';
 
-
 //import { Camera } from 'expo-camera';
-
-
 
 
 
 export default function Login({ navigation }) {
 
-  
-
   //const [connect, setConnect] = useState(false);
 
   //const [hasPermission, setHasPermission] = useState(null);
 
-   
-  
 
-
- // const { setEmail, setUser, setId, setModal, setLoad, load  } = useContext(AuthContext);
+  // const { setEmail, setUser, setId, setModal, setLoad, load  } = useContext(AuthContext);
 
 
 
-  
- const { setUser ,  endpointPhp} = useContext(AuthContext);
- 
+
+  const { endpointPhp, setUser, user } = useContext(AuthContext);
+
+  // const endpointPhp = 'http://127.0.0.1:4000/github/php_api_workPlace'; 
+
+  //const endpointPhp = 'http://localhost:3322'; 
+
+
 
   const [errorLogin, setErrorLogin] = useState({
     status: '',
@@ -56,178 +52,160 @@ export default function Login({ navigation }) {
 
 
 
-
-  const [credencials, setCredencials] = useState(
-    {
-      email: "",
-      password: ""
-    }
-  );
-
-
-
-
- 
-
-
   const handleInputChange = (atribute, value) => {
-    setCredencials(
-      {
-        ...credencials, [atribute]: value
-      }
-    )
+    setLogin({
+      ...login, [atribute]: value
+    })
+  }
+
+
+
+  const [login, setLogin] = useState({
+    email: '',
+    password: '',
+  });
+
+
+
+  const [modalCredencials, setModalCredencials] = useState(false);
+
+
+  const [resetPassword, setResetPassword] = useState(false);
+
+
+
+  const [datauser, setDatauser] = useState({
+    name: '',
+    email: '',
+    password: ''
+  });
+
+
+
+  const handleInputChangePassword = (atribute, value) => {
+
+    setDatauser({
+      ...datauser, [atribute]: value
+    })
   }
 
 
 
 
+  /*
+   useEffect(() => {
  
-
-
- /*
-  useEffect(() => {
-
-    getConnect();
-
-    getPermission();
-
-    cleanInput();
-
-    navigation.addListener('focus', () => setLoad(!load))
-
-
-
-  }, [load, navigation]);
+     getConnect();
  
- */
-
-
-
-
-
-
-
-
-
-   /*
-  const getConnect=()=>{
-     
-    NetInfo.fetch().then(state => {
-
-      setConnect(state.isConnected);
-      //console.log('Connection type', state.type);    
-
-      console.log(connect);
-    });
-
-  }
-   */
-
-
-
-
-
-
-   /*
-  const getPermission = async()=>{
-
-      const {status} = await Camera.requestCameraPermissionsAsync();
-       setHasPermission(status === 'granted');
-  }
-
-  if(hasPermission === null){
-      return <View/>;
-  }
-
-
-  if(hasPermission === false){
-    return <Text>Acesso negado!</Text>;
-}
- */
-
-
-
-
-
-const logar = async () => {
-
-
-  await fetch(`${endpointPhp}/?action=Login`,{
-     method:'POST',
-     headers:{
-      'Content-Type': 'application/json'
-     },
-     body: JSON.stringify({
-       credencials
-     })
-  }) 
-   .then(res=>res.json())
-   .then(
-    (result) => {
-
+     getPermission();
+ 
+     cleanInput();
+ 
+     navigation.addListener('focus', () => setLoad(!load))
+ 
+ 
+ 
+   }, [load, navigation]);
   
-      if (result != "email ou senha incorretos!") {
-
-        setUser(result);
-
-        setErrorLogin({
-          ...errorLogin, ['status']: false
-        });
-
-        setCredencials({
-          ...credencials, ["email"]: "",
-             credencials, ["password"]: ""
-        });
-
-        navigation.navigate("Home");
-
-        console.log(" email " + credencials.email + " senha " + credencials.password + " conectado com sucesso com ususario  " + result);
-
-      } else {
-
-        setErrorLogin({
-          ...errorLogin, ['status']: true,
-             errorLogin, ['msg']: result
-        });
+  */
 
 
-        setCredencials({
-          ...credencials, ["email"]: "",
-             credencials, ["password"]: ""
-        });
-
-        console.log("erro " + credencials.email + " " + credencials.password + " " + result)
-      }
 
 
-    });
 
+
+
+
+
+  /*
+ const getConnect=()=>{
+    
+   NetInfo.fetch().then(state => {
+
+     setConnect(state.isConnected);
+     //console.log('Connection type', state.type);    
+
+     console.log(connect);
+   });
+
+ }
+  */
+
+
+
+
+
+
+  /*
+ const getPermission = async()=>{
+
+     const {status} = await Camera.requestCameraPermissionsAsync();
+      setHasPermission(status === 'granted');
+ }
+
+ if(hasPermission === null){
+     return <View/>;
+ }
+
+
+ if(hasPermission === false){
+   return <Text>Acesso negado!</Text>;
 }
+*/
 
 
 
+  /*
+  const testLogar = async () => {
+  
+  var responseClone; // 1
+  fetch(`${endpointPhp}/?action=login`)
+  .then(function (response) {
+      responseClone = response.clone(); // 2
+      return response.json();
+  })
+  .then(function (data) {
+      // Do something with data
+  }, function (rejectionReason) { // 3
+      console.log('Error parsing JSON from response:', rejectionReason, responseClone); // 4
+      responseClone.text() // 5
+      .then(function (bodyText) {
+          console.log('Received the following instead of valid JSON:', bodyText); // 6
+      });
+  });
+  }
+  */
 
 
 
+  const newPassword = async () => {
 
- 
+    await fetch(`${endpointPhp}/?action=reset_password`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
 
+      body: JSON.stringify({
+        datauser
+      })
 
+    })
+      .then((res) => res.json())
 
+      .then(
+        (result) => {
 
+          if (result === 'senha cadastrada com sucesso!') {
 
+            setModalCredencials(false) && setResetPassword(false)
 
+          } else {
 
+            console.log(result);
+          }
 
-
-function cleanInput () {
-
-    setCredencials(
-      {
-        ...credencials, ['email']: "",
-           credencials, ['password']: "",
-      }
-    )
+        });
   }
 
 
@@ -240,8 +218,73 @@ function cleanInput () {
 
 
 
+  const logar = async () => {
 
-  
+    await fetch(`${endpointPhp}/?action=login`, {
+
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        //'Accept': 'application/json'
+      },
+      body: JSON.stringify({
+        login
+      })
+    })
+      .then(res => res.json())
+      .then(
+        (result) => {
+
+          if (result != "email ou senha incorretos!") {
+
+            setUser(result);
+
+            setErrorLogin({
+              ...errorLogin, ['status']: false
+            });
+
+            setLogin({
+              ...login, ["email"]: "",
+              login, ["password"]: ""
+            });
+
+            //navigation.navigate("Home");
+
+            console.log(
+              " email " +
+              login.email +
+              " senha " +
+              login.password +
+              " conectado com sucesso com ususario  " +
+              result
+            );
+
+
+          } else {
+
+            setErrorLogin({
+              ...errorLogin, ['status']: true,
+              errorLogin, ['msg']: result
+            });
+
+            setLogin({
+              ...login, ["email"]: "",
+              login, ["password"]: ""
+            });
+
+            console.log("erro " + login.email + " " + login.password + " " + result)
+          }
+        });
+
+  }
+
+
+
+
+
+
+
+
 
 
 
@@ -249,33 +292,25 @@ function cleanInput () {
 
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={styles.body}
     >
 
-
       <LinearGradient
-
         colors={
           [
-            'rgba(251, 195, 95, 1.0)',
-            'rgba(251, 195, 95, 0.5)'
+            'rgba(255, 249, 145, 0.07)',
+            'rgba(249, 225, 175 ,0.09)',
           ]
         }
         style={styles.containerMain}
       >
 
+        <View style={styles.containerHeader}>
+          <Text style={styles.textMain}>{` Tela de Login `}</Text>
+        </View>
 
         <View style={styles.contentMain}>
 
-
           <View>
-            <Text style={styles.textMain}>Tela de Login</Text>
-          </View>
-
-
-
-          <View>
-
             <TextInput
               style={styles.input}
               placeholder=" digite seu email"
@@ -285,11 +320,9 @@ function cleanInput () {
               onChangeText={
                 (valor) => handleInputChange("email", (valor))
               }
-              value={credencials.email}
+              value={login.email}
             />
-
           </View>
-
 
           <View>
             <TextInput
@@ -298,19 +331,14 @@ function cleanInput () {
               placeholder="digite sua senha"
               placeholderTextColor="#cc0000"
               type="text"
-
               onChangeText={
                 (valor) => handleInputChange("password", (valor))
               }
-              value={credencials.password}
+              value={login.password}
             />
           </View>
 
-
-
           {
-
-
             errorLogin.status === true
               ?
               <View>
@@ -320,73 +348,141 @@ function cleanInput () {
               <View></View>
           }
 
-
-
           {
-            credencials.email === "" || credencials.password === ""
-
+            login.email === "" || login.password === ""
               ?
 
               <LinearGradient
-                colors={['#EB610C', '#FFA533']}
-                style={styles.containerBtn}
+                colors={['#B1B2AB', '#7D7F72']}
+                style={styles.styleBtnOne}
               >
-
-                
-
                 <Pressable>
-                    <Text style={styles.textInfo}>Login</Text>
+                  <Text style={styles.textBtn}>Preencha seus dados!</Text>
                 </Pressable>
 
-
-
               </LinearGradient>
-
               :
-
               <LinearGradient
-                colors={['#D4580B', '#FA6326']}
-                style={styles.containerBtn}
+                colors={['#7D7F72', '#B1B2AB']}
+                style={styles.styleBtnOne}
               >
-
-                   <Pressable
-                    style={styles.containerBtn}
-                    onPress={() => logar()}                  >
-                    <Text style={styles.textInfo}>Logar</Text>
-                  </Pressable>
-
-              
-
-
-
+                <Pressable onPress={() => logar()} >
+                  <Text style={styles.textBtn}>Logar</Text>
+                </Pressable>
               </LinearGradient>
-
           }
 
 
-          <Text style={styles.textInfo}>
+          <View style={styles.contentAction}>
+            <Text style={styles.textInfo}>
+              {` não tem cadastro ?  `}
 
-            {` não tem cadastro ?  `}
-
-            <Text style={styles.textAlert}
-              onPress={() => navigation.navigate("Insertuser")}
-            >
-              {` cadastre-se agora... `}
+              <Text style={styles.textAlert}
+                onPress={() => navigation.navigate("Insertuser")}
+              >
+                {` cadastre-se agora... `}
+              </Text>
             </Text>
+          </View>
 
-          </Text>
+
+
+          <View style={styles.contentAction}>
+            <Text style={styles.textInfo}>
+              {` esqueceu a senha ?  `}
+              <Text style={styles.textAlert}
+                onPress={() => setModalCredencials(true)}
+              >
+                {` click aqui !!! `}
+              </Text>
+            </Text>
+          </View>
+
+
+
+          <Modal
+            animationType='fade'
+            visible={modalCredencials}
+          >
+
+            <LinearGradient
+              colors={
+                [
+                  'rgba(255, 249, 145, 0.07)',
+                  'rgba(249, 225, 175 ,0.09)',
+                ]
+              }
+              style={styles.modalContent}               >
+
+              <View style={styles.contentMain}>
+                {
+                  !resetPassword
+                    ?
+                    <View style={styles.contentModal}>
+                      <TextInput
+                        style={styles.input}
+                        placeholder=" digite seu nome"
+                        placeholderTextColor="#cc0000"
+                        type="text"
+                        onChangeText={
+                          (valor) => handleInputChangePassword("name", (valor))
+                        }
+                        value={datauser.name}
+                      />
+
+                      <TextInput
+                        style={styles.input}
+                        placeholder=" digite seu email"
+                        placeholderTextColor="#cc0000"
+                        type="text"
+                        onChangeText={
+                          (valor) => handleInputChangePassword("email", (valor))
+                        }
+                        value={datauser.email}
+                      />
+
+                      <Pressable style={styles.styleBtn}
+                        onPress={() => setResetPassword(true)}
+                      >
+                        <Text style={styles.textBtn} >Ok</Text>
+                      </Pressable>
+                    </View>
+                    :
+                    <View style={styles.contentModal}>
+                      <TextInput
+                        style={styles.input}
+                        secureTextEntry={true}
+                        placeholder="cadastre nova senha"
+                        placeholderTextColor="#cc0000"
+                        type="text"
+                        onChangeText={
+                          (valor) => handleInputChangePassword("password", (valor))
+                        }
+                        value={datauser.password}
+                      />
+
+                      <Pressable style={styles.styleBtn}
+                        onPress={() => newPassword()}
+                      >
+                        <Text style={styles.textBtn} >Confirmar</Text>
+                      </Pressable>
+                    </View>
+                }
+
+              </View>
+
+            </LinearGradient>
+
+          </Modal>
 
         </View>
 
         <View style={{ height: 100 }}></View>
 
-
       </LinearGradient>
 
     </KeyboardAvoidingView>
-
   )
-
 }
 
 
@@ -396,7 +492,7 @@ function cleanInput () {
 
 
 
-  
+
 
 
 

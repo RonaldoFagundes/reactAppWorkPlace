@@ -6,138 +6,129 @@ export default StyleSheet.create({
 
 
 
-  body: {
-    flex: 1
-  },
-
-
-
   containerMain: {
-    height: '100%',
-    with: '100%',
     alignItems: 'center',
+    flexDirection: 'column',
+    height: '100%',
+    justifyContent: 'center',
+    width: 'auto',
   },
 
-
- 
-
+  containerHeader: {
+    alignItems: 'center',
+    height: '6%',
+    marginTop: 20,
+    width: '90%',
+  },
 
   contentMain: {
     alignItems: 'center',
-    //backgroundColor: 'rgba(25, 126, 162, 0.3)',
-    backgroundColor: 'rgba(185, 245, 133, 0.4)',
-    borderRadius: 10,
-    height: "auto",
-    padding: 20,
-    with: "auto"
-  },
-
-
-  containerInfo: {
-     backgroundColor: 'rgba(25, 126, 162, 0.6)',
-     borderRadius: 10,
-     alignItems:'center',
-     height: 'auto',
-     width:'auto',  
-     marginTop:30,  
-     marginBottom: 10,
-     padding: 10,
-   },
-
- 
-
-
-  containerLogo:{
-    width:200,
-    height:140,
-    marginBottom: 50,       
- },
-
-
-
- resizeModel:{
-  resizeMode:'cover',
-  height:'100%',
-  width:'100%', 
-  borderRadius: 10,
-  },
-
-  
-  modalContent: {
-    alignItems: 'center',
-    //backgroundColor: 'black',
-    flex: 1,
+    borderRadius: 14,
     flexDirection: 'column',
-    justifyContent: 'center',
-    textAlign: 'center',
+    height: 'auto',
+    marginTop: 20,
+    padding: 10,
+    width: "auto",
+    backgroundColor: 'rgba(215, 202, 165, 0.22)',
   },
-
-
 
   input: {
-    width: 300,
+    width: 200,
     height: 50,
-    marginTop: 10,
-    padding: 10,
+    marginBottom: 16,
+    padding: 6,
     borderBottomWidth: 1,
-    borderBottomColor: "#6BA995",
-    marginLeft: 'auto',
-    marginRight: 'auto',
-   // color: "#0BF5AB"
-   color: 'green',
+    borderBottomColor: "#cc0000",
+    borderRadius: 10,
+    color: "black",
+    backgroundColor: 'white',
+    fontSize: 12
   },
 
 
-
-  containerBtn: {
-    alignItems: 'center',
-    backgroundColor: 'rgba(14, 85, 85, 0.8)',
-   // backgroundColor: 'rgba(6, 12, 127, 0.8)',
-    width: 140,
+  styleBtnOne: {
+    width: 'auto',
     height: 40,
     justifyContent: 'center',
     borderRadius: 10,
-    marginTop: 30,
-    marginBottom: 30,
+    marginTop: 5,
+    alignItems: 'center',
+    padding: 10
   },
 
+  styleBtnTwo: {
+    width: 100,
+    height: 40,
+    justifyContent: 'center',
+    borderRadius: 10,
+    marginTop: 5,
+    alignItems: 'center',
+  },
 
+  contentCad: {
+    alignItems: 'center',
+    borderColor: 'black',
+    borderWidth: 1,
+    borderRadius: 5,
+    height: 'auto',
+    marginTop: 40,
+    padding: 10,
+    width: 'auto',
+  },
 
+  contentPassword: {
+    alignItems: 'center',
+    borderColor: 'black',
+    borderWidth: 1,
+    borderRadius: 5,
+    height: 'auto',
+    marginTop: 20,
+    padding: 10,
+    width: 'auto',
+  },
 
-  
+  modalContent: {
+    alignItems: 'center',
+    borderRadius: 14,
+    flexDirection: 'column',
+    height: '50%',
+    justifyContent: 'center',
+    marginTop: 20,
+    width: "auto",
+  },
+
 
   textMain: {
-    color: 'white',
-   // color: '#3AF1A3',
+    color: '#5D3806',
     fontWeight: 'bold',
-    fontSize: 28
+    fontSize: 16
   },
-
 
   textInfo: {
-    color: 'green',
-    //color: '#3AF1A3',
+    color: '#663300',
     fontWeight: 'bold',
-    fontSize: 14,
-  },
-
-
-  textBtn: {
-    color: 'white',
-    //color: '#3AF1A3',
-    fontWeight: 'bold',
-    fontSize: 14,
+    fontSize: 12,
   },
 
 
   textAlert: {
-   // color: '#BBD441',
-    color: 'brown',
-    fontSize: 14
+    color: '#F00000',
+    fontSize: 12
   },
 
 
+  textBtn: {
+    color: '#F5F6F1',
+    fontSize: 12
+  },
 
 
 });
+
+
+
+
+
+
+
 

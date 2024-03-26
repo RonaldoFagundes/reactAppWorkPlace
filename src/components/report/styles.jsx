@@ -3,48 +3,49 @@ import { StyleSheet } from 'react-native';
 
 
 
-
 export default StyleSheet.create({
 
-
    containerMain: {
-      alignItems: 'center',
-      flexDirection: 'column',
       height: '100%',
-      justifyContent: 'center',
-      width: 'auto',
+      width: '100%',
+      flexDirection: 'column',
+      alignItems: 'center',
    },
 
 
    containerInfo: {
       borderRadius: 10,
-      marginBottom: 15,
+      marginBottom: 5,
       padding: 10,
       alignItems: 'center',
-      height: 'auto',
+      height: '26%',
       width: '90%',
    },
+
 
 
    containerHeader: {
       height: 'auto',
-      width: '90%',
+      width: '100%',
       flexDirection: 'row',
       justifyContent: 'space-between',
-      padding: 12,
-      marginBottom: 15,
-      borderRadius: 10,
-      backgroundColor: 'rgba(215, 202, 165, 0.22)',
+      padding: 10,
+      marginBottom: 10,
    },
 
-   userHeader: {
+
+
+
+   logoHeader: {
       height: 'auto',
       width: "auto",
-      padding: 10,
-      borderRadius: 10,
-      backgroundColor: 'transparent',
-      textAlign: 'center'
+      flexDirection: 'column',
+      justifyContent: 'space-between',
+      padding: 15,
+      backgroundColor: 'black',
    },
+
+
 
    contentList: {
       height: '100%',
@@ -57,6 +58,7 @@ export default StyleSheet.create({
    },
 
 
+
    cardList: {
       width: "auto",
       height: "auto",
@@ -64,8 +66,10 @@ export default StyleSheet.create({
       padding: 40,
       marginTop: 10,
       marginBottom: 10,
-      borderRadius: 10,
+      borderRadius: 10
    },
+
+
 
 
    resizeModel: {
@@ -74,6 +78,8 @@ export default StyleSheet.create({
       width: 140,
       borderRadius: 10,
    },
+
+
 
 
    dataList: {
@@ -87,6 +93,11 @@ export default StyleSheet.create({
 
 
 
+
+
+
+
+
    containertEmpty: {
       alignItems: 'center',
       borderRadius: 14,
@@ -96,6 +107,7 @@ export default StyleSheet.create({
       padding: 10,
       width: "auto",
       backgroundColor: 'rgba(215, 202, 165, 0.22)',
+
    },
 
 
@@ -134,6 +146,9 @@ export default StyleSheet.create({
    },
 
 
+
+
+
    textInfo: {
       color: '#4E1313',
       fontWeight: 'bold',
@@ -156,15 +171,19 @@ export default StyleSheet.create({
    },
 
 
+
    styleBtnOne: {
-      width: 'auto',
-      height: 'auto',
+      width: 80,
+      height: 30,
       justifyContent: 'center',
       borderRadius: 10,
       marginTop: 15,
       alignItems: 'center',
+      backgroundColor: 'green',
       padding: 10
    },
+
+
 
 
    styleBtnTwo: {
@@ -177,6 +196,7 @@ export default StyleSheet.create({
       backgroundColor: 'red',
       padding: 10
    },
+
 
 
 });

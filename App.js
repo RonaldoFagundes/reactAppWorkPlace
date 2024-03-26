@@ -2,14 +2,18 @@ import {NavigationContainer} from '@react-navigation/native';
 
 import AuthProvider from './src/contexts/auth';
 
-import Routes from './src/routes';
+//import Routes from './src/routes';
+
+
 
 
 import VisitConstructions  from './src/components/visitConstructions';
 import Home from './src/components/home';
-import CadConstructions from './src/components/cadConstructions';
+
+import CadConstruction from './src/components/cadConstruction';
 import Login from './src/components/login';
 import CadUser from './src/components/cadUser';
+import Report from './src/components/report';
 
 import TestPrint from './src/components/testPrint';
 import TestCamera from './src/components/testCamera'; 
@@ -18,20 +22,31 @@ import TestDataBase from './src/components/testDataBase';
 import TestGaleria from './src/components/testGaleria';
 import TestComponent from './src/components/testComponent';
 
+
+
+import CadReport from './src/components/cadReport' ;
+
+
+
 export default function App() {
 
 
   return (
-     
-     
-      //<VisitConstructions/>
-      //<Home/>
+    
+ 
+     <AuthProvider>
+         <CadReport/>
+       </AuthProvider>
+   
+      
+     //<Home/>
      // <CadConstructions/>
      // <CadUser/>
-      <Login/>
+      //<Login/>
      // <Routes/>
+     //<CadReport/>
 
-
+     // <Report/>
          
     // <TestPrint/>
     // <TestCamera/>

@@ -6,7 +6,7 @@ const Stack = createNativeStackNavigator();
 import Login from './components/login';
 import CadUser from './components/cadUser';
 import Home from './components/home';
-import CadConstructions from './components/cadConstructions';
+import CadConstruction from './components/cadConstruction';
 import VisitConstructions from './components/visitConstructions';
 
 
@@ -40,8 +40,8 @@ export default function Routes() {
  
 
          <Stack.Screen
-            name='CadConstructions'
-            component={CadConstructions}
+            name='CadConstruction'
+            component={CadConstruction}
           />
 
 
