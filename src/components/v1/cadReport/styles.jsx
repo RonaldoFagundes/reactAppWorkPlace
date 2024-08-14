@@ -4,111 +4,112 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
 
-    /*
-    containerLoading: {
-        flex: 1,
-        backgroundColor: '#F5F5F5',
-        paddingBottom: 200,
-        justifyContent: 'center',
-        alignItems: 'center'
-     },
-      */
 
     containerMain: {
         flexDirection: 'column',
+        height: '100%',    
+        width: 'auto',  
+        paddingTop:30,       
+     },
+     /*
+    containerMain: {
         height: '100%',
-        width: 'auto',
-        paddingTop: 30,
+        width: '100%',
+        flexDirection: 'column',
+        alignItems: 'center',
+        padding: 10
     },
+    */
 
     containerInfo: {
-        borderRadius: 10,
+        borderRadius: 10,   
         padding: 10,
         alignItems: 'center',
         height: 'auto',
         width: 'auto',
-    },
+     },
 
-    containerHeader: {
+     containerHeader: {
         height: 'auto',
         width: 'auto',
         flexDirection: 'row',
         justifyContent: 'space-between',
-        padding: 12,
+        padding: 12,    
         borderRadius: 10,
         backgroundColor: 'rgba(215, 202, 165, 0.22)',
-    },
+     },
 
-    contentHeader: {
+     userHeader: {
         height: 'auto',
         width: "auto",
         padding: 10,
         borderRadius: 10,
         backgroundColor: 'transparent',
         textAlign: 'center'
-    },
+     },
 
-    imgLogo: {
-        height: 60,
-        width: 60,
+     imgLogo: {     
+        height: 40,
+        width: 40,
         borderRadius: 10,
-        marginRight: 10,
-    },
+        marginRight:10          
+     },
+
+
+
+
 
     contentMain: {
         alignItems: 'center',
         borderRadius: 14,
         flexDirection: 'column',
         height: 'auto',
-        marginTop: 10,
-        width: '100%',
+        marginTop: 100,
+        width: '98%',
         backgroundColor: 'rgba(215, 202, 165, 0.22)',
     },
 
-    boxWith: {
-        height: 'auto',
-        width: '30%',
-    },
 
-    boxWithOut: {
-        alignItems: 'center',
-        flexDirection: 'column',
+
+
+    containerRel: {
         height: 'auto',
-        marginBottom: 20,
         width: '80%',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 10,
     },
 
-    containerImg: {
-        alignItems: 'center',
-        flexDirection: 'column',
-        height: 'auto',
-        marginBottom: 20,
-        width: '100%',
-    },
+
+
 
     contentImg: {
         height: 'auto',
-        with: '100%',
+        with: 'auto',
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-around',
+        justifyContent: 'space-between',
         borderRadius: 10,
         flexWrap: 'wrap',
         marginTop: 10,
-        marginBottom: 30,
+        marginBottom: 30
     },
 
-    boxImg: {
-        backgroundColor: 'transparent',
-        marginBottom: 10,
-        marginRight: 10
-    },
+
 
     resizeModel: {
-        height: 100,
-        width: 100,
+        height: 140,
+        width: 140,
         borderRadius: 10,
+        marginRight: 10,
+        marginBottom: 10
     },
+
+
+
+
+
 
     cardRel: {
         flexDirection: 'column',
@@ -121,26 +122,53 @@ export default StyleSheet.create({
         marginBottom: 20,
     },
 
+
     input: {
         borderWidth: 1,
-        width: 300,
+        width: '80%',
         height: 'auto',
         color: "black",
-        backgroundColor: 'white',
+        backgroundColor: 'transparent',
         fontSize: 12,
         fontWeight: 'bold',
         borderRadius: 10,
         marginTop: 10,
         marginBottom: 10,
         padding: 10,
-        verticalAlign: 'top',
+       // textAlignVertical: 'top',
+        verticalAlign:'top',
     },
+
+
+    modalContent: {
+        height: '100%',
+        width: 'auto',
+        backgroundColor: 'rgba(215, 202, 165, 0.22)',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+
+
+
+
+    containerData: {
+        height: 'auto',
+        width: '80%',
+        alignItems: 'center',
+        backgroundColor: 'transparent',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        borderRadius: 10,
+        padding: 20,
+    },
+
 
     textMain: {
         color: '#5D3806',
         fontWeight: 'bold',
-        fontSize: 16,       
-    },
+        fontSize: 16
+      },
 
     textData: {
         color: 'black',
@@ -150,39 +178,78 @@ export default StyleSheet.create({
         marginBottom: 15,
     },
 
+
     textBtn: {
         color: 'black',
         fontWeight: 'bold',
         fontSize: 14,
     },
 
+
+
     textAlert: {
         color: '#FFF',
         fontWeight: 'bold',
-        fontSize: 12,
+        fontSize: 14,
     },
 
-    textInfo: {
-        color: '#FF5733',
-        fontWeight: 'bold',
-        fontSize: 12,
-    },
 
-    styleBtnOne: {
-        width: "auto",
-        height: 40,
-        justifyContent: 'center',
-        borderRadius: 10,
-        marginTop: 15,
+
+    modalCameraStyle: {
+        flexDirection: 'column',
         alignItems: 'center',
-        padding: 10,
-        backgroundColor: 'gray',
-        marginRight: 10
+
+        height: '100%',
+        width: 'auto',
+        backgroundColor: 'black',
     },
 
-    styleBtnImg: {
+
+
+    containnerCamera: {
+        flexDirection: 'column',
+        alignItems: 'center',
+        height: 'auto',
+        width: 'auto',
+    },
+
+
+
+    camera: {
+        height: 400,
+        width: 400,
+        marginTop: 60,
+        marginBottom: '40%',
+        backgroundColor: 'gray'
+    },
+
+
+    containerBtnCamera: {
+        flexDirection: 'column',
+        height: 'auto',
+        width: 'auro',
+        padding: 10
+    },
+
+
+
+
+    styleBtnFlip: {
+        position: 'absolute',
+        alignItems: 'center',
+        backgroundColor: 'rgba(6, 12, 127, 0.8)',
         width: 'auto',
         height: 'auto',
+        marginLeft: 174,
+        marginTop: 470,
+        borderRadius: 10,
+        padding: 10
+    },
+
+
+    styleBtnOne: {
+        width: 'auto',
+        height: 40,
         justifyContent: 'center',
         borderRadius: 10,
         marginTop: 10,
@@ -191,67 +258,40 @@ export default StyleSheet.create({
         padding: 10
     },
 
-    containerBtn: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
+
+
+
+    styleBtnCamera: {
+        width: 'auto',
         height: 'auto',
-        width: '80%',
+        justifyContent: 'center',
+        borderRadius: 10,
+        marginTop: 5,
+        marginBottom: 36,
+        alignItems: 'center',
         padding: 10,
+        backgroundColor: 'rgba(6, 12, 127, 0.8)',
     },
 
 
 
-
-
-
-    containerCheckBox: {             
-       backgroundColor: 'transparent',  
-       alignItems:'center',       
-        width: 400,
-        height: 'auto',
-        padding: 20,
-        marginTop: 10,
-        borderWidth: 1,
-        borderRadius: 10,
-    },
-
-
-
-    contentCheckBox: {
-       backgroundColor: 'transparent',     
-        flexDirection: 'row',
-        justifyContent:'space-between',
-        width: 160,
-        height: 'auto',
-        padding: 20,
-        marginTop: 10,
-        borderWidth: 1,
-        borderRadius: 10,
-    }
-
-
-
-    /*
     containerSwiitch: {
         backgroundColor: 'transparent',
         flexDirection: 'column',
-        width: '40%',
+        width: '80%',
         height: 'auto',
         padding: 20,
         marginTop: 10,
         borderWidth: 1,
         borderRadius: 10,
     },
-    */
 
-    /*
+
     contentSwiitch: {
         marginBottom: 10
     },
-     */
 
 
-    /*
     checkboxBase: {
         width: 28,
         height: 28,
@@ -262,48 +302,36 @@ export default StyleSheet.create({
         borderColor: 'black',
         backgroundColor: 'transparent',
     },
-    */
 
-    /*
     checkboxChecked: {
         backgroundColor: 'gray',
         alignItems: 'center',
     },
-    */
 
-    /*
+
+
+    appContainer: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+
+    appTitle: {
+        marginVertical: 16,
+        fontWeight: 'bold',
+        fontSize: 24,
+    },
+
     checkboxContainer: {
         flexDirection: 'row',
         alignItems: 'center',
     },
-    */
 
-    /*
     checkboxLabel: {
         marginLeft: 8,
         fontWeight: 500,
         fontSize: 18,
     },
-    */
-
-
-    /*
-    dataList: {
-        width: "auto",
-        height: "auto",
-        //backgroundColor: 'rgba(75, 139, 117, 0.8)',
-        backgroundColor: 'blue',
-        padding: 12,
-        borderRadius: 10,
-        marginTop: 10,
-     },
-
-     textList: {
-        fontSize: 12,
-        color: 'white',
-     },
-     */
-
 
 
 });

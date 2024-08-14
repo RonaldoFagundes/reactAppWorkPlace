@@ -24,18 +24,35 @@ import * as ImagePicker from 'expo-image-picker';
 
 
 
-export default function CadConstruction({ navigation }) {
 
 
-   const { endpointPhp, setLoad, load } = useContext(AuthContext);
+
+export default function CadConstruction() {
+
+
+
+
+   //const { endpointPhp, setLoad, load } = useContext(AuthContext);
+
+   const endpointPhp = "https://ddbabb23-115a-4fbc-ac05-d7c225982170-00-xbc9ar2bh5gb.janeway.replit.dev/";
+
+
+
+
 
    const [construction, setConstruction] = useState({
       img: null,
-      base64: null,
+      base64:null,
       name: "",
       enterprise: "",
       address: "",
    });
+
+
+
+
+   
+  
 
 
    const pickImage = async () => {
@@ -45,22 +62,28 @@ export default function CadConstruction({ navigation }) {
          allowsEditing: true,
          aspect: [4, 3],
          quality: 1,
-         base64: true,
-         // includeBase64: true
+         base64:true,
+        // includeBase64: true
       });
 
-
+      
       if (!result.canceled) {
 
+        
          setConstruction(
             {
                ...construction, 'img': result.assets[0].uri,
-               construction, 'base64': result.assets[0].base64,
+                  construction, 'base64': result.assets[0].base64,
             }
          )
-
+        
+         
       }
    };
+
+
+
+
 
 
    const handleInputChange = (atribute, value) => {
@@ -73,14 +96,31 @@ export default function CadConstruction({ navigation }) {
    }
 
 
+
+
+
+   /*
    useEffect(() => {
 
       navigation.addListener('focus', () => setLoad(!load))
 
    }, [load, navigation]);
+   */
+
 
    
+
+
    const insertConstruction = async () => {
+
+      /*
+      console.log(
+         "img : " + construction.img +
+         "name: " + construction.name +
+         "enterprise : " + construction.enterprise +
+         "address : " + construction.address
+      )
+     */
 
       await fetch(endpointPhp + "?action=cad_contruction", {
          method: 'POST',
@@ -102,14 +142,28 @@ export default function CadConstruction({ navigation }) {
 
                   navigation.navigate("Home");
                   cleanInput();
-                  alert("Construtora cadastrada com sucesso !")
                   console.log(result);
                } else {
+
                   console.log(result);
                }
 
             });
+
    }
+
+
+
+
+   /*    
+   // img: `data:image/png;base64,${construction.img}`      
+
+         navigation.navigate("Home");   
+   */
+
+
+
+
 
 
    const cleanInput = () => {
@@ -127,52 +181,72 @@ export default function CadConstruction({ navigation }) {
    }
 
 
+
+
+
+
+
    return (
 
       <KeyboardAvoidingView
          behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
 
+
          <LinearGradient
-            colors={[
-               'rgba(255, 249, 145, 0.07)',
-               'rgba(249, 225, 175 ,0.09)',
-            ]}
+            colors={
+               [
+                  'rgba(255, 249, 145, 0.07)',
+                  'rgba(249, 225, 175 ,0.09)',
+               ]
+            }
             style={styles.containerMain}
          >
 
-            <View style={styles.containerInfo}>
-               <Text style={styles.textMain}>{` Tela Cadastro de Obras `}</Text>
-            </View>
 
 
             <View style={styles.containerHeader}>
+
+               <Text style={styles.textMain}>{` Tela Cadastro de Obras `}</Text>
+
 
                <LinearGradient
                   colors={['#B1B2AB', '#7D7F72']}
                   style={styles.styleBtnOne}
                >
-                  <Pressable onPress={() => { navigation.navigate("Home") }}>
-                     <Text style={styles.textAlert}>Home</Text>
-                  </Pressable>
-               </LinearGradient>
 
+                  <Pressable
+                      onPress={() => { navigation.navigate("Home") }}                     
+                  >
+                     <Text style={styles.textInfo}>Voltar</Text>
+                  </Pressable>
+
+               </LinearGradient>
             </View>
 
 
             <View style={styles.contentMain}>
 
+
                <LinearGradient
                   colors={['#B1B2AB', '#7D7F72']}
                   style={styles.styleBtnImg}
                >
+
+
                   <Pressable onPress={() => pickImage()}>
-                     <FontAwesome name='image' size={40} color={"#fff"} />
+                     <FontAwesome name='image' size={20} color={"#fff"} />
                   </Pressable>
-                  <Text style={styles.textBtn}>Adcionar Imagem</Text>
+
+
                </LinearGradient>
 
+
+
+
+
                {construction.img && <Image source={{ uri: construction.img }} style={styles.containerImg} />}
+
 
                <TextInput style={styles.input}
                   placeholder=" digite o nome da contrutora"
@@ -208,26 +282,52 @@ export default function CadConstruction({ navigation }) {
                   construction.name == "" && construction.enterprise == "" &&
                      construction.address == ""
                      ?
+
                      <LinearGradient
                         colors={['#B1B2AB', '#7D7F72']}
                         style={styles.styleBtnOne}
                      >
+
                         <Pressable disabled={true}>
                            <Text style={styles.textInfo}>Cadastro</Text>
                         </Pressable>
+
+
                      </LinearGradient>
+
+
+
                      :
+
+
+
+
                      <LinearGradient
                         colors={['#7D7F72', '#B1B2AB']}
                         style={styles.styleBtnOne}
                      >
+
                         <Pressable onPress={() => insertConstruction()}                  >
                            <Text style={styles.textBtn}>Cadastrar</Text>
                         </Pressable>
+
+
+
                      </LinearGradient>
+
+
+
                }
             </View>
+
+
+                      
+
          </LinearGradient>
+
+
+
+
 
          <View style={{ height: 10 }}></View>
       </KeyboardAvoidingView>

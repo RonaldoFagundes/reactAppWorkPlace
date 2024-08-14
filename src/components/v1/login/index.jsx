@@ -17,31 +17,19 @@ import { LinearGradient } from 'expo-linear-gradient';
 
 import { AuthContext } from '../../contexts/auth';
 
+import NetInfo from '@react-native-community/netinfo';
 
-
-//import NetInfo from '@react-native-community/netinfo';
-
-//import { Camera } from 'expo-camera';
+import { Camera } from 'expo-camera';
 
 
 
 export default function Login({ navigation }) {
 
-  //const [connect, setConnect] = useState(false);
 
-  //const [hasPermission, setHasPermission] = useState(null);
+  const [hasPermission, setHasPermission] = useState(null);
 
+  const { endpointPhp, setUser, setLoad, load  } = useContext(AuthContext);
 
-  // const { setEmail, setUser, setId, setModal, setLoad, load  } = useContext(AuthContext);
-
-
-
-
-  const { endpointPhp, setUser, user } = useContext(AuthContext);
-
-  // const endpointPhp = 'http://127.0.0.1:4000/github/php_api_workPlace'; 
-
-  //const endpointPhp = 'http://localhost:3322'; 
 
 
 
@@ -69,9 +57,7 @@ export default function Login({ navigation }) {
 
   const [modalCredencials, setModalCredencials] = useState(false);
 
-
   const [resetPassword, setResetPassword] = useState(false);
-
 
 
   const [datauser, setDatauser] = useState({
@@ -91,52 +77,22 @@ export default function Login({ navigation }) {
 
 
 
-
-  /*
-   useEffect(() => {
- 
-     getConnect();
+  
+   useEffect(() => {   
  
      getPermission();
- 
-     cleanInput();
- 
-     navigation.addListener('focus', () => setLoad(!load))
- 
- 
+    
+     navigation.addListener('focus', () => setLoad(!load)); 
  
    }, [load, navigation]);
   
-  */
+  
 
 
 
 
 
-
-
-
-
-  /*
- const getConnect=()=>{
-    
-   NetInfo.fetch().then(state => {
-
-     setConnect(state.isConnected);
-     //console.log('Connection type', state.type);    
-
-     console.log(connect);
-   });
-
- }
-  */
-
-
-
-
-
-
-  /*
+ 
  const getPermission = async()=>{
 
      const {status} = await Camera.requestCameraPermissionsAsync();
@@ -151,82 +107,43 @@ export default function Login({ navigation }) {
  if(hasPermission === false){
    return <Text>Acesso negado!</Text>;
 }
-*/
 
 
 
-  /*
-  const testLogar = async () => {
-  
-  var responseClone; // 1
-  fetch(`${endpointPhp}/?action=login`)
-  .then(function (response) {
-      responseClone = response.clone(); // 2
-      return response.json();
-  })
-  .then(function (data) {
-      // Do something with data
-  }, function (rejectionReason) { // 3
-      console.log('Error parsing JSON from response:', rejectionReason, responseClone); // 4
-      responseClone.text() // 5
-      .then(function (bodyText) {
-          console.log('Received the following instead of valid JSON:', bodyText); // 6
-      });
-  });
-  }
-  */
 
 
-
-  const newPassword = async () => {
-
-    await fetch(`${endpointPhp}/?action=reset_password`, {
+  const newPassword = async () => {  
+      await fetch(endpointPhp+"?action=reset_password", {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-
       body: JSON.stringify({
         datauser
       })
-
     })
       .then((res) => res.json())
-
       .then(
         (result) => {
-
           if (result === 'senha cadastrada com sucesso!') {
-
-            setModalCredencials(false) && setResetPassword(false)
-
+            setModalCredencials(false) && setResetPassword(false);
           } else {
-
             console.log(result);
           }
-
         });
-  }
+      }
 
 
 
 
 
 
-
-
-
-
-
-  const logar = async () => {
-
-    await fetch(`${endpointPhp}/?action=login`, {
-
+  const logar = async () => { 
+      await fetch(endpointPhp+"?action=login", {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
-        //'Accept': 'application/json'
-      },
+        'Content-Type': 'application/json'      
+      },      
       body: JSON.stringify({
         login
       })
@@ -234,23 +151,18 @@ export default function Login({ navigation }) {
       .then(res => res.json())
       .then(
         (result) => {
-
-          if (result != "email ou senha incorretos!") {
-
+           if (result != "email ou senha incorretos!") {
             setUser(result);
-
             setErrorLogin({
               ...errorLogin, ['status']: false
             });
-
             setLogin({
               ...login, ["email"]: "",
               login, ["password"]: ""
             });
-
-            //navigation.navigate("Home");
-
-            console.log(
+            navigation.navigate("Home");
+             /*
+              console.log(
               " email " +
               login.email +
               " senha " +
@@ -258,30 +170,23 @@ export default function Login({ navigation }) {
               " conectado com sucesso com ususario  " +
               result
             );
-
-
+            */
+            
           } else {
-
             setErrorLogin({
               ...errorLogin, ['status']: true,
               errorLogin, ['msg']: result
             });
-
             setLogin({
               ...login, ["email"]: "",
               login, ["password"]: ""
             });
-
-            console.log("erro " + login.email + " " + login.password + " " + result)
+           // console.log("erro " + login.email + " " + login.password + " " + result)
           }
-        });
+        })
+        .catch((error) => console.log('err  '+error));       
 
-  }
-
-
-
-
-
+     }
 
 
 
@@ -293,7 +198,6 @@ export default function Login({ navigation }) {
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
-
       <LinearGradient
         colors={
           [
@@ -303,6 +207,7 @@ export default function Login({ navigation }) {
         }
         style={styles.containerMain}
       >
+
 
         <View style={styles.containerHeader}>
           <Text style={styles.textMain}>{` Tela de Login `}</Text>
@@ -365,27 +270,24 @@ export default function Login({ navigation }) {
               <LinearGradient
                 colors={['#7D7F72', '#B1B2AB']}
                 style={styles.styleBtnOne}
-              >
+              >   
                 <Pressable onPress={() => logar()} >
                   <Text style={styles.textBtn}>Logar</Text>
                 </Pressable>
               </LinearGradient>
           }
 
-
           <View style={styles.contentAction}>
             <Text style={styles.textInfo}>
               {` não tem cadastro ?  `}
 
               <Text style={styles.textAlert}
-                onPress={() => navigation.navigate("Insertuser")}
+                onPress={() => navigation.navigate("CadUser")}
               >
                 {` cadastre-se agora... `}
               </Text>
             </Text>
           </View>
-
-
 
           <View style={styles.contentAction}>
             <Text style={styles.textInfo}>
@@ -398,13 +300,10 @@ export default function Login({ navigation }) {
             </Text>
           </View>
 
-
-
           <Modal
             animationType='fade'
             visible={modalCredencials}
           >
-
             <LinearGradient
               colors={
                 [
@@ -470,17 +369,11 @@ export default function Login({ navigation }) {
                 }
 
               </View>
-
             </LinearGradient>
-
           </Modal>
-
         </View>
-
         <View style={{ height: 100 }}></View>
-
       </LinearGradient>
-
     </KeyboardAvoidingView>
   )
 }

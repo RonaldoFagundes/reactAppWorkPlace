@@ -5,52 +5,33 @@ import { StyleSheet } from "react-native";
 export default StyleSheet.create({
 
   containerMain: {
+    alignItems: 'center',
     flexDirection: 'column',
     height: '100%',
-    width: 'auto',
-    paddingTop: 30,
-  },
-
-
-  containerInfo: {
-    borderRadius: 10,
-    padding: 10,
-    alignItems: 'center',
-    height: 'auto',
+    justifyContent: 'center',
     width: 'auto',
   },
-
 
   containerHeader: {
-    height: 'auto',
-    width: 'auto',
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    padding: 12,
-    borderRadius: 10,
-    backgroundColor: 'rgba(215, 202, 165, 0.22)',
+    alignItems: 'center',
+    height: '6%',
+    marginTop: 20,
+    width: '90%',
   },
 
   contentMain: {
-    flexDirection: 'column',
     alignItems: 'center',
-    textAlign: "center",
+    borderRadius: 14,
+    flexDirection: 'column',
+    height: 'auto',
+    marginTop: 20,
+    padding: 10,
+    width: "auto",
     backgroundColor: 'rgba(215, 202, 165, 0.22)',
-    borderRadius: 10,
-    height: "auto",
-    width: 'auto',
-    padding: 20,
-  },
-
-  containerImg: {
-    width: 140,
-    height: 140,
-    borderRadius: 10,
-    marginBottom: 30
   },
 
   input: {
-    width: 240,
+    width: 200,
     height: 50,
     marginBottom: 16,
     padding: 6,
@@ -62,34 +43,61 @@ export default StyleSheet.create({
     fontSize: 12
   },
 
-  styleBtnImg: {
-    width: "auto",
-    height: "auto",
+  styleBtnOne: {
+    width: 'auto',
+    height: 40,
     justifyContent: 'center',
     borderRadius: 10,
     marginTop: 5,
-    marginBottom: 20,
     alignItems: 'center',
     padding: 10
   },
 
-
-  styleBtnOne: {
-    width: "auto",
+  styleBtnTwo: {
+    width: 100,
     height: 40,
     justifyContent: 'center',
     borderRadius: 10,
-    marginTop: 15,
+    marginTop: 5,
     alignItems: 'center',
+  },
+
+  contentCad: {
+    alignItems: 'center',
+    borderColor: 'black',
+    borderWidth: 1,
+    borderRadius: 5,
+    height: 'auto',
+    marginTop: 40,
     padding: 10,
-    backgroundColor: 'gray',
-    marginRight: 10
+    width: 'auto',
+  },
+
+  contentPassword: {
+    alignItems: 'center',
+    borderColor: 'black',
+    borderWidth: 1,
+    borderRadius: 5,
+    height: 'auto',
+    marginTop: 20,
+    padding: 10,
+    width: 'auto',
+  },
+
+  modalContent: {
+    alignItems: 'center',
+    borderRadius: 14,
+    flexDirection: 'column',
+    height: '50%',
+    justifyContent: 'center',
+    marginTop: 20,
+    width: "auto",
   },
 
   textMain: {
     color: '#5D3806',
     fontWeight: 'bold',
-    fontSize: 18
+    fontSize: 16
   },
 
   textInfo: {
@@ -99,7 +107,7 @@ export default StyleSheet.create({
   },
 
   textAlert: {
-    color: 'white',
+    color: '#F00000',
     fontSize: 12
   },
 
@@ -108,6 +116,12 @@ export default StyleSheet.create({
     fontSize: 12
   },
 
-
 });
+
+
+
+
+
+
+
 

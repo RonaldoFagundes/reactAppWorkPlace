@@ -11,6 +11,7 @@ export default StyleSheet.create({
       alignItems: 'center'
    },
 
+
    containerMain: {
       flexDirection: 'column',
       height: '100%',
@@ -34,6 +35,7 @@ export default StyleSheet.create({
       borderRadius: 10,
       marginRight: 10
    },
+   
 
    userHeader: {
       height: 'auto',
@@ -42,22 +44,6 @@ export default StyleSheet.create({
       borderRadius: 10,
       backgroundColor: 'transparent',
       textAlign: 'center'
-   },
-
-   contentStatus: {
-      flexDirection: 'column',
-      justifyContent: 'space-between',
-      padding:10,
-      marginTop:30,
-      marginBottom:20
-      
-   },
-
-   imgStatus: {
-      height: 40,
-      width: 40,
-      borderRadius: 10,
-      marginRight: 10
    },
 
    containerInfo: {
@@ -72,38 +58,89 @@ export default StyleSheet.create({
       width: "auto",
       height: "auto",
       backgroundColor: 'rgba(75, 139, 117, 0.8)',
+      padding: 12,
       borderRadius: 10,
-      margin: 10,
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center',
+      marginTop: 10,
    },
 
+  
+
+      contentStatus: {
+         flexDirection: 'column',
+         justifyContent: 'space-between',
+         padding:10,
+         marginTop:30,
+         marginBottom:20
+         
+      },
+   
+
    contentImg: {
+      height: 'auto',
+      with: '100%',
       flexDirection: 'row',
-      justifyContent: 'space-between',
+      alignItems: 'center',
+      justifyContent: 'space-around',
+      borderRadius: 10,
+      flexWrap: 'wrap',
       marginTop: 10,
       marginBottom: 30,
-      padding:10,
-      width: '100%',
+   },
+
+
+   
+   
+
+  
+   containerBtnIn:{    
+      flexDirection: 'row',     
+      justifyContent: 'center',
+      marginTop:15,
+      marginBottom:20,
+   },
+
+
+   containerBtnOut:{
+      backgroundColor: 'rgba(215, 202, 165, 0.22)',
+      flexDirection: 'row',     
+      justifyContent: 'space-around',
+      marginTop:15,
+      marginBottom:5,
+   },
+
+
+
+   boxImg: {
+      backgroundColor: 'transparent',
+      marginBottom: 10,
+      marginRight: 10
    },
 
    resizeModel: {
-      //resizeMode: 'cover',
+      resizeMode: 'cover',
       height: 140,
       width: 140,
       borderRadius: 10,
+      marginRight: 10,
+   },
+  
+  
+
+   imgStatus: {
+      height: 40,
+      width: 40,
+      borderRadius: 10,
+      marginRight: 10
    },
 
-   contentData: {
-      flexDirection: 'column',
-      width: '100%',
-   },
-
-   textInfo: {
-      color: '#4E1313',
-      fontWeight: 'bold',
-      fontSize: 16,
+   contentList: {
+      height: 'auto',
+      with: '100%',
+      backgroundColor: 'gray',
+      padding: 10,
+      marginBottom: 5,
+      borderRadius: 10,
+      flexWrap: 'wrap'
    },
 
    textAlert: {
@@ -112,18 +149,26 @@ export default StyleSheet.create({
       fontSize: 14,
    },
 
+   textData: {
+      color: '#ffff',    
+      fontSize: 16,      
+      fontWeight: 'bold',
+      marginBottom: 8
+   },
+
    textMain: {
       color: '#5D3806',
       fontWeight: 'bold',
       fontSize: 24
    },
 
-   textList: {
-      fontSize: 16,
-      color: '#ffff',  
+   textInfo: {
+      color: '#4E1313',
       fontWeight: 'bold',
-      marginBottom: 10
+      fontSize: 16,
    },
+
+  
 
    styleBtnOne: {
       width: 'auto',
@@ -136,5 +181,6 @@ export default StyleSheet.create({
       padding: 10,
       backgroundColor: 'gray',
    },
+
 
 });

@@ -4,8 +4,6 @@ import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
 
-
-
   containerMain: {
     alignItems: 'center',
     flexDirection: 'column',
@@ -17,7 +15,6 @@ export default StyleSheet.create({
   containerHeader: {
     alignItems: 'center',
     height: '6%',
-    marginTop: 20,
     width: '90%',
   },
 
@@ -26,9 +23,10 @@ export default StyleSheet.create({
     borderRadius: 14,
     flexDirection: 'column',
     height: 'auto',
-    marginTop: 20,
-    padding: 10,
-    width: "auto",
+    justifyContent: 'center',
+    paddingBottom: 30,
+    paddingTop: 30,
+    width: "90%",
     backgroundColor: 'rgba(215, 202, 165, 0.22)',
   },
 
@@ -42,9 +40,14 @@ export default StyleSheet.create({
     borderRadius: 10,
     color: "black",
     backgroundColor: 'white',
-    fontSize: 12
+    textAlign: 'center',
   },
 
+  contentModal: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
 
   styleBtnOne: {
     width: 'auto',
@@ -65,18 +68,18 @@ export default StyleSheet.create({
     alignItems: 'center',
   },
 
-  contentCad: {
-    alignItems: 'center',
-    borderColor: 'black',
-    borderWidth: 1,
-    borderRadius: 5,
-    height: 'auto',
-    marginTop: 40,
-    padding: 10,
+  styleBtn: {
     width: 'auto',
+    height: 'auto',
+    justifyContent: 'center',
+    borderRadius: 10,
+    marginTop: 15,
+    alignItems: 'center',
+    backgroundColor: '#7D7F72',
+    padding: 10
   },
 
-  contentPassword: {
+  contentAction: {
     alignItems: 'center',
     borderColor: 'black',
     borderWidth: 1,
@@ -97,7 +100,6 @@ export default StyleSheet.create({
     width: "auto",
   },
 
-
   textMain: {
     color: '#5D3806',
     fontWeight: 'bold',
@@ -110,25 +112,14 @@ export default StyleSheet.create({
     fontSize: 12,
   },
 
-
   textAlert: {
     color: '#F00000',
     fontSize: 12
   },
 
-
   textBtn: {
     color: '#F5F6F1',
     fontSize: 12
   },
-
-
 });
-
-
-
-
-
-
-
 

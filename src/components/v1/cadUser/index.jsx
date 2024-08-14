@@ -10,31 +10,22 @@ import {
    Platform,
 } from 'react-native';
 
-
 import styles from './styles';
 import { LinearGradient } from 'expo-linear-gradient';
 import { AuthContext } from '../../contexts/auth';
 
 
 
+function CadUser({ navigation }) {  
 
 
-function CadUser({ navigation }) {
-
-
-   //const endpointPhp = 'http://localhost:3322';  
-
-
-   const { endpointPhp, setEmail, email, setModal, modal, setUser } = useContext(AuthContext);
-
+   const { endpointPhp, setUser , setLoad, load } = useContext(AuthContext);
 
 
    const [errorValidate, setErrorValidate] = useState({
       error: false,
       msg: ""
    });
-
-
 
 
    const [datauser, setDatauser] = useState({
@@ -53,26 +44,19 @@ function CadUser({ navigation }) {
 
 
 
-   /*
-    useEffect(() => {
- 
-       cleanInput();
-       setModal(false);
- 
-    }, [],);
-    */
 
-
-
-
-
-
+   
+   useEffect(() => {       
+     
+      navigation.addListener('focus', () => setLoad(!load)); 
+  
+    }, [load, navigation]);
+   
 
 
 
    const addUser = async () => {
-
-      await fetch(`${endpointPhp}/?action=add_user`, {
+      await fetch(endpointPhp+"?action=add_user", {
          method: 'POST',
          headers: {
             'Content-Type': 'application/json'
@@ -81,19 +65,19 @@ function CadUser({ navigation }) {
          body: JSON.stringify({
             datauser
          })
-
       })
          .then((res) => res.json())
-
          .then(
             (result) => {
 
-               if (result === "cadastrado com sucesso") {
+               if (result === datauser.name) {
 
+                  setUser(result);
                   navigation.navigate("Home");
 
                } else {
-
+                  alert(result);
+                  navigation.navigate("Login");
                   console.log(result);
                }
 
@@ -130,7 +114,6 @@ function CadUser({ navigation }) {
 
          console.log("email não valido");
 
-
       } else if (!datauser.email.includes('.com')) {
 
          setErrorValidate(
@@ -139,17 +122,14 @@ function CadUser({ navigation }) {
                errorValidate, ['msg']: "informe um e-mail valido"
             }
          );
-
          setDatauser(
             {
                ...datauser, ['name']: "",
                datauser, ['email']: "",
                datauser, ['password']: "",
-
             }
          )
          console.log("email não valido");
-
 
       } else if (datauser.password.length < 8) {
 
@@ -175,9 +155,8 @@ function CadUser({ navigation }) {
                errorValidate, ['msg']: ""
             }
          )
-
          console.log(" validação ok");
-         //  addUser();
+           addUser();
       }
    }
 
@@ -206,15 +185,11 @@ function CadUser({ navigation }) {
             style={styles.containerMain}
          >
 
-
             <View style={styles.containerHeader}>
                <Text style={styles.textMain}>{` Tela Cadastro de Usuário`}</Text>
             </View>
 
-
-
             <View style={styles.contentMain}>
-
 
                <TextInput style={styles.input}
                   placeholder=" digite o seu nome"
@@ -226,7 +201,6 @@ function CadUser({ navigation }) {
                   value={datauser.name}
                />
 
-
                <TextInput style={styles.input}
                   placeholder=" digite o seu e-mail"
                   placeholderTextColor="#cc0000"
@@ -236,7 +210,6 @@ function CadUser({ navigation }) {
                   }
                   value={datauser.email}
                />
-
 
                <TextInput style={styles.input}
                   placeholder=" senha com no minímo 8 caracteres"
@@ -251,10 +224,8 @@ function CadUser({ navigation }) {
                />
 
                {
-
                   datauser.email == "" && datauser.password == ""
                      ?
-
                      <LinearGradient
                         colors={['#B1B2AB', '#7D7F72']}
                         style={styles.styleBtnOne}
@@ -274,7 +245,6 @@ function CadUser({ navigation }) {
                      </LinearGradient>
                }
 
-
                {
                   errorValidate.error === true
                      ?
@@ -284,8 +254,6 @@ function CadUser({ navigation }) {
                      :
                      <View></View>
                }
-
-
 
                <View style={styles.contentCad}>
                   <Text style={styles.textInfo}>
@@ -297,11 +265,8 @@ function CadUser({ navigation }) {
                      </Text>
                   </Text>
                </View>
-
             </View>
-
          </LinearGradient>
-
       </KeyboardAvoidingView>
    )
 }

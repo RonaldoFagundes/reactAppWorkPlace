@@ -1,7 +1,8 @@
 
-import React, { useState, useEffect, useContext, useRef } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 
 import {
+    FlatList,
     View,
     Text,
     Pressable,
@@ -9,87 +10,94 @@ import {
     Image,
     Modal,
     TextInput,
+    TouchableOpacity,
     KeyboardAvoidingView,
+    Switch
+
 } from 'react-native';
+
+import { AuthContext } from '../../contexts/auth';
 
 import styles from './styles';
 import { LinearGradient } from 'expo-linear-gradient';
-import { AuthContext } from '../../contexts/auth';
+
 import { Ionicons } from '@expo/vector-icons';
-import { Camera } from 'expo-camera';
+import { FontAwesome } from '@expo/vector-icons';
+
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+
+
+
+import * as ImagePicker from 'expo-image-picker';
+
 
 
 export default function CadReport({ navigation }) {
 
 
-    useEffect(() => {
-
-        (async () => {
-            const { status } = await Camera.requestCameraPermissionsAsync();
-            setHasPermission(status === 'granted');
-        })();
-
-    }, []);
-
-
-
-    if (hasPermission === null) {
-        return <View />;
-    }
-    if (hasPermission === false) {
-        return <Text>No access to camera</Text>;
-    }
-
-
-
-    var dta = new Date();
-    var hours = dta.getHours();
-    //  var minutes = dta.getMinutes();
-    var dd = dta.getDate().toString().padStart(2, '0');
-    var mm = (dta.getMonth() + 1).toString().padStart(2, '0');
-    var yyyy = dta.getFullYear();
-
-    var today = dd + "/" + mm + "/" + yyyy;
-
-
     const {
         endpointPhp,
-        setUser, user,
-        setLoad, load,
-        setIdConstruction,
+        setLoad,
+        load,
+
         idConstruction,
+        nameConstruction,
+        imgConstruction,
+
+      //  constructions,
+
+        reportNumber,
+
+      //  report,
+
+
+      //  tags,
+
+        imgTags
+
 
     } = useContext(AuthContext);
 
 
-    const [hasPermission, setHasPermission] = useState(null);
-    const [camera, setCamera] = useState(null);
-    const [type, setType] = useState(Camera.Constants.Type.back);
-    const [modalCamera, setModalCamera] = useState(false);
-
+    // const [isLoading, setIsLoading] = useState(true);
 
     const [modalForm, setModalForm] = useState(false);
 
-    const [count, setCount] = useState(1);
+
 
     const [dataRel, setDataRel] = useState(
         {
-            //  id:idConstruction,
-            date: today,
+            number_rpt: reportNumber,
+            page: 0,
+            date: "",
             title: "",
             desc: "",
             status: "",
-            img1: null,
-            img2: null,
-            img3: null,
-            img4: null,
+
+            img_one: null,
+            img_two: null,
+            img_three: null,
+            img_four: null,
+
+            base64_one: null,
+            base64_two: null,
+            base64_three: null,
+            base64_four: null,
+
+
+            idConst: idConstruction,
         }
     );
 
 
-    const [pending, setPending] = useState(false);
-    const [foreseen, setForeseen] = useState(false);
-    const [attention, setAttention] = useState(false);
+
+
+    useEffect(() => {
+        navigation.addListener('focus', () => setLoad(!load));
+        console.log(" report number " + reportNumber);
+      //  setReportNumber();
+    }, [load, navigation]);
+
 
 
 
@@ -103,151 +111,238 @@ export default function CadReport({ navigation }) {
 
 
 
-    const selectPending = () => {
-        setPending(!pending);
-        setSortedout(false)
-        setForeseen(false);
-        setAttention(false);
+    const [checkBox, setCheckBox] = useState([]);
+    const [randomCheckBox, setRandomCheckBox] = useState(null);
+    const [statusCheckBox, setStatusCheckBox] = useState(null);
+    const [tagStatus, setTagStatus] = useState(null);
 
+
+
+    const selectStatus = (index , item) => {
+        setStatusCheckBox(index);    
+         if(statusCheckBox !== index && checkBox[index] !== undefined){          
+            checkBox[index] = undefined;
+         }else{
+            checkBox[index] = item.id_tag;
+            setStatusCheckBox(index);           
+         }
+          setRandomCheckBox(Math.random());      
+         // setTagStatus(item.status_tag);
+
+          setDataRel(
+            {
+              ...dataRel, ['status']: item.status_tag,
+            }
+          )
+     }
+
+   
+  /*
+    const [pending, setPending] = useState(false);
+    const [foreseen, setForeseen] = useState(false);
+    const [attention, setAttention] = useState(false);
+  */
+
+
+
+  /*
+   const selectPending = (value) => {
+        setPending(!pending);
+        setForeseen(!foreseen);
+        setAttention(!attention);
         setDataRel(
             {
-                ...dataRel, 'status': 'pendente'
+                ...dataRel, 'status': `status: ${value}`
             }
         )
     }
+   */
 
 
+    /*
     const selectForeseen = () => {
         setForeseen(!foreseen);
         setPending(false);
-        setSortedout(false)
         setAttention(false);
         setDataRel(
             {
-                ...dataRel, 'status': 'previsto'
+                ...dataRel, 'status': 'status: previsto'
             }
         )
     }
-
 
 
     const selectAttention = () => {
         setAttention(!attention);
         setPending(false);
-        setSortedout(false)
         setForeseen(false);
 
         setDataRel(
             {
-                ...dataRel, 'status': 'atenção'
+                ...dataRel, 'status': 'status: atenção'
+            }
+        )
+    }
+   */
+
+
+
+
+
+
+    const pickImage = async () => {
+     
+
+        let img;
+        let base64;
+
+        if (dataRel.img_one == null) {
+            img = "img_one"
+            base64 = "base64_one"         
+
+        } else if (dataRel.img_two == null) {
+
+            img = "img_two"
+            base64 = "base64_two"           
+
+        } else if (dataRel.img_three == null) {
+
+            img = "img_three"
+            base64 = "base64_three"          
+
+        } else if (dataRel.img_four == null) {
+
+            img = "img_four"
+            base64 = "base64_four"
+           
+        }
+
+        // No permissions request is necessary for launching the image library
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsEditing: true,
+            aspect: [4, 3],
+            quality: 1,
+            base64: true,
+            // includeBase64: true
+        });
+
+        if (!result.canceled) {
+
+            setDataRel(
+                {
+                    ...dataRel, [img]: result.assets[0].uri,
+                       dataRel, [base64]: result.assets[0].base64,
+                }
+            )
+         
+       }
+
+    };
+
+
+    const cancel = () => {
+        setModalForm(false);
+        dataRel.date = "",
+            dataRel.title = "",
+            dataRel.desc = "",
+            dataRel.status = ""
+    }
+
+
+     /*
+    const setReportNumber = () => {
+
+        if (reportNumber !== "") {
+            setDataRel(
+                {
+                    ...dataRel, 'number_rpt': reportNumber,
+                }
+            )
+        }
+    }
+    */
+
+
+    const finish = () => {
+        dataRel.page = dataRel.page + 1;
+        saveReport();
+        navigation.navigate("Report");
+        reset();
+        console.log(" relatório nº " + dataRel.number_rpt + " cadastro da " + dataRel.page + " pagina ");
+    }
+
+
+    const addPage = () => {
+        dataRel.page = dataRel.page + 1;
+        saveReport();
+        setModalForm(true);
+        reset();
+        console.log(" relatório nº " + dataRel.number_rpt + " cadastro da " + dataRel.page + " pagina ");
+    }
+
+
+    const removeImage = (atribute) => {
+        setDataRel(
+            {
+                ...dataRel, [atribute]: null
+            }
+        )
+    }
+
+
+    const reset = () => {
+
+        setDataRel(
+            {
+                ...dataRel, 'date': "",
+                dataRel, 'title': "",
+                dataRel, 'desc': "",
+                dataRel, 'status': "",
+                dataRel, 'img_one': null,
+                dataRel, 'img_two': null,
+                dataRel, 'img_three': null,
+                dataRel, 'img_four': null,
             }
         )
     }
 
 
 
-    const takePicture = async () => {
-
-        setCount(count + 1)
-
-        if (camera) {
-            const data = await camera.takePictureAsync(null);
-
-            setDataRel(
-                {
-                    ...dataRel, [`img${count}`]: data.uri
-                }
-            )
-
-        }
-        setModalCamera(false);
-    }
-
-
-
-
-
-
-    const insertRel = async () => {
-
-        await fetch(`${endpointPhp}/?action=cad_rel`, {
+    const saveReport = async () => {
+        await fetch(endpointPhp + "?action=cad_report", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-
             body: JSON.stringify({
                 dataRel
             })
-
         })
             .then((res) => res.json())
-
             .then(
                 (result) => {
-
-                    if (result != "Relatório não cadastrado!!!") {
-
-                        //navigation.navigate("Home");
-                        console.log(result);
-
-                    } else {
-
-                        console.log(result);
-                    }
-
-                });
+                  alert(" pagina salva com sucesso!");
+                  console.log(result);
+                })
+            .catch(function (error) {
+                console.log('erro' + error.message);
+            });
     }
 
 
 
 
-
-
-
-
-    const saveReport = () => {
-
-        console.log(' salva esses dados no banco e abre a tela rel  ' +
-            dataRel.date + " " +
-            dataRel.title + " " +
-            dataRel.desc + "  " +
-            dataRel.status + "  " +
-            dataRel.img1 + "  "
-        );
-
-    }
-
-
-
-
-
-    const resetReport = () => {
-
-        setDataRel(
-            {
-                ...dataRel, 'date': '',
-                dataRel, 'title': '',
-                dataRel, 'desc': '',
-                dataRel, 'status': '',
-                dataRel, 'img1': '',
-                dataRel, 'img2': '',
-                dataRel, 'img3': '',
-                dataRel, 'img4': '',
-            }
-        )
-
-        setSortedout(false)
-        setPending(false);
-        setForeseen(false);
-        setAttention(false);
-    }
-
-
-
-
-
-
+    /*
+      if(isLoading){
+          return(
+           <View style={styles.containerLoading}>
+              <ActivityIndicator size="large" color="#0000ff" />
+              <Text>Loading...</Text>
+           </View>
+          )
+     }  
+    */
 
 
 
@@ -257,7 +352,6 @@ export default function CadReport({ navigation }) {
         <KeyboardAvoidingView
             behavior={Platform.OS === "ios" ? "padding" : "height"}
         >
-
             <LinearGradient
                 colors={[
                     'rgba(255, 249, 145, 0.07)',
@@ -266,107 +360,212 @@ export default function CadReport({ navigation }) {
                 style={styles.containerMain}
             >
 
+                <View style={styles.containerInfo}>
+                    <Text style={styles.textMain}>{` Tela cadastro de relatório `}</Text>
+                </View>
+
+
+                <View style={styles.containerHeader}>
+
+                    <View style={styles.contentHeader}>
+
+                        <View>
+                            <Image
+                                style={styles.imgLogo}
+                                source={{ uri: 'data:image/png;base64,' + imgConstruction }}
+                            />
+                        </View>
+
+                        <Text style={styles.textMain}>{`${nameConstruction}`}</Text>
+
+                    </View>
+
+                    <LinearGradient
+                        colors={['#B1B2AB', '#7D7F72']}
+                        style={styles.styleBtnOne}
+                    >
+                        <Pressable onPress={() => { navigation.navigate("Home") }}>
+                            <Text style={styles.textAlert}>Home</Text>
+                        </Pressable>
+                    </LinearGradient>
+
+                </View>
 
 
                 <View style={styles.contentMain}>
+
                     {
-                        dataRel.title == "" ?
-                            <View>
+                        dataRel.title == ""
+
+                            ?
+
+                            <View style={styles.boxWith} >
+
                                 <LinearGradient
                                     colors={['#B1B2AB', '#7D7F72']}
                                     style={styles.styleBtnOne}
                                 >
                                     <Pressable onPress={() => setModalForm(true)}>
-                                        <Text style={styles.textBtn}>add rel</Text>
+                                        <Text style={styles.textAlert}>{`criar relatório`}</Text>
                                     </Pressable>
                                 </LinearGradient>
+
                             </View>
                             :
 
-                            <View style={styles.containerRel}>
+                            <View style={styles.boxWithOut} >
 
+                                <View style={styles.containerImg} >
 
-                                <LinearGradient
-                                    colors={['#B1B2AB', '#7D7F72']}
-                                    style={styles.styleBtnOne}
-                                >
                                     {
-                                        dataRel.img4 == null ?
-                                            <Pressable onPress={() => setModalCamera(true)}>
-                                                <Text style={styles.textBtn}>adicionar imagens</Text>
-                                            </Pressable>
+                                        dataRel.img_one == null ||
+                                            dataRel.img_two == null ||
+                                            dataRel.img_three == null ||
+                                            dataRel.img_four == null
+                                            ?
+                                            <LinearGradient
+                                                colors={['#B1B2AB', '#7D7F72']}
+                                                style={styles.styleBtnImg}
+                                            >
+                                                <Pressable onPress={() => pickImage()}>
+                                                    <FontAwesome name='image' size={40} color={"#fff"} />
+                                                </Pressable>
+                                                <Text style={styles.textBtn}>Adcionar Imagem</Text>
+                                            </LinearGradient>
+
                                             :
-                                            <Pressable disabled={true}>
-                                                <Text style={styles.textBtn}>limit img exceeded</Text>
-                                            </Pressable>
+
+                                            <View>
+                                                <Text style={styles.textInfo}>limite de imagems excedido</Text>
+                                            </View>
                                     }
-                                </LinearGradient>
 
 
+                                    <View style={styles.contentImg}>
+                                        {
+                                            dataRel.img_one &&
+                                            <View style={styles.boxImg}>
+                                                <Image source={{ uri: dataRel.img_one }} style={styles.resizeModel} />
 
-                                {
-                                    dataRel.img1 == null ?
-                                        <View></View>
-
-                                        :
-
-                                        <View style={styles.contentImg}>
-
-                                            {dataRel.img1 && <Image source={{ uri: dataRel.img1 }} style={styles.resizeModel} />}
-
-                                            {dataRel.img2 && <Image source={{ uri: dataRel.img2 }} style={styles.resizeModel} />}
-
-                                            {dataRel.img3 && <Image source={{ uri: dataRel.img3 }} style={styles.resizeModel} />}
-
-                                            {dataRel.img4 && <Image source={{ uri: dataRel.img4 }} style={styles.resizeModel} />}
-
-                                        </View>
-                                }
+                                                <Pressable onPress={() => removeImage('img_one')}>
+                                                    <FontAwesome name='remove' size={12} color={"#B8AAA7"} />
+                                                </Pressable>
+                                            </View>
+                                        }
 
 
+                                        {
+                                            dataRel.img_two &&
+                                            <View style={styles.boxImg}>
+                                                <Image source={{ uri: dataRel.img_two }} style={styles.resizeModel} />
+                                                <Pressable onPress={() => removeImage('img_two')}>
+                                                    <FontAwesome name='remove' size={12} color={"#B8AAA7"} />
+                                                </Pressable>
+                                            </View>
+                                        }
+                                    </View>
+
+                                    <View style={styles.contentImg}>
+                                        {
+                                            dataRel.img_three &&
+                                            <View style={styles.boxImg}>
+                                                <Image source={{ uri: dataRel.img_three }} style={styles.resizeModel} />
+                                                <Pressable onPress={() => removeImage('img_three')}>
+                                                    <FontAwesome name='remove' size={12} color={"#B8AAA7"} />
+                                                </Pressable>
+                                            </View>
+                                        }
+
+                                        {dataRel.img_four &&
+                                            <View style={styles.boxImg}>
+                                                <Image source={{ uri: dataRel.img_four }} style={styles.resizeModel} />
+                                                <Pressable onPress={() => removeImage('img_four')}>
+                                                    <FontAwesome name='remove' size={12} color={"#B8AAA7"} />
+                                                </Pressable>
+                                            </View>
+                                        }
+                                    </View>
+                                </View>
                                 <View style={styles.cardRel}>
+                                    {dataRel.page == 0 ?
+                                        <Text style={styles.textData}>{` Data ${dataRel.date} `}</Text>
+                                        :
+                                        <View></View>
+                                    }
+                                    <Text style={styles.textData}>{`  ${dataRel.title} `}</Text>
+                                    <Text style={styles.textData}>{`  ${dataRel.desc} `}</Text>
+                                    {dataRel.page == 0 ?
+                                        <Text style={styles.textData}>{` ${dataRel.status} `}</Text>
+                                        :
+                                        <View></View>
+                                    }
+                                </View>
+                                <View style={styles.containerBtn}>
 
-                                    <Text style={styles.textData}>{` Data : ${dataRel.date}`}</Text>
-                                    <Text style={styles.textData}>{` Titulo : ${dataRel.title}`}</Text>
-                                    <Text style={styles.textData}>{` Descrição : ${dataRel.desc}`}</Text>
-                                    <Text style={styles.textData}>{` Status : ${dataRel.status}`}</Text>
+                                    <LinearGradient
+                                        colors={['#B1B2AB', '#7D7F72']}
+                                        style={styles.styleBtnOne}
+                                    >
+                                        <Pressable onPress={() => finish()}>
+                                            <Text style={styles.textBtn}>Finalizar</Text>
+                                        </Pressable>
+                                    </LinearGradient>
+
+                                    <LinearGradient
+                                        colors={['#B1B2AB', '#7D7F72']}
+                                        style={styles.styleBtnOne}
+                                    >
+                                        <Pressable onPress={() => addPage()}>
+                                            <Text style={styles.textBtn}>Adcionar Pagina</Text>
+                                        </Pressable>
+                                    </LinearGradient>
 
                                 </View>
-
-                                <LinearGradient
-                                    colors={['#B1B2AB', '#7D7F72']}
-                                    style={styles.styleBtnOne}
-                                >
-                                    <Pressable onPress={() => saveReport()}>
-                                        <Text style={styles.textBtn}>salvar</Text>
-                                    </Pressable>
-                                </LinearGradient>
                             </View>
                     }
                 </View>
-
 
                 <Modal
                     animationType='fade'
                     visible={modalForm}
                 >
-                    <View style={styles.modalContent} >
-                        <View style={styles.containerData}>
+                    <View style={styles.contentMain}>
+                        <View><Text style={styles.textMain}>Criar Relatório</Text></View>
+                        {
+                            dataRel.page == 0 ?
+                                <View style={styles.fieldMain}>
 
+                                    <TextInput
+                                        style={styles.input}
+                                        underlineColorAndroid="transparent"
+                                        placeholder="Data:"
+                                        placeholderTextColor="#000000"
+                                        onChangeText={
+                                            (valor) => handleInputChange('date', valor)
+                                        }
+                                    />
+                                </View>
+                                :
+                                <View></View>
+                        }
+
+                        <View style={styles.fieldMain}>
                             <TextInput
                                 style={styles.input}
                                 underlineColorAndroid="transparent"
-                                placeholder="Titulo:"
+                                /* placeholder="Titulo:" */
                                 placeholderTextColor="#000000"
                                 onChangeText={
                                     (valor) => handleInputChange('title', valor)
                                 }
                             />
+                        </View>
 
+                        <View style={styles.fieldDesc}>
                             <TextInput
                                 style={styles.input}
                                 underlineColorAndroid="transparent"
-                                placeholder="Descrição:"
+                                /* placeholder="Descrição:" */
                                 placeholderTextColor="#000000"
                                 rows={4}
                                 multiline={true}
@@ -374,94 +573,102 @@ export default function CadReport({ navigation }) {
                                     (valor) => handleInputChange('desc', valor)
                                 }
                             />
-
-                            <View style={styles.containerSwiitch}>
-
-                                <View style={styles.contentSwiitch}>
-                                    <Text style={styles.textBtn}>Pendente</Text>
-                                    <Pressable
-                                        style={[styles.checkboxBase, pending && styles.checkboxChecked]}
-                                        onPress={() => selectPending()}>
-                                        {pending && <Ionicons name="checkmark" size={20} color="white" />}
-                                    </Pressable>
-                                </View>
-
-                                <View style={styles.contentSwiitch}>
-                                    <Text style={styles.textBtn}>Previsto</Text>
-                                    <Pressable
-                                        style={[styles.checkboxBase, foreseen && styles.checkboxChecked]}
-                                        onPress={() => selectForeseen()}>
-                                        {foreseen && <Ionicons name="checkmark" size={20} color="white" />}
-                                    </Pressable>
-                                </View>
-
-                                <View style={styles.contentSwiitch} >
-                                    <Text style={styles.textBtn}>Atençao</Text>
-                                    <Pressable
-                                        style={[styles.checkboxBase, attention && styles.checkboxChecked]}
-                                        onPress={() => selectAttention()}>
-                                        {attention && <Ionicons name="checkmark" size={20} color="white" />}
-                                    </Pressable>
-                                </View>
-                            </View>
                         </View>
 
-                        <LinearGradient
-                            colors={['#B1B2AB', '#7D7F72']}
-                            style={styles.styleBtnOne}
-                        >
-                            <Pressable onPress={() => setModalForm(false)}>
-                                <Text style={styles.textBtn}>proximo</Text>
-                            </Pressable>
-                        </LinearGradient>
+               {
+                dataRel.page  === 0 ?
+                      
+                      
+               <View style={styles.containerCheckBox}>
+
+                 <FlatList
+                       //showsVerticalScrollIndicator={false}
+                       //showsHorizontalScrollIndicator={true}
+                       data={imgTags}
+                       renderItem={({ index, item  }) =>
+
+                    <View style={styles.contentCheckBox}>  
+
+                       <View>
+                          <Text>{item.status_tag}</Text>
+                      </View>
+                    
+                       <Pressable  onPress={() => selectStatus(index , item)}> 
+                         {
+                    /*   (checkBox[index]=== undefined) */
+                         statusCheckBox !== index
+                         ?                                           
+                         <MaterialCommunityIcons name="checkbox-blank-outline" size={24} color="black" />
+                         :
+                         <MaterialCommunityIcons name="checkbox-intermediate" size={24} color="black" />
+                          }
+                      </Pressable>                      
+
                     </View>
-                </Modal>
+                       }
+                        >
+                 </FlatList>
 
+             </View>
 
-                <Modal
-                    animationType='fade'
-                    visible={modalCamera}
-                >
+             :
 
-                    <View style={styles.modalCameraStyle}>
+             <View></View>
 
-                        <View style={styles.containnerCamera} >
+            }
 
-                            <Camera
-                                ref={ref => setCamera(ref)}
-                                style={styles.camera}
-                                type={type}
-                                ratio={'1:1'}
-                            />
-
-
-                            <Pressable style={styles.styleBtnFlip}
-                                onPress={() => {
-                                    setType(
-                                        type === Camera.Constants.Type.back
-                                            ? Camera.Constants.Type.front
-                                            : Camera.Constants.Type.back
-                                    );
-                                }}>
-                                <Ionicons name="camera-reverse-outline" size={32} color="#33EAD1" />
+               {/*                  
+                <View style={styles.containerSwiitch}>
+                    <View style={styles.contentSwiitch}>
+                         <Text style={styles.textBtn}>Pendente</Text>
+                            <Pressable
+                               style={[styles.checkboxBase, pending && styles.checkboxChecked]}
+                                onPress={() => selectPending()}>
+                                {pending && <Ionicons name="checkmark" size={20} color="white" />}
                             </Pressable>
+                    </View>
 
+                    <View style={styles.contentSwiitch}>
+                       <Text style={styles.textBtn}>Previsto</Text>
+                         <Pressable
+                          style={[styles.checkboxBase, foreseen && styles.checkboxChecked]}
+                           onPress={() => selectForeseen()}>
+                             {foreseen && <Ionicons name="checkmark" size={20} color="white" />}
+                          </Pressable>
+                     </View>
 
+                     <View style={styles.contentSwiitch} >
+                        <Text style={styles.textBtn}>Atençao</Text>
+                      <Pressable
+                        style={[styles.checkboxBase, attention && styles.checkboxChecked]}
+                         onPress={() => selectAttention()}>
+                         {attention && <Ionicons name="checkmark" size={20} color="white" />}
+                       </Pressable>
+                     </View>
 
-                        </View>
+                    </View>
+                    */}
 
-                        <View style={styles.containerBtnCamera}>
+                       <View>
+                          <LinearGradient
+                            colors={['#B1B2AB', '#7D7F72']}
+                             style={styles.styleBtnOne}
+                           >
+                         
+                            <Pressable onPress={() => setModalForm(false)}>
+                               <Text style={styles.textBtn}>proximo</Text>
+                            </Pressable>                             
 
-                            <Pressable style={styles.styleBtnCamera}
-                                onPress={() => takePicture()}>
-                                <Ionicons name="camera-outline" size={32} color="#33EAD1" />
-                            </Pressable>
+                            </LinearGradient>
 
-
-                            <Pressable style={styles.styleBtnCamera}
-                                onPress={() => setModalCamera(false)}>
-                                <Text style={styles.textAlert}>voltar</Text>
-                            </Pressable>
+                            <LinearGradient
+                                colors={['#B1B2AB', '#7D7F72']}
+                                style={styles.styleBtnOne}
+                            >
+                                <Pressable onPress={() => cancel()}>
+                                    <Text style={styles.textBtn}>cancelar</Text>
+                                </Pressable>
+                            </LinearGradient>
 
                         </View>
 
@@ -471,8 +678,7 @@ export default function CadReport({ navigation }) {
 
             </LinearGradient>
 
-        </KeyboardAvoidingView>
-
+        </KeyboardAvoidingView >
     )
 }
 
