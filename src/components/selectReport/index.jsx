@@ -1,3 +1,5 @@
+
+import React, { useContext, useEffect, useState } from 'react';
 import {
   FlatList,
   View,
@@ -9,264 +11,68 @@ import {
   ActivityIndicator,
 } from 'react-native';
 
-
-import React, { useContext, useEffect, useState } from 'react';
-
 import styles from './styles';
-
-import { Ionicons } from '@expo/vector-icons';
-
 import { LinearGradient } from 'expo-linear-gradient';
-
 import { AuthContext } from '../../contexts/auth';
-
-import { printToFileAsync } from 'expo-print';
-import { shareAsync } from 'expo-sharing';
 import * as Print from 'expo-print';
-
-
-
-
-
+//import {useBackHandler} from '@react-native-community/hooks';
 
 export default function SelectReport({ navigation }) {
-
-
 
   const {
     endpointPhp,
     setLoad, load,
     setIdReport,
     reportNumber,
-    reportStatus,
-    // setReport,
-    // report ,
+   // reportStatus,
+    idConstruction,
     nameConstruction,
     enterpriseConstruction,
     addressConstruction,
     imgConstruction,
-    // constructions,
     detailsCompany,
-    tags,
-    imgTags,    
+    imgTags,
   } = useContext(AuthContext);
 
 
-
-
   const [isLoading, setIsLoading] = useState(true);
-
-
   const [standards, setStandards] = useState([]);
-
-
-  /*
-  const [standard, setStandard] = useState({
-    id: "",
-    name: "",
-    desc: "",
-  });
- */
-
-
-
-
-
+  const [reportList, setReportList] = useState([]);
+  // const [imgStatus, setImgStatus] = useState(null);
+  const [selectedPrinter, setSelectedPrinter] = useState();
+  //const [out, setOut] = useState(true);
 
 
   useEffect(() => {
-
-    navigation.addListener('focus', () => setLoad(!load))
-
-    listReportByNumber(); 
-
+    navigation.addListener('focus', () => setLoad(!load));
+    listReportByNumber();
     listStandards();
-
-    checkImgStatus();
-
-    console.log(" tela selectReport nome da construtora "+nameConstruction+ "   report selecionado "+reportNumber);
-
+   // checkImgStatus();
   }, [load, navigation]);
 
+/*
+  useBackHandler(()=>{
+   if(out === true){
+      setOut(false);
+      navigation.navigate("Home") 
+      return true;
+     }else{
+      return false;
+     }
+  })
+*/
 
 
-
-  const [reportList, setReportList] = useState([]);
-
- // const [indexImg, setIndexImg] = useState(null);
-
-  const [imgStatus,  setImgStatus] = useState(null);
-
- 
-
-
-
-
-  /*
-  const checkStandards = () => {
-
-    console.log(
-      "  img tags status [0] " + standards[0].name_sta
-    )
-
-    console.log(
-      "  img tags status [1] " + standards[1].name_sta
-    )
-
-    console.log(
-      "  img tags status [2] " + standards[2].name_sta
-    )
-
-    console.log(
-      "  img tags status [3] " + standards[3].name_sta
-    )
-
-  }
-  */
-
-
-  
-
+ /*
   const checkImgStatus = () => {
-
-    for (let i = 0; i < imgTags.length; i++) {
-
-     if ( reportStatus === imgTags[i].status_tag ) {
-        
-      //  console.log(' imgTags.length '+imgTags.length+' reportStatus '+reportStatus+' index  => '+imgTags[i].status_tag);
-
+    for (i = 0; i < imgTags.length; i++) {
+      if (reportStatus === imgTags[i].status_tag) {
         setImgStatus(imgTags[i].img_tag);
-       // setIndexImg(i);        
       }
-
-    }
-
-
-    /*  
-    console.log(
-      "  img tags status [0] "+imgTags[0].status_tag     
-     )
-  
-     console.log(
-      "  img tags status [1] "+imgTags[1].status_tag     
-     )
-  
-     console.log(
-      "  img tags status [2] "+imgTags[2].status_tag     
-     )
-  
-     console.log(
-      "  img tags status [3] "+imgTags[3].status_tag     
-     )
-  
-    
-      // console.log(imgTags.length);
-      // item.status_rpt === `status: ${imgTags[0].status_tag.toLowerCase()}`
-  
-  
-     for (i = 0; i < imgTags.length; i++) {
-       if(`status: ${imgTags[i].status_tag.toLowerCase()}` === value ){
-         setimgStatus(imgTags[i].img_tag);
-   
-       
-         console.log(        
-           " encontrou "+imgTags[i].status_tag+" i "+i              
-          )      
-      }   
-           
-     console.log(imgTags[i]);
-    
-    if(imgTags[i].status_tag === "ATENÇÃO" ){
-       console.log(        
-        " encontrou "+imgTags[i].status_tag+" i "+i              
-         )
-        }   
-       console.log(
-           
-           "  img tags status "+imgTags[i].status_tag+" i "+i               
-        )
-      } 
-    
-    console.log(
-         "  img tags status [1] "+imgTags[1].status_tag+
-         " =>  img tags status [2] "+imgTags[2].status_tag      
-    )
-    
-    for(var i =0; i < imgTags.size ; i++ ){
-     
-     console.log(
-         " img tags id "+imgTags[i].id_tag+" img tags status "+imgTags[i].status_tag+" img tags desc "+imgTags[i].desc_tag
-      )
-    }   
-   
-     console.log(" tags id "+tags.id_sta+" name  "+tags.name)
-   
-     console.log(
-       " img tags id "+imgTags[0].id_tag+" img tags status "+imgTags[0].status_tag+" img tags desc "+imgTags[0].desc_tag
-    )
-     console.log(   
-       " => img tags id "+imgTags[1].id_tag+" img tags status "+imgTags[1].status_tag+" img tags desc "+imgTags[1].desc_tag
-       )
-     console.log(   
-       " => img tags id "+imgTags[2].id_tag+" img tags status "+imgTags[2].status_tag+" img tags desc "+imgTags[2].desc_tag
-      )
-    */
- }
-
-
-
-
-
-
-
-  /* 
-   const selectStatus = (value) => {
-     console.log("   status value =>  "+value+" status selectReport => "+`status: ${tags.status.toLowerCase()}`)
-      if (value === `status: ${tags.status.toLowerCase()}` ) {     
-         setStatus(tags.img);    
-      }    
-    
-      console.log(
-       " report number "+value+
-       " status tags "+`status: ${tags.status.toLowerCase()}`+
-       "img "+"tags.img"
-     )
-       
-   }
-  */
-
-
-
-
-
-  /*
-  const selectStatus2 = (value) => {
-
-    switch (value) {
-      case "status: atenção":
-        setStatus(require('../../../assets/status_atention.png'))
-        setStatus(require('../../../assets/status_atention.png'))
-        break;
-      case "status: resolvido":
-        setStatus(require('../../../assets/status_ok.png'))
-        break;
-      case "status: pendente":
-        setStatus(require('../../../assets/status_pedding.png'))
-        break;
-      case "status: previsto":
-        setStatus(require('../../../assets/status_previst.png'))
-        break;
     }
   }
-  */
-
- // const [status, setStatus] = useState(null);
-
-
-
-
-  const [selectedPrinter, setSelectedPrinter] = useState();
-
+ */
+ 
 
   const listReportByNumber = async () => {
     await fetch(endpointPhp + "?action=list_report_by_number", {
@@ -275,38 +81,22 @@ export default function SelectReport({ navigation }) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        reportNumber
+        reportNumber,
+        idConstruction
       })
     })
       .then((res) => res.json())
       .then(
         (result) => {
-
           if (result !== "not found") {
-
             setIsLoading(false);
             setReportList(result);
-
-           // console.log(result);
-
-            /*
-            console.log(" tela select report report number " +
-              reportNumber +
-              "  status tela selectStatus  " +
-              reportStatus
-            );
-            */
-            // selectStatus(reportStatus);
-
-            
-
           } else {
             console.log(result);
           }
         })
-      .catch((error) => console.error(error));
+      .catch((error) => console.error("  hhhhh "+error));
   }
-
 
 
 
@@ -322,14 +112,12 @@ export default function SelectReport({ navigation }) {
     })
       .then((res) => res.json())
       .then(
-
         (result) => {
-
-          if (result != "delete error") {
+          if (result !== "delete error") {
             navigation.navigate("Report");
             alert("Relatório excluido com sucesso");
           } else {
-            console.log(result);
+            alert(result);
           }
         })
       .catch(function (error) {
@@ -338,27 +126,20 @@ export default function SelectReport({ navigation }) {
   }
 
 
-
-
   const updateReport = (id) => {
     console.log("editar relatório id " + id);
     setIdReport(id);
     navigation.navigate("EditReport");
   }
 
-
-
   const printReport = async () => {
     // On iOS/android prints the given html. On web prints the HTML from the current page.
     await Print.printAsync({
       html: createDynamicData(),
       printerUrl: selectedPrinter?.url, // iOS only     
-    }); 
-      checkImgStatus();      
+    });
+   // checkImgStatus();
   };
-
-
-
 
 
   const listStandards = async () => {
@@ -367,26 +148,9 @@ export default function SelectReport({ navigation }) {
       .then(
         (result) => {
           if (result !== "not found") {
-
             setStandards(result);
-            /*
-             {
-              result.map(            
-                (item ) =>  
-                  console.log(" name starndard "+item.name_sta),             
-                  setStandards(
-                    {
-                       ...standards, ['id']: item.id_sta,
-                          standards, ['name']: item.name_sta,
-                          standards, ['desc']: item.desc_sta,                                         
-                    }
-                  )
-               )
-             }
-            */
-
           } else {
-            console.log(result);
+            alert(result);
           }
         }
       )
@@ -396,43 +160,13 @@ export default function SelectReport({ navigation }) {
   }
 
 
-
-  /*
-  const printToFile = async () => {
-    // On iOS/android prints the given html. On web prints the HTML from the current page.
-    const { uri } = await Print.printToFileAsync({
-      html
-    });
-    await shareAsync(uri, { UTI: '.pdf', mimeType: 'application/pdf' });
-  };
-
-  const selectPrinter = async () => {
-    const printer = await Print.selectPrinterAsync();
-    setSelectedPrinter(printer);
-  };
-   
-  const printReport2 = async () => {
-    createDynamicData();
-    const file = await printToFileAsync({
-      html: html,
-      base64: true
-    });
-    await shareAsync(file.uri);
-  };
- */
-
-
-
   const createDynamicData = () => {
-
     var dataReport = '';
     var reportData = '';
-
+    var rptStatus = '';
 
     for (let i in reportList) {
-
       const item = reportList[i];
-
       dataReport = dataReport +
         `
         <p
@@ -446,6 +180,13 @@ export default function SelectReport({ navigation }) {
         ">${item.date_rpt}</p>
        `
 
+       
+
+      for (i = 0; i < imgTags.length; i++) {
+        if (item.status_rpt === imgTags[i].status_tag) {
+          rptStatus = imgTags[i].img_tag;
+         }
+       }
 
       reportData = reportData +
         `
@@ -454,16 +195,14 @@ export default function SelectReport({ navigation }) {
            display:block;
             height:1052px;
             width:814px;           
-         ">         
-            
-
+         ">       
            <div            
               style="
               display:flex;
               justify-content: space-between;
               height:15%;
               width:100%;              
-            ">              
+            ">             
 
              <div
                  height:auto;
@@ -472,9 +211,8 @@ export default function SelectReport({ navigation }) {
                  <img src="data:image/png;base64,${detailsCompany.logo}"                    
                   style="width:120px;height:120px;"  
                  />                 
-               </div>              
-                   
-
+               </div>            
+           
                 <div
                   style="            
                     height:15%;
@@ -490,8 +228,7 @@ export default function SelectReport({ navigation }) {
                     </p>
                  </div>
            
-             </div>
-
+            </div>
 
             <div            
               style="
@@ -500,8 +237,8 @@ export default function SelectReport({ navigation }) {
               height:15%;
               width:100%;              
             "> 
-
-                  <div
+             
+                <div
                    style="            
                     height:15%;
                     width:80%;
@@ -523,9 +260,8 @@ export default function SelectReport({ navigation }) {
                     height:15%;
                     width:20%;
                     text-align:center;              
-                  ">                   
-                   
-                   <img src="data:image/png;base64,${imgStatus}"                    
+                  ">                  
+                   <img src="data:image/png;base64,${rptStatus}"                    
                      style="width:60px;height:60px;"  
                     /> 
 
@@ -542,7 +278,6 @@ export default function SelectReport({ navigation }) {
 
             </div>
 
-
            <div            
               style="
               display:flex;
@@ -551,26 +286,20 @@ export default function SelectReport({ navigation }) {
               width:100%;              
               margin-bottom: 20px;
             "> 
-
               
               <div>
-
                 <img src="data:image/png;base64,${item.img_one_rpt}"                    
-                     style="width:260px;height:260px;"  
-                    /> 
-                
+                     style="width:260px;height:260px; border-color:transparent;"  
+                    />                 
               </div>
 
               <div>
-
                 <img src="data:image/png;base64,${item.img_two_rpt}"                    
-                     style="width:260px;height:260px;"  
-                /> 
-               
+                     style="width:260px;height:260px; border-color:transparent;"  
+                />                
               </div>            
               
             </div>
-
 
             <div            
               style="
@@ -582,18 +311,17 @@ export default function SelectReport({ navigation }) {
             
               <div>
                  <img src="data:image/png;base64,${item.img_three_rpt}"                    
-                     style="width:260px;height:260px;"  
+                     style="width:260px;height:260px; border-color:transparent;"  
                  />                 
               </div>
 
               <div>
                 <img src="data:image/png;base64,${item.img_four_rpt}"                    
-                     style="width:260px;height:260px;"  
+                     style="width:260px;height:260px; border-color:transparent;"  
                  />                 
               </div>             
 
             </div>
-
 
              <div 
               style="
@@ -630,7 +358,7 @@ export default function SelectReport({ navigation }) {
              
           </div>                 
          `
- }
+    }
 
 
 
@@ -642,15 +370,15 @@ const html =
    <head>
        <meta charset="UTF-8">
        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
-      
-
+  
 <style>  
 
 body{
       padding: 0;
       margin: 0;
       text-align: center;    
-} 
+}
+
 
 
 #intru-container{    
@@ -658,13 +386,11 @@ body{
         height:1057px;
         width:814px;             
 }
-
 #intru-main{  
         display:flex;  
         height:86%;
         width: 100%        
 }
-
 #data-main{    
       height:100%;
       width: 26%;
@@ -674,31 +400,23 @@ body{
       border-radius: 50px;
       margin-left:10px;
       margin-top:10px;          
-}
-      
-   
+}  
 #company-main{  
         display:block;
         justify-content: center;
         height:100%;
         width: 70%;        
 }
-
-
 #company-img{    
        height:25%;
        width: auto; 
        margin-top:10px;       
        margin-bottom: 5px;
 }
-
-
 #company-img img{  
        height:180px;
        width: 180px;
 }
-
-
 #company-info{    
        height:auto;
        width: auto;        
@@ -706,30 +424,19 @@ body{
 	     padding-top:100px;
        padding-left:20px;
        margin-top: 40px;
-}  
-   
-     
-
+}
 #company-info h3{  
      color: rgb(190, 111, 8);
      font-size: 18px;
      font-weight: bold;  
 }
-     
-
 #company-info h2 {  
      font-size: 20px;  
      font-weight: bold;   
 }
-
-
 #company-info h2 , p{     
   color: #1c1755;   
 }
-  
-
-
-
 #title-report{    
       height: auto;
       width: 70%;
@@ -740,17 +447,12 @@ body{
       margin-left:220px;
       color: #1c1755;       
 }
-
-
-
 #intru-footer {
       display: flex;
       justify-content: space-between;      
       height:18%;
       width:auto;      
 }
-
-
 #intru-footer-info {
       height: 60%;
       text-align: right;
@@ -758,21 +460,15 @@ body{
       margin-left:20px;
       margin-right:10px;      
 }
-
-
 #intru-footer h2 {
       color: black;
       font-size: 18px;
       font-weight: 900;
 }
-
-
 #intru-footer h3 {
      color: black;
      font-size: 14px;
 }
-     
-
 #intru-footer-logo {
       margin-top: 60px;
       height: 10%;
@@ -781,138 +477,99 @@ body{
 
 
 
-
 #desc-container{    
        display: block;   
        height:1057px;
        width:814px;                 
 }
-
-
 #desc-header{
       display: flex;
       justify-content: space-between;      
-      height:14%;
+      height:12%;
       width:auto; 
 }
-
 #desc-company-img {      
        width: 20%;
 }
-
 #desc-company-img img{
        height:120px;
        width: 120px;
 }
-
 #desc-title{  
       text-align: center;   
       width: 80%;      
       font-size: 30px;
-}
-
-
-
-  
+}  
 #details-header-desc{  
       height:auto;  
       font-size: 22px;     
       width:auto;      
 }
-
-
-
 #container-desc-tags{
       display: flex;
       justify-content: space-between;
       height:22%; 
       width:auto;
 }
-
-
-
-
 #content-desc-tags{
     display: flex;
     justify-content: space-between;  
     text-align: left;       
 }
-
-
 #desc-img img{
   height:160px;
   width: 160px;
 }
-
-
- #desc-info{     
+#desc-info{     
    margin-left:20px;
    margin-right:10px;
- }
-
-
-
+}
 #container-standards{
     display: flex;
     justify-content: space-between;  
     height:auto; 
     padding: 12px;
 }
-
-
-
 #content-standards{
   display: block;         
   height:auto;
   width:auto;             
 }
-
-
 #standards-title h3{
    font-size: 22px;
 }
-    
-
-
 #standards-info{
   display:flex;  
   text-align:left;
   margin-left:5px;  
 }
-
-
 #standards-info p{
    font-size: 14px;
    margin-left:5px;
 }
 
 
-     
 
 #footer-container{
        display: block;   
        height:1050px;
        width:814px; 
 }
-
-
 #img-footer{
        height:82%;
-       width: 100%; 
+       width: 100%;        
 }
-
 #img-footer img{
        height:118%;
        width: 100%;   
-}  
-  </style>  
+}
+</style>  
    
 </head>
-
       
 <body>
 
-   <section id="intru-container">
+ <section id="intru-container">
          
         <div id="title-report">Relatório</div>
 
@@ -949,8 +606,7 @@ body{
                <h3>CEP ${detailsCompany.postal_cod} - ${detailsCompany.state} - ${detailsCompany.country} - ${detailsCompany.phone} - ${detailsCompany.web_site}</h3>
             </div>
        </div>
-  </section>
-
+ </section>
 
  <section id="desc-container">
 
@@ -965,8 +621,7 @@ body{
 
     <div id="details-header-desc">          
          <p>${standards[0].desc_sta}</p>
-     </div> 
-
+     </div>
 
   <div id="container-desc-tags"> 
               
@@ -979,8 +634,7 @@ body{
              <h3>${imgTags[0].status_tag}</h3>             
              <h3>${imgTags[0].desc_tag}</h3>    
            </div> 
-       </div>    
-       
+       </div>           
 
       <div id="content-desc-tags">
 
@@ -998,7 +652,6 @@ body{
    </div>
 
   <div id="container-desc-tags"> 
-
               
       <div id="content-desc-tags">
 
@@ -1013,8 +666,6 @@ body{
 
       </div>      
        
-
-
       <div id="content-desc-tags">
 
            <div id="desc-img">
@@ -1028,10 +679,7 @@ body{
 
       </div>
 
-
-   </div>
-
-
+  </div>
 
   <div id="desc-standards">
 
@@ -1070,6 +718,7 @@ body{
               </div>
 
               <div id="content-standards">
+
                   <div id="standards-info">
                      <strong>${standards[7].name_sta}-</strong>
                      <span>${standards[7].desc_sta}</span>
@@ -1096,7 +745,7 @@ body{
 
     </div> 
       
-          <div id="intru-footer">	
+         <div id="intru-footer">	
 	          <div id="intru-footer-logo">
               <img src="data:image/png;base64,${detailsCompany.icon}" />
 	          </div>  
@@ -1109,23 +758,20 @@ body{
 
   </section>
 
-
   <section>  
      ${reportData}  
   </section>
-
 
   <section id="footer-container">
 
      <div id="img-footer">
         <img src="data:image/png;base64,${detailsCompany.img}" />
-	   </div>      
-      
-
-      <div id="intru-footer">	
-	          <div id="intru-footer-logo">
-              <img src="data:image/png;base64,${detailsCompany.icon}" />
-	          </div>  
+	   </div>     
+     
+     <div id="intru-footer">	
+	        <div id="intru-footer-logo">
+             <img src="data:image/png;base64,${detailsCompany.icon}" />
+	         </div>  
              <div id="intru-footer-info">
                <h2>${detailsCompany.name}</h2>
                <h3>${detailsCompany.address}</h3>
@@ -1135,19 +781,12 @@ body{
 
   </section>
 
-
  </body>
 
  </html>        
     `;
     return html;
-}
-
-
-
-
-
-
+  }
 
 
   if (isLoading) {
@@ -1158,7 +797,6 @@ body{
       </View>
     )
   }
-
 
   return (
     <KeyboardAvoidingView
@@ -1194,11 +832,9 @@ body{
 
         </View>
 
-
         <View style={styles.containerInfo}>
           <Text style={styles.textMain}>{` Relatório Selecionado `}</Text>
         </View>
-
 
         <FlatList
 
@@ -1207,25 +843,24 @@ body{
           renderItem={({ item }) =>
 
             <View style={styles.dataList}>
-
               {
 
                 item.img_one_rpt != null ?
 
                   <View style={styles.contentImg}>
 
-                    <Image source={{ uri: item.img_one_rpt }}
+                    <Image
+                      source={{ uri: `data:image/png;base64,${item.img_one_rpt}` }}
                       style={styles.resizeModel}
                     />
 
-                    <Image source={{ uri: item.img_two_rpt }}
+                    <Image
+                      source={{ uri: 'data:image/png;base64,' + item.img_two_rpt }}
                       style={styles.resizeModel}
                     />
 
                   </View>
-
                   :
-
                   <View></View>
               }
 
@@ -1235,11 +870,13 @@ body{
 
                   <View style={styles.contentImg}>
 
-                    <Image source={{ uri: item.img_three_rpt }}
+                    <Image
+                      source={{ uri: `data:image/png;base64,${item.img_three_rpt}` }}
                       style={styles.resizeModel}
                     />
 
-                    <Image source={{ uri: item.img_four_rpt }}
+                    <Image
+                      source={{ uri: 'data:image/png;base64,' + item.img_four_rpt }}
                       style={styles.resizeModel}
                     />
 
@@ -1272,13 +909,11 @@ body{
                   item.status_rpt !== ""
                     ?
 
-
                     <View style={styles.contentStatus}>
 
                       <Text style={styles.textData}>
-                        {` Status : ${item.status_rpt}`}                       
+                        {` Status : ${item.status_rpt}`}
                       </Text>
-
 
                       {
                         //item.status_rpt === `status: ${imgTags[0].status_tag.toLowerCase()}`
@@ -1297,16 +932,16 @@ body{
                               source={{ uri: 'data:image/png;base64,' + imgTags[1].img_tag }}
                             />
                             :
-                           // item.status_rpt === `status: ${imgTags[2].status_tag.toLowerCase()}`
-                           item.status_rpt === imgTags[2].status_tag
+                            // item.status_rpt === `status: ${imgTags[2].status_tag.toLowerCase()}`
+                            item.status_rpt === imgTags[2].status_tag
                               ?
                               <Image
                                 style={styles.imgLogo}
                                 source={{ uri: 'data:image/png;base64,' + imgTags[2].img_tag }}
                               />
                               :
-                             // item.status_rpt === `status: ${imgTags[3].status_tag.toLowerCase()}`
-                             item.status_rpt === imgTags[3].status_tag
+                              // item.status_rpt === `status: ${imgTags[3].status_tag.toLowerCase()}`
+                              item.status_rpt === imgTags[3].status_tag
                                 ?
                                 <Image
                                   style={styles.imgLogo}
@@ -1320,10 +955,7 @@ body{
                     :
 
                     <View></View>
-
-                }
-
-
+                 }
 
                 <View style={styles.containerBtnIn}>
 

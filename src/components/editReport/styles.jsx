@@ -58,56 +58,7 @@ export default StyleSheet.create({
       width: 40,
       borderRadius: 10,
       marginRight:10          
-   },
-  
-
-
-   /*
-   contentImg: {
-      height: 'auto',
-      with: '100%',
-      flexDirection: 'row',     
-      justifyContent: 'space-between',
-      borderRadius: 10,     
-      marginBottom: 10,
-      padding:20,     
-  },
-  */
-
-
-  /*
-  resizeModel: {   
-    height: 120,
-    width: 120,
-    borderRadius: 10,
-    marginRight:10        
- },
- */
-
-
-  /*
- containerList: {
-      height: 'auto',
-      with: '100%',
-      backgroundColor: 'orange',
-      padding:10,    
-      marginBottom:10
-   },
-  */
-
-   /*
-   contentList: {
-      height: 'auto',
-      with: '100%',
-      backgroundColor: 'gray',
-      padding:10,   
-      marginBottom:5,
-      borderRadius: 10,
-      flexWrap:'wrap'
-   },
-   */
-
-
+   }, 
 
 
    textAlert: {
@@ -194,27 +145,15 @@ export default StyleSheet.create({
        borderRadius: 10,
    },
 
-   /*
-   containerData: {
-      height: 'auto',
-      width: '80%',
-      alignItems: 'center',
-      backgroundColor: 'transparent',
-      flexDirection: 'column',
-      justifyContent: 'center',
-      borderRadius: 10,
-      padding: 20,
-  },
-   */
+   
 
 
   dataList: {
    height: 'auto',
    width: 400,
-   alignItems: 'center',
-   //backgroundColor: 'transparent',
-   backgroundColor: 'rgba(175, 199, 147, 0.2)',
-  
+   alignItems: 'center', 
+  //backgroundColor: 'rgba(175, 199, 147, 0.2)',  
+   backgroundColor: 'rgba(215, 202, 165, 0.2)',
    flexDirection: 'column',
    justifyContent: 'center',
    borderRadius: 10,
@@ -222,15 +161,13 @@ export default StyleSheet.create({
    padding: 20,
 },
 
-
-
   input: {
    borderWidth: 1,
    width: 200,
    height: 'auto',
    color: "black",
    backgroundColor: 'transparent',
-   fontSize: 12,
+   fontSize: 14,
    fontWeight: 'bold',
    borderRadius: 10,
    marginTop: 10,
@@ -239,31 +176,12 @@ export default StyleSheet.create({
   flexWrap:'wrap',
 },
 
-
-
-/*
-containerSwiitch: {
-   backgroundColor: 'transparent',
-   flexDirection: 'column',
-   width: '40%',
-   height: 'auto',
-   padding: 20,
-   marginTop: 10,
-   borderWidth: 1,
-   borderRadius: 10,
-},
-*/
-
-
-
-
 inputSwiitch: {
    borderWidth: 1,
    width: "auto",
    height: 'auto',
    color: "black",
-   backgroundColor: 'transparent',
-  // fontSize: 12,
+   backgroundColor: 'transparent', 
    fontWeight: 'bold',
    borderRadius: 10,
    marginTop: 10,
@@ -274,43 +192,14 @@ inputSwiitch: {
 
 
 
-/*
-textSwiitch: {
-   color: '#4E1313',
-   fontWeight: 'bold',
-   fontSize: 12,
-   
-},
-*/
 
 
-/*
-contentSwiitch: {
-   marginBottom: 10
-},
-*/
 
 
-/*
-checkboxBase: {
-   width: 28,
-   height: 28,
-   justifyContent: 'center',
-   alignItems: 'center',
-   borderRadius: 4,
-   borderWidth: 2,
-   borderColor: 'black',
-   backgroundColor: 'transparent',
-},
-*/
 
 
-/*
-checkboxChecked: {
-   backgroundColor: 'gray',
-   alignItems: 'center',
-},
-*/
+
+
 
 
 

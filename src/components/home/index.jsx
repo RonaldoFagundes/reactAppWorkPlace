@@ -9,56 +9,37 @@ import {
   ActivityIndicator, 
 } from 'react-native';
 
-
 import React, { useContext, useEffect, useState } from 'react';
 import styles from './styles';
 import { LinearGradient } from 'expo-linear-gradient';
 import { AuthContext } from '../../contexts/auth';
 
-
 export default function Home({ navigation }) {
 
   const {
     endpointPhp,
-
     setLoad, 
     load,
-
     setIdConstruction,
     setNameConstruction,
     setImgConstruction,
     setEnterpriseConstruction,
     setAddressConstruction,
-
     setConstructions ,
-    constructions, 
-
+    constructions,
     setReportNumber,
-
     setDetailsCompany ,
     detailsCompany, 
-
     setTags ,
     tags ,
-
-    setImgTags,
-    
-   // setReportStatus ,
-    //reportStatus,
-   
-  } = useContext(AuthContext);
-
+    setImgTags   
+   } = useContext(AuthContext);
 
 
   const [welcome, setWelcome] = useState();
   const [construction, setConstruction] = useState([]);
   const [isConstruction, setIsConstruction] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-
-
-  
-
-
 
 
   const getTime = () => {
@@ -79,19 +60,13 @@ export default function Home({ navigation }) {
   }
 
 
-
   
   useEffect(() => {    
     navigation.addListener('focus', () => setLoad(!load));
     getTime();
-    getDetailsCompany();
-    
-   // listConstruction();    
+    getDetailsCompany();   
   }, [load, navigation]);
  
-
-
-
 
 
   const listConstruction = async () => {
@@ -99,8 +74,7 @@ export default function Home({ navigation }) {
       .then(res => res.json())
       .then(      
         (result) => {
-         if (result !== "error listConstructions") {
-            setIsLoading(false);
+         if (result !== "not found") {            
             setConstruction(result);
             setIsConstruction(true);  
           } else {
@@ -109,11 +83,9 @@ export default function Home({ navigation }) {
         }
       )
       .catch(() => {
-        console.log('Erro', 'Não foi possível carregar os dados da construtora');
+        alert('Erro', 'Não foi possível carregar os dados da construtora');
       });
    }
-
-
 
 
 
@@ -129,17 +101,11 @@ export default function Home({ navigation }) {
     })
       .then((res) => res.json())
       .then(
-        (result) => {           
-      
-          setReportNumber(result);
-          console.log(" getReportNumber "+result+" id construção "+idConstruction)
-          
+        (result) => {          
+          setReportNumber(result); 
         })
       .catch((error) => console.error(error));
      }
-
-
-
 
 
 
@@ -157,16 +123,11 @@ export default function Home({ navigation }) {
       .then((res) => res.json())
       .then(
         (result) => {
-
-         // setReportStatus(result);
-
           setIdConstruction(idConst);
           setNameConstruction(nameConst);
           setEnterpriseConstruction(enterpriseConst);
           setAddressConstruction(addressConst);
-          setImgConstruction(imgConst); 
-          
-
+          setImgConstruction(imgConst);          
           setConstructions(
             {
                ...constructions, ['id']: idConst,
@@ -176,17 +137,10 @@ export default function Home({ navigation }) {
                   constructions, ['img']: imgConst,
             }
           )
-
           if (result == "not found") {
-
             setReportNumber(1);
-
-            navigation.navigate("CadReport");
-
-            console.log("criar 1º relatorio");
-
+            navigation.navigate("CadReport");           
           } else {
-
             getReportNumber(idConst);
             navigation.navigate("Report");          
           }
@@ -196,23 +150,14 @@ export default function Home({ navigation }) {
  
   
 
-
-
-
-
-
-
-
   
   const getDetailsCompany = async () => {
-
     await fetch(endpointPhp + "?action=list_company")     
       .then(res => res.json())
       .then(  
-
-        (result) => {           
-
-         if (result !== "not found") {          
+        (result) => {          
+         if (result !== "not found") { 
+          setIsLoading(false);         
            listConstruction();
            listTags();              
            {
@@ -236,45 +181,25 @@ export default function Home({ navigation }) {
            } 
             
           } else {
-            console.log(result);
+            alert(result);
           }          
         }
       )
-      .catch(() => {
-        console.log('Erro', 'Não foi possível carregar os dados da compania');
+      .catch(() => {       
         alert("favor verificar sua conexão com a internet");
       });
     }
  
 
-
-
-
-
-
-
-
+    
 
   
     const listTags = async () => {
-
       await fetch(endpointPhp + "?action=list_tags")
           .then(res => res.json())
           .then(
-              (result) => { 
-
-               /*
-                result.map((item, i) => {
-                   key={i}
-                    {console.warn(i+"  "+item.status_tag)}                
-                })
-              
-               //  console.log(result.uri.status_tag)
-                */
-             
-                setImgTags(result);  
-
-              
+              (result) => {              
+                setImgTags(result); 
                 {
                   result.map(              
                     (item ) =>                    
@@ -287,31 +212,15 @@ export default function Home({ navigation }) {
                       }
                     )
                    )
-                }
-              
-
+                }             
              }
           )
           .catch(() => {
               console.log('Erro', 'Não foi possível carregar os dados de tags');
           });
-    }
+       }
   
     
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -322,8 +231,7 @@ export default function Home({ navigation }) {
           <Text>Loading...</Text>
        </View>
       )
- } 
-
+    } 
 
   return (
 
@@ -341,40 +249,15 @@ export default function Home({ navigation }) {
 
         <View style={styles.userHeader}>
 
-
-            <View>
-
-            {/*
-              <Image
-                style={styles.imgLogo}
-                  source={require('../../../assets/ehs_logo.png')}
-              /> 
-
-             */}
-
-
-               <Image source={{ uri: `data:image/png;base64,${detailsCompany.logo}` }}
-                      style={styles.imgLogo}
-               />
-            
-
-            
-            
-            
-            
+           <View>          
+              <Image source={{ uri: `data:image/png;base64,${detailsCompany.logo}` }}
+                  style={styles.imgLogo}
+               />            
            </View>
-
-           {/*
-            <View style={styles.containerInfo}>
-              <Text style={styles.textMain}>{` EHS SOLUÇÕES INTELIGENTES `}</Text>
-           </View>
-            */}
 
            <View style={styles.containerInfo}>
               <Text style={styles.textMain}>{detailsCompany.name}</Text>
-           </View>
-         
-
+           </View>        
 
            <View style={styles.containerInfo}>
              <Text style={styles.textInfo}>{`${welcome}`}</Text>
@@ -385,16 +268,17 @@ export default function Home({ navigation }) {
       </View>
 
     
-
+       {
+         isConstruction ?    
         
-
-         <FlatList
-                // showsVerticalScrollIndicator={false}
+         <FlatList              
                 data={construction}
                 renderItem={({ item }) =>
 
 
                 <View style={styles.dataList}>
+
+                  <View style={styles.cardList}>
 
                    <Image source={{ uri: `data:image/png;base64,${item.img_cts}` }}
                       style={styles.resizeModel}
@@ -412,9 +296,7 @@ export default function Home({ navigation }) {
                       {`Endereço :  ${item.address_cts}`}
                     </Text>
 
-
-
-                   <View style={styles.containerBtnIn}>
+                  <View style={styles.containerBtnIn}>
 
                     <LinearGradient
                       colors={['#B1B2AB', '#7D7F72']}
@@ -436,20 +318,22 @@ export default function Home({ navigation }) {
                  </View>
 
 
-
                 </View>
 
 
-                }
+               </View>
+               }
               >
           </FlatList>
-
-        
+         :
+         <View></View>
+     }
          
           {
-          construction ?
+           isConstruction ? 
        
           <View style={styles.containerBtnOut}>
+
              <LinearGradient
                 colors={['#B1B2AB', '#7D7F72']}
                 style={styles.styleBtnOne}
@@ -460,7 +344,9 @@ export default function Home({ navigation }) {
                   <Text style={styles.textAlert}>Cadastre nova Construtora</Text>
                   
                 </Pressable>
-              </LinearGradient>
+              </LinearGradient>              
+
+
            </View>
            
              :          
@@ -475,13 +361,10 @@ export default function Home({ navigation }) {
                   <Text style={styles.textAlert}>Cadastre a 1ª Construtora</Text>
                 </Pressable>
               </LinearGradient>
-            </View>     
+            </View>  
+
           }
-
-
-
-
-        
+       
 
         <View style={styles.loading}></View>
 

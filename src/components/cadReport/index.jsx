@@ -3,6 +3,7 @@ import React, { useState, useEffect, useContext } from 'react';
 
 import {
     FlatList,
+    ScrollView,
     View,
     Text,
     Pressable,
@@ -10,10 +11,8 @@ import {
     Image,
     Modal,
     TextInput,
-    TouchableOpacity,
     KeyboardAvoidingView,
-    Switch
-
+    ActivityIndicator,
 } from 'react-native';
 
 import { AuthContext } from '../../contexts/auth';
@@ -21,11 +20,9 @@ import { AuthContext } from '../../contexts/auth';
 import styles from './styles';
 import { LinearGradient } from 'expo-linear-gradient';
 
-import { Ionicons } from '@expo/vector-icons';
-import { FontAwesome } from '@expo/vector-icons';
-
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
+import { FontAwesome } from '@expo/vector-icons';
 
 
 import * as ImagePicker from 'expo-image-picker';
@@ -35,36 +32,28 @@ import * as ImagePicker from 'expo-image-picker';
 export default function CadReport({ navigation }) {
 
 
+
+
+    useEffect(() => {
+        navigation.addListener('focus', () => setLoad(!load));
+    }, [load, navigation]);
+
+
+
+
     const {
         endpointPhp,
         setLoad,
         load,
-
         idConstruction,
         nameConstruction,
         imgConstruction,
-
-      //  constructions,
-
         reportNumber,
-
-      //  report,
-
-
-      //  tags,
-
         imgTags
-
-
     } = useContext(AuthContext);
 
 
-    // const [isLoading, setIsLoading] = useState(true);
-
     const [modalForm, setModalForm] = useState(false);
-
-
-
     const [dataRel, setDataRel] = useState(
         {
             number_rpt: reportNumber,
@@ -73,32 +62,23 @@ export default function CadReport({ navigation }) {
             title: "",
             desc: "",
             status: "",
-
             img_one: null,
             img_two: null,
             img_three: null,
             img_four: null,
-
             base64_one: null,
             base64_two: null,
             base64_three: null,
             base64_four: null,
-
-
             idConst: idConstruction,
         }
     );
 
-
-
-
-    useEffect(() => {
-        navigation.addListener('focus', () => setLoad(!load));
-        console.log(" report number " + reportNumber);
-      //  setReportNumber();
-    }, [load, navigation]);
-
-
+    const [checkBox, setCheckBox] = useState([]);
+    const [randomCheckBox, setRandomCheckBox] = useState(null);
+    const [statusCheckBox, setStatusCheckBox] = useState(null);
+    const [tagStatus, setTagStatus] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
 
 
     const handleInputChange = (atribute, value) => {
@@ -110,113 +90,40 @@ export default function CadReport({ navigation }) {
     }
 
 
-
-    const [checkBox, setCheckBox] = useState([]);
-    const [randomCheckBox, setRandomCheckBox] = useState(null);
-    const [statusCheckBox, setStatusCheckBox] = useState(null);
-    const [tagStatus, setTagStatus] = useState(null);
-
-
-
-    const selectStatus = (index , item) => {
-        setStatusCheckBox(index);    
-         if(statusCheckBox !== index && checkBox[index] !== undefined){          
+    const selectStatus = (index, item) => {
+        setStatusCheckBox(index);
+        if (statusCheckBox !== index && checkBox[index] !== undefined) {
             checkBox[index] = undefined;
-         }else{
+        } else {
             checkBox[index] = item.id_tag;
-            setStatusCheckBox(index);           
-         }
-          setRandomCheckBox(Math.random());      
-         // setTagStatus(item.status_tag);
-
-          setDataRel(
-            {
-              ...dataRel, ['status']: item.status_tag,
-            }
-          )
-     }
-
-   
-  /*
-    const [pending, setPending] = useState(false);
-    const [foreseen, setForeseen] = useState(false);
-    const [attention, setAttention] = useState(false);
-  */
-
-
-
-  /*
-   const selectPending = (value) => {
-        setPending(!pending);
-        setForeseen(!foreseen);
-        setAttention(!attention);
+            setStatusCheckBox(index);
+        }
+        setRandomCheckBox(Math.random());
         setDataRel(
             {
-                ...dataRel, 'status': `status: ${value}`
+                ...dataRel, ['status']: item.status_tag,
             }
         )
     }
-   */
-
-
-    /*
-    const selectForeseen = () => {
-        setForeseen(!foreseen);
-        setPending(false);
-        setAttention(false);
-        setDataRel(
-            {
-                ...dataRel, 'status': 'status: previsto'
-            }
-        )
-    }
-
-
-    const selectAttention = () => {
-        setAttention(!attention);
-        setPending(false);
-        setForeseen(false);
-
-        setDataRel(
-            {
-                ...dataRel, 'status': 'status: atenção'
-            }
-        )
-    }
-   */
-
-
-
 
 
 
     const pickImage = async () => {
-     
-
         let img;
         let base64;
-
-        if (dataRel.img_one == null) {
+        if (dataRel.img_one === null) {
             img = "img_one"
-            base64 = "base64_one"         
-
-        } else if (dataRel.img_two == null) {
-
+            base64 = "base64_one"
+        } else if (dataRel.img_two === null) {
             img = "img_two"
-            base64 = "base64_two"           
-
-        } else if (dataRel.img_three == null) {
-
+            base64 = "base64_two"
+        } else if (dataRel.img_three === null) {
             img = "img_three"
-            base64 = "base64_three"          
-
-        } else if (dataRel.img_four == null) {
-
+            base64 = "base64_three"
+        } else if (dataRel.img_four === null) {
             img = "img_four"
             base64 = "base64_four"
-           
         }
-
         // No permissions request is necessary for launching the image library
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -228,16 +135,13 @@ export default function CadReport({ navigation }) {
         });
 
         if (!result.canceled) {
-
             setDataRel(
                 {
                     ...dataRel, [img]: result.assets[0].uri,
-                       dataRel, [base64]: result.assets[0].base64,
+                    dataRel, [base64]: result.assets[0].base64,
                 }
             )
-         
-       }
-
+        }
     };
 
 
@@ -250,35 +154,19 @@ export default function CadReport({ navigation }) {
     }
 
 
-     /*
-    const setReportNumber = () => {
-
-        if (reportNumber !== "") {
-            setDataRel(
-                {
-                    ...dataRel, 'number_rpt': reportNumber,
-                }
-            )
-        }
-    }
-    */
-
-
     const finish = () => {
+        setIsLoading(true);
         dataRel.page = dataRel.page + 1;
         saveReport();
         navigation.navigate("Report");
-        reset();
-        console.log(" relatório nº " + dataRel.number_rpt + " cadastro da " + dataRel.page + " pagina ");
     }
 
 
     const addPage = () => {
+        setIsLoading(true);
         dataRel.page = dataRel.page + 1;
         saveReport();
         setModalForm(true);
-        reset();
-        console.log(" relatório nº " + dataRel.number_rpt + " cadastro da " + dataRel.page + " pagina ");
     }
 
 
@@ -292,7 +180,6 @@ export default function CadReport({ navigation }) {
 
 
     const reset = () => {
-
         setDataRel(
             {
                 ...dataRel, 'date': "",
@@ -303,9 +190,15 @@ export default function CadReport({ navigation }) {
                 dataRel, 'img_two': null,
                 dataRel, 'img_three': null,
                 dataRel, 'img_four': null,
+                dataRel, 'base64_one': null,
+                dataRel, 'base64_two': null,
+                dataRel, 'base64_three': null,
+                dataRel, 'base64_four': null,
             }
         )
     }
+
+
 
 
 
@@ -322,8 +215,15 @@ export default function CadReport({ navigation }) {
             .then((res) => res.json())
             .then(
                 (result) => {
-                  alert(" pagina salva com sucesso!");
-                  console.log(result);
+
+                    if (result === "insert sucess") {
+                        setIsLoading(false);
+                        reset();
+                        alert("report number " + reportNumber + " e pagina " + dataRel.page + "  salva com sucesso!");
+                    } else {
+                        setIsLoading(false);
+                        console.log(result);
+                    }
                 })
             .catch(function (error) {
                 console.log('erro' + error.message);
@@ -333,19 +233,14 @@ export default function CadReport({ navigation }) {
 
 
 
-    /*
-      if(isLoading){
-          return(
-           <View style={styles.containerLoading}>
-              <ActivityIndicator size="large" color="#0000ff" />
-              <Text>Loading...</Text>
-           </View>
-          )
-     }  
-    */
-
-
-
+    if (isLoading) {
+        return (
+            <View style={styles.containerLoading}>
+                <ActivityIndicator size="large" color="#0000ff" />
+                <Text>Loading...</Text>
+            </View>
+        )
+    }
 
     return (
 
@@ -359,16 +254,8 @@ export default function CadReport({ navigation }) {
                 ]}
                 style={styles.containerMain}
             >
-
-                <View style={styles.containerInfo}>
-                    <Text style={styles.textMain}>{` Tela cadastro de relatório `}</Text>
-                </View>
-
-
                 <View style={styles.containerHeader}>
-
                     <View style={styles.contentHeader}>
-
                         <View>
                             <Image
                                 style={styles.imgLogo}
@@ -391,139 +278,190 @@ export default function CadReport({ navigation }) {
 
                 </View>
 
-
-                <View style={styles.contentMain}>
-
-                    {
-                        dataRel.title == ""
-
-                            ?
-
-                            <View style={styles.boxWith} >
-
-                                <LinearGradient
-                                    colors={['#B1B2AB', '#7D7F72']}
-                                    style={styles.styleBtnOne}
-                                >
-                                    <Pressable onPress={() => setModalForm(true)}>
-                                        <Text style={styles.textAlert}>{`criar relatório`}</Text>
-                                    </Pressable>
-                                </LinearGradient>
-
-                            </View>
-                            :
-
-                            <View style={styles.boxWithOut} >
-
-                                <View style={styles.containerImg} >
-
-                                    {
-                                        dataRel.img_one == null ||
-                                            dataRel.img_two == null ||
-                                            dataRel.img_three == null ||
-                                            dataRel.img_four == null
-                                            ?
-                                            <LinearGradient
-                                                colors={['#B1B2AB', '#7D7F72']}
-                                                style={styles.styleBtnImg}
-                                            >
-                                                <Pressable onPress={() => pickImage()}>
-                                                    <FontAwesome name='image' size={40} color={"#fff"} />
-                                                </Pressable>
-                                                <Text style={styles.textBtn}>Adcionar Imagem</Text>
-                                            </LinearGradient>
-
-                                            :
-
-                                            <View>
-                                                <Text style={styles.textInfo}>limite de imagems excedido</Text>
-                                            </View>
-                                    }
+                <View style={styles.containerInfo}>
+                    <Text style={styles.textMain}>{` Tela cadastro de relatório `}</Text>
+                </View>
 
 
-                                    <View style={styles.contentImg}>
-                                        {
-                                            dataRel.img_one &&
-                                            <View style={styles.boxImg}>
-                                                <Image source={{ uri: dataRel.img_one }} style={styles.resizeModel} />
 
-                                                <Pressable onPress={() => removeImage('img_one')}>
-                                                    <FontAwesome name='remove' size={12} color={"#B8AAA7"} />
-                                                </Pressable>
-                                            </View>
-                                        }
+                <ScrollView>
 
+                    <View style={styles.contentMain}>
 
-                                        {
-                                            dataRel.img_two &&
-                                            <View style={styles.boxImg}>
-                                                <Image source={{ uri: dataRel.img_two }} style={styles.resizeModel} />
-                                                <Pressable onPress={() => removeImage('img_two')}>
-                                                    <FontAwesome name='remove' size={12} color={"#B8AAA7"} />
-                                                </Pressable>
-                                            </View>
-                                        }
-                                    </View>
+                        {
+                            dataRel.title === ""
 
-                                    <View style={styles.contentImg}>
-                                        {
-                                            dataRel.img_three &&
-                                            <View style={styles.boxImg}>
-                                                <Image source={{ uri: dataRel.img_three }} style={styles.resizeModel} />
-                                                <Pressable onPress={() => removeImage('img_three')}>
-                                                    <FontAwesome name='remove' size={12} color={"#B8AAA7"} />
-                                                </Pressable>
-                                            </View>
-                                        }
+                                ?
 
-                                        {dataRel.img_four &&
-                                            <View style={styles.boxImg}>
-                                                <Image source={{ uri: dataRel.img_four }} style={styles.resizeModel} />
-                                                <Pressable onPress={() => removeImage('img_four')}>
-                                                    <FontAwesome name='remove' size={12} color={"#B8AAA7"} />
-                                                </Pressable>
-                                            </View>
-                                        }
-                                    </View>
+                                <View style={styles.boxWith} >
+
+                                    <LinearGradient
+                                        colors={['#B1B2AB', '#7D7F72']}
+                                        style={styles.styleBtnOne}
+                                    >
+                                        <Pressable onPress={() => setModalForm(true)}>
+                                            <Text style={styles.textAlert}>{`criar relatório`}</Text>
+                                        </Pressable>
+                                    </LinearGradient>
+
                                 </View>
-                                <View style={styles.cardRel}>
-                                    {dataRel.page == 0 ?
-                                        <Text style={styles.textData}>{` Data ${dataRel.date} `}</Text>
-                                        :
-                                        <View></View>
-                                    }
-                                    <Text style={styles.textData}>{`  ${dataRel.title} `}</Text>
-                                    <Text style={styles.textData}>{`  ${dataRel.desc} `}</Text>
+                                :
+
+                                <View style={styles.boxWithOut} >
+
+                                    <View style={styles.containerImg} >
+
+                                        {
+                                            dataRel.img_one === null ||
+                                                dataRel.img_two === null ||
+                                                dataRel.img_three === null ||
+                                                dataRel.img_four === null
+                                                ?
+                                                <LinearGradient
+                                                    colors={['#B1B2AB', '#7D7F72']}
+                                                    style={styles.styleBtnImg}
+                                                >
+                                                    <Pressable onPress={() => pickImage()}>
+                                                        <FontAwesome name='image' size={24} color={"#fff"} />
+                                                    </Pressable>
+                                                    <Text style={styles.textBtn}>Adcionar Imagem</Text>
+                                                </LinearGradient>
+
+                                                :
+
+                                                <View>
+                                                    <Text style={styles.textInfo}>limite de imagems excedido</Text>
+                                                </View>
+                                        }
+
+                                        <View style={styles.contentImg}>
+                                            {
+                                                dataRel.img_one &&
+                                                <View style={styles.boxImg}>
+                                                    <Image source={{ uri: dataRel.img_one }} style={styles.resizeModel} />
+                                                    <Pressable onPress={() => removeImage('img_one')}>
+                                                        <FontAwesome name='remove' size={12} color={"#B8AAA7"} />
+                                                    </Pressable>
+                                                </View>
+                                            }
+
+                                            {
+                                                dataRel.img_two &&
+                                                <View style={styles.boxImg}>
+                                                    <Image source={{ uri: dataRel.img_two }} style={styles.resizeModel} />
+                                                    <Pressable onPress={() => removeImage('img_two')}>
+                                                        <FontAwesome name='remove' size={12} color={"#B8AAA7"} />
+                                                    </Pressable>
+                                                </View>
+                                            }
+                                        </View>
+
+                                        <View style={styles.contentImg}>
+                                            {
+                                                dataRel.img_three &&
+                                                <View style={styles.boxImg}>
+                                                    <Image source={{ uri: dataRel.img_three }} style={styles.resizeModel} />
+                                                    <Pressable onPress={() => removeImage('img_three')}>
+                                                        <FontAwesome name='remove' size={12} color={"#B8AAA7"} />
+                                                    </Pressable>
+                                                </View>
+                                            }
+
+                                            {dataRel.img_four &&
+                                                <View style={styles.boxImg}>
+                                                    <Image source={{ uri: dataRel.img_four }} style={styles.resizeModel} />
+                                                    <Pressable onPress={() => removeImage('img_four')}>
+                                                        <FontAwesome name='remove' size={12} color={"#B8AAA7"} />
+                                                    </Pressable>
+                                                </View>
+                                            }
+                                        </View>
+                                    </View>
+                                    <View style={styles.cardRel}>
+                                        {dataRel.page === 0 ?
+                                            <Text style={styles.textData}>{` Data ${dataRel.date} `}</Text>
+                                            :
+                                            <View></View>
+                                        }
+                                        <Text style={styles.textData}>{`  ${dataRel.title} `}</Text>
+                                        <Text style={styles.textData}>{`  ${dataRel.desc} `}</Text>
+
+
+
+
+
+                                        <Text style={styles.textData}>{` ${dataRel.status} `}</Text>
+
+
+                                        {
+                                          dataRel.status === imgTags[0].status_tag
+                                            ?
+                                            <Image
+                                             style={styles.imgLogo}
+                                             source={{ uri: 'data:image/png;base64,' + imgTags[0].img_tag }}
+                                             />
+                                              :
+                                             dataRel.status === imgTags[1].status_tag
+                                             ?
+                                            <Image
+                                              style={styles.imgLogo}
+                                             source={{ uri: 'data:image/png;base64,' + imgTags[1].img_tag }}
+                                             />
+                                               :
+                                              dataRel.status === imgTags[2].status_tag
+                                               ?
+                                              <Image
+                                               style={styles.imgLogo}
+                                              source={{ uri: 'data:image/png;base64,' + imgTags[2].img_tag }}
+                                               />
+                                                :
+                                              dataRel.status === imgTags[3].status_tag
+                                                ?
+                                              <Image
+                                               style={styles.imgLogo}
+                                               source={{ uri: 'data:image/png;base64,' + imgTags[3].img_tag }}
+                                             />
+                                          :
+                                          <View></View>
+                                      }
+
+
+                                        {/*   
                                     {dataRel.page == 0 ?
                                         <Text style={styles.textData}>{` ${dataRel.status} `}</Text>
                                         :
                                         <View></View>
                                     }
+                                  */}
+
+                                    </View>
+                                    <View style={styles.containerBtn}>
+
+                                        <LinearGradient
+                                            colors={['#B1B2AB', '#7D7F72']}
+                                            style={styles.styleBtnOne}
+                                        >
+                                            <Pressable onPress={() => finish()}>
+                                                <Text style={styles.textBtn}>Finalizar</Text>
+                                            </Pressable>
+                                        </LinearGradient>
+
+                                        <LinearGradient
+                                            colors={['#B1B2AB', '#7D7F72']}
+                                            style={styles.styleBtnOne}
+                                        >
+                                            <Pressable onPress={() => addPage()}>
+                                                <Text style={styles.textBtn}>Adcionar Pagina</Text>
+                                            </Pressable>
+                                        </LinearGradient>
+
+                                    </View>
                                 </View>
-                                <View style={styles.containerBtn}>
+                        }
 
-                                    <LinearGradient
-                                        colors={['#B1B2AB', '#7D7F72']}
-                                        style={styles.styleBtnOne}
-                                    >
-                                        <Pressable onPress={() => finish()}>
-                                            <Text style={styles.textBtn}>Finalizar</Text>
-                                        </Pressable>
-                                    </LinearGradient>
+                    </View>
 
-                                    <LinearGradient
-                                        colors={['#B1B2AB', '#7D7F72']}
-                                        style={styles.styleBtnOne}
-                                    >
-                                        <Pressable onPress={() => addPage()}>
-                                            <Text style={styles.textBtn}>Adcionar Pagina</Text>
-                                        </Pressable>
-                                    </LinearGradient>
-
-                                </View>
-                            </View>
-                    }
-                </View>
+                </ScrollView>
 
                 <Modal
                     animationType='fade'
@@ -532,7 +470,7 @@ export default function CadReport({ navigation }) {
                     <View style={styles.contentMain}>
                         <View><Text style={styles.textMain}>Criar Relatório</Text></View>
                         {
-                            dataRel.page == 0 ?
+                            dataRel.page === 0 ?
                                 <View style={styles.fieldMain}>
 
                                     <TextInput
@@ -565,7 +503,6 @@ export default function CadReport({ navigation }) {
                             <TextInput
                                 style={styles.input}
                                 underlineColorAndroid="transparent"
-                                /* placeholder="Descrição:" */
                                 placeholderTextColor="#000000"
                                 rows={4}
                                 multiline={true}
@@ -575,89 +512,54 @@ export default function CadReport({ navigation }) {
                             />
                         </View>
 
-               {
-                dataRel.page  === 0 ?
-                      
-                      
-               <View style={styles.containerCheckBox}>
+                        {/* 
+                           {
+                            dataRel.page === 0 ?
+                          */}
 
-                 <FlatList
-                       //showsVerticalScrollIndicator={false}
-                       //showsHorizontalScrollIndicator={true}
-                       data={imgTags}
-                       renderItem={({ index, item  }) =>
+                        <View style={styles.containerCheckBox}>
 
-                    <View style={styles.contentCheckBox}>  
+                            <FlatList
+                                data={imgTags}
+                                renderItem={({ index, item }) =>
 
-                       <View>
-                          <Text>{item.status_tag}</Text>
-                      </View>
-                    
-                       <Pressable  onPress={() => selectStatus(index , item)}> 
-                         {
-                    /*   (checkBox[index]=== undefined) */
-                         statusCheckBox !== index
-                         ?                                           
-                         <MaterialCommunityIcons name="checkbox-blank-outline" size={24} color="black" />
-                         :
-                         <MaterialCommunityIcons name="checkbox-intermediate" size={24} color="black" />
-                          }
-                      </Pressable>                      
+                                    <View style={styles.contentCheckBox}>
 
-                    </View>
-                       }
-                        >
-                 </FlatList>
+                                        <View>
+                                            <Text>{item.status_tag}</Text>
+                                        </View>
 
-             </View>
+                                        <Pressable onPress={() => selectStatus(index, item)}>
+                                            {
+                                                statusCheckBox !== index
+                                                    ?
+                                                    <MaterialCommunityIcons name="checkbox-blank-outline" size={24} color="black" />
+                                                    :
+                                                    <MaterialCommunityIcons name="checkbox-intermediate" size={24} color="black" />
+                                            }
+                                        </Pressable>
 
-             :
+                                    </View>
+                                }
+                            >
+                            </FlatList>
 
-             <View></View>
+                        </View>
+                        {/* 
+                                :
+                                <View></View>
+                               }
+                              */}
 
-            }
+                        <View>
+                            <LinearGradient
+                                colors={['#B1B2AB', '#7D7F72']}
+                                style={styles.styleBtnOne}
+                            >
 
-               {/*                  
-                <View style={styles.containerSwiitch}>
-                    <View style={styles.contentSwiitch}>
-                         <Text style={styles.textBtn}>Pendente</Text>
-                            <Pressable
-                               style={[styles.checkboxBase, pending && styles.checkboxChecked]}
-                                onPress={() => selectPending()}>
-                                {pending && <Ionicons name="checkmark" size={20} color="white" />}
-                            </Pressable>
-                    </View>
-
-                    <View style={styles.contentSwiitch}>
-                       <Text style={styles.textBtn}>Previsto</Text>
-                         <Pressable
-                          style={[styles.checkboxBase, foreseen && styles.checkboxChecked]}
-                           onPress={() => selectForeseen()}>
-                             {foreseen && <Ionicons name="checkmark" size={20} color="white" />}
-                          </Pressable>
-                     </View>
-
-                     <View style={styles.contentSwiitch} >
-                        <Text style={styles.textBtn}>Atençao</Text>
-                      <Pressable
-                        style={[styles.checkboxBase, attention && styles.checkboxChecked]}
-                         onPress={() => selectAttention()}>
-                         {attention && <Ionicons name="checkmark" size={20} color="white" />}
-                       </Pressable>
-                     </View>
-
-                    </View>
-                    */}
-
-                       <View>
-                          <LinearGradient
-                            colors={['#B1B2AB', '#7D7F72']}
-                             style={styles.styleBtnOne}
-                           >
-                         
-                            <Pressable onPress={() => setModalForm(false)}>
-                               <Text style={styles.textBtn}>proximo</Text>
-                            </Pressable>                             
+                                <Pressable onPress={() => setModalForm(false)}>
+                                    <Text style={styles.textBtn}>proximo</Text>
+                                </Pressable>
 
                             </LinearGradient>
 
@@ -676,7 +578,12 @@ export default function CadReport({ navigation }) {
 
                 </Modal>
 
+
+
+
             </LinearGradient>
+
+
 
         </KeyboardAvoidingView >
     )

@@ -13,8 +13,7 @@ export default StyleSheet.create({
    containerMain: {
       flexDirection: 'column',
       height: '100%',
-      width: 'auto',
-      paddingTop: 30,
+      width: 'auto',        
    },
 
    containerHeader: {
@@ -51,59 +50,34 @@ export default StyleSheet.create({
       width: 'auto',
    },
 
-
-
-   resizeModel: {
-      // resizeMode: 'cover',
+   resizeModel: {   
       height: 80,
       width: 80,
       borderRadius: 10,
       marginBottom: 20
    },
 
-
-
-   /*
-   containerList: {
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center',
-   },
-  */
-  
-
-
-
    dataList: {
-      width: "auto",
-      height: "auto",
-      backgroundColor: 'rgba(75, 139, 117, 0.8)',
-      padding: 12,
-      borderRadius: 10,
-      margin: 20,
+    borderRadius: 6,
+    shadowColor: 'black',    
+    elevation: 4,
+    margin:4,
    },
 
-
-   
-   /*
-   containertEmpty: {
-      alignItems: 'center',
-      borderRadius: 14,
-      flexDirection: 'column',
-      height: 'auto',
-      marginTop: 'auto',
-      marginBottom: "auto",
-      padding: 10,
+   cardList:{
       width: "auto",
-      backgroundColor: 'rgba(215, 202, 165, 0.22)',
+      height: "auto",    
+      backgroundColor: 'rgba(215, 202, 165, 0.2)',      
+      padding: 12,     
+      margin: 2,
    },
-   */
 
 
 
    textList: {
       fontSize: 16,
-      color: 'white',
+      color: 'black',
+      fontWeight: 'bold',
    },
 
    textAlert: {

@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
 
-
 import {
    View,
    Text,
@@ -24,6 +23,8 @@ import * as ImagePicker from 'expo-image-picker';
 
 
 
+
+
 export default function CadConstruction({ navigation }) {
 
 
@@ -36,6 +37,17 @@ export default function CadConstruction({ navigation }) {
       enterprise: "",
       address: "",
    });
+
+
+
+
+   useEffect(() => {
+
+      navigation.addListener('focus', () => setLoad(!load))
+
+   }, [load, navigation]);
+
+
 
 
    const pickImage = async () => {
@@ -51,7 +63,6 @@ export default function CadConstruction({ navigation }) {
 
 
       if (!result.canceled) {
-
          setConstruction(
             {
                ...construction, 'img': result.assets[0].uri,
@@ -61,6 +72,8 @@ export default function CadConstruction({ navigation }) {
 
       }
    };
+
+
 
 
    const handleInputChange = (atribute, value) => {
@@ -73,33 +86,23 @@ export default function CadConstruction({ navigation }) {
    }
 
 
-   useEffect(() => {
-
-      navigation.addListener('focus', () => setLoad(!load))
-
-   }, [load, navigation]);
-
+  
    
-   const insertConstruction = async () => {
-
+   const insertConstruction = async () => {          
+       
       await fetch(endpointPhp + "?action=cad_contruction", {
          method: 'POST',
          headers: {
             'Content-Type': 'application/json'
          },
-
          body: JSON.stringify({
             construction
          })
-
       })
          .then((res) => res.json())
-
          .then(
             (result) => {
-
                if (result != "Construtora não cadastrado!!!") {
-
                   navigation.navigate("Home");
                   cleanInput();
                   alert("Construtora cadastrada com sucesso !")
@@ -107,24 +110,36 @@ export default function CadConstruction({ navigation }) {
                } else {
                   console.log(result);
                }
-
             });
-   }
+       }
 
 
+     
    const cleanInput = () => {
-
       setConstruction(
          {
             ...construction, ['name']: "",
-            construction, ['address']: "",
-            construction, ['number']: "",
-            construction, ['details']: "",
-            construction, ['responsable']: "",
+            construction, ['address']: "",           
+            construction, ['enterprise']: "",
             construction, ['img']: null,
+            construction, ['base64']: null,
          }
       )
    }
+
+
+
+
+   const removeImage = (atribute) => {
+      setConstruction(
+          {
+              ...construction, [atribute]: null
+          }
+      )
+  }
+
+
+
 
 
    return (
@@ -132,22 +147,15 @@ export default function CadConstruction({ navigation }) {
       <KeyboardAvoidingView
          behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
-
-         <LinearGradient
+        <LinearGradient
             colors={[
                'rgba(255, 249, 145, 0.07)',
                'rgba(249, 225, 175 ,0.09)',
             ]}
             style={styles.containerMain}
-         >
-
-            <View style={styles.containerInfo}>
-               <Text style={styles.textMain}>{` Tela Cadastro de Obras `}</Text>
-            </View>
-
+           >        
 
             <View style={styles.containerHeader}>
-
                <LinearGradient
                   colors={['#B1B2AB', '#7D7F72']}
                   style={styles.styleBtnOne}
@@ -156,23 +164,37 @@ export default function CadConstruction({ navigation }) {
                      <Text style={styles.textAlert}>Home</Text>
                   </Pressable>
                </LinearGradient>
+           </View>
 
+            <View style={styles.containerInfo}>
+                <Text style={styles.textMain}>{` Tela Cadastro de Obras `}</Text>
             </View>
 
+           <View style={styles.contentMain}>
 
-            <View style={styles.contentMain}>
-
+              {
+               construction.img === null  ?        
                <LinearGradient
                   colors={['#B1B2AB', '#7D7F72']}
                   style={styles.styleBtnImg}
                >
                   <Pressable onPress={() => pickImage()}>
-                     <FontAwesome name='image' size={40} color={"#fff"} />
+                     <FontAwesome name='image' size={22} color={"#fff"} />
                   </Pressable>
                   <Text style={styles.textBtn}>Adcionar Imagem</Text>
                </LinearGradient>
 
-               {construction.img && <Image source={{ uri: construction.img }} style={styles.containerImg} />}
+               :             
+            
+                 construction.img &&
+                 <View style={styles.boxImg}>
+                    <Image source={{ uri: construction.img }} style={styles.resizeModel} />
+                      <Pressable onPress={() => removeImage('img')}>
+                        <FontAwesome name='remove' size={14} color={"#B8AAA7"} />
+                      </Pressable>
+                 </View>              
+
+              }                 
 
                <TextInput style={styles.input}
                   placeholder=" digite o nome da contrutora"
@@ -205,8 +227,8 @@ export default function CadConstruction({ navigation }) {
                />
 
                {
-                  construction.name == "" && construction.enterprise == "" &&
-                     construction.address == ""
+                  construction.name === "" && construction.enterprise === "" &&
+                     construction.address === ""
                      ?
                      <LinearGradient
                         colors={['#B1B2AB', '#7D7F72']}
@@ -229,7 +251,7 @@ export default function CadConstruction({ navigation }) {
             </View>
          </LinearGradient>
 
-         <View style={{ height: 10 }}></View>
+         
       </KeyboardAvoidingView>
    )
 };

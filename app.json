@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "work-place-app",
-    "slug": "work-place-app",
+    "name": "app-ehs-v3",
+    "slug": "app-ehs-v3",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -11,9 +11,6 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
     "ios": {
       "supportsTablet": true
     },
@@ -22,14 +19,14 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.ronaldofagundes.workplaceapp"
+      "package": "com.ronaldofagundes.appehsv3"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "extra": {
       "eas": {
-        "projectId": "67763756-ba9d-4aae-8099-4534818fa1d7"
+        "projectId": "a6d11f68-1a56-48fc-b25b-1ffd57e9fa7f"
       }
     }
   }

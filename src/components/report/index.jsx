@@ -25,33 +25,15 @@ export default function Report({ navigation }) {
 
   const {
     endpointPhp,
-
     setLoad,
     load,
-
     setIdReport,
     setReportNumber,
     setReportStatus,
-
-   // reportStatus,
-
-    //setReport,
-
     idConstruction,
     nameConstruction,
     imgConstruction,
-
-    //setConstructions,
-
-  //  tags,
-
     imgTags,
-
-    setImgTagsSelected, 
-    imgTagsSelected,
-
-    
-
 
   } = useContext(AuthContext);
 
@@ -61,19 +43,9 @@ export default function Report({ navigation }) {
 
 
 
-
-
- // const [imgStatus, setimgStatus] = useState([]);
-  
-
-
-
-
   useEffect(() => {
     navigation.addListener('focus', () => setLoad(!load));
     listReport();
-
-  //  checkStatus();
 
   }, [load, navigation]);
 
@@ -94,35 +66,20 @@ export default function Report({ navigation }) {
       .then((res) => res.json())
       .then(
         (result) => {
-
           if (result !== "not found") {
-
-            /*
-            {
-              result.map(              
-                (item ) =>                  
-                   checkStatus(item.status_rpt)                  
-               )
-            }
-            */
-
             setIsLoading(false);
             setReportList(result);
-
-           // console.log(result);
-
-
           } else {
-            alert(result);
-            alert("favor verificar sua conexão com a internet");
+            setIsLoading(false);            
+            alert("não existe relatórios cadastrados !!!");
+            navigation.navigate("CadReport");  
           }
-
         })
       .catch((error) => console.error(error));
   }
 
 
-  
+
 
 
 
@@ -131,7 +88,6 @@ export default function Report({ navigation }) {
     setReportNumber(number);
     setReportStatus(status);
     navigation.navigate("SelectReport");
-  //  console.log(" id " + id + "  number " + number + " status report " + status);
   }
 
 
@@ -139,75 +95,26 @@ export default function Report({ navigation }) {
 
 
 
+  const getReportNumber = async () => {
+    await fetch(endpointPhp + "?action=report_number", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        idConstruction
+      })
+    })
+      .then((res) => res.json())
+      .then(
+        (result) => {
 
+          setReportNumber(result);
+          navigation.navigate("CadReport");
 
-/*
-  const checkStatus = (value) => {
-   // console.log(imgTags.length);
-   // item.status_rpt === `status: ${imgTags[0].status_tag.toLowerCase()}`
-  for (i = 0; i < imgTags.length; i++) {
-    if(`status: ${imgTags[i].status_tag.toLowerCase()}` === value ){
-      setimgStatus(imgTags[i].img_tag);
-
-      //
-      console.log(        
-        " encontrou "+imgTags[i].status_tag+" i "+i              
-       )
-      //
-   }   
-
-     //
-    console.log(imgTags[i]);
-    if(imgTags[i].status_tag === "ATENÇÃO" ){
-        console.log(        
-          " encontrou "+imgTags[i].status_tag+" i "+i              
-         )
-     }   
-      console.log(
-        
-        "  img tags status "+imgTags[i].status_tag+" i "+i
-            
-       )
-     //
-
-    } 
- 
-  console.log(
-      "  img tags status [1] "+imgTags[1].status_tag+
-      " =>  img tags status [2] "+imgTags[2].status_tag      
-  )
- 
-  for(var i =0; i < imgTags.size ; i++ ){
-  
-    console.log(
-      " img tags id "+imgTags[i].id_tag+" img tags status "+imgTags[i].status_tag+" img tags desc "+imgTags[i].desc_tag
-   )
+        })
+      .catch((error) => console.error(error));
   }
-
-
- // console.log(" tags id "+tags.id_sta+" name  "+tags.name)
-
-  console.log(
-    " img tags id "+imgTags[0].id_tag+" img tags status "+imgTags[0].status_tag+" img tags desc "+imgTags[0].desc_tag
- )
-  console.log(   
-    " => img tags id "+imgTags[1].id_tag+" img tags status "+imgTags[1].status_tag+" img tags desc "+imgTags[1].desc_tag
-    )
-  console.log(   
-    " => img tags id "+imgTags[2].id_tag+" img tags status "+imgTags[2].status_tag+" img tags desc "+imgTags[2].desc_tag
-   )
-}
-
-
-*/
-
-
-
-
-
-
-
-
 
 
 
@@ -262,14 +169,15 @@ export default function Report({ navigation }) {
             colors={['#B1B2AB', '#7D7F72']}
             style={styles.styleBtnOne}
           >
-            <Pressable onPress={() => { navigation.navigate("CadReport") }}>
+            <Pressable onPress={() => getReportNumber()}>
+
               <Text style={styles.textAlert}>Novo Relatório</Text>
             </Pressable>
           </LinearGradient>
-          
+
         </View>
 
-         
+
 
         <FlatList
 
@@ -284,32 +192,19 @@ export default function Report({ navigation }) {
 
 
                   <View style={styles.contentImg}>
-               
 
-                    <Image source={{ uri: item.img_one_rpt }}
+
+                    <Image
+                      source={{ uri: `data:image/png;base64,${item.img_one_rpt}` }}
                       style={styles.resizeModel}
                     />
-                    <Image source={{ uri: item.img_two_rpt }}
+
+                    <Image
+                      source={{ uri: 'data:image/png;base64,' + item.img_two_rpt }}
                       style={styles.resizeModel}
                     />
-                 
-                
-                 
-               {/* 
-                 <Image                            
-                  source={{ uri: `data:image/png;base64,${item.img_one_rpt}` }}
-                  style={styles.resizeModel}   
-                  />
 
-                  <Image                 
-                  source={{ uri: 'data:image/png;base64,' + item.img_two_rpt }}
-                  style={styles.resizeModel}
-                 />
-               */}  
-
-
-                </View>
-
+                  </View>
 
                   :
                   <View></View>
@@ -318,12 +213,17 @@ export default function Report({ navigation }) {
               {
                 item.img_three_rpt != null ?
                   <View style={styles.contentImg}>
-                    <Image source={{ uri: item.img_three_rpt }}
+
+                    <Image
+                      source={{ uri: `data:image/png;base64,${item.img_three_rpt}` }}
                       style={styles.resizeModel}
                     />
-                    <Image source={{ uri: item.img_four_rpt }}
+
+                    <Image
+                      source={{ uri: 'data:image/png;base64,' + item.img_four_rpt }}
                       style={styles.resizeModel}
                     />
+
                   </View>
                   :
                   <View></View>
@@ -333,7 +233,7 @@ export default function Report({ navigation }) {
               <View style={styles.contentData} >
 
 
-              <Text style={styles.textList}>
+                <Text style={styles.textList}>
                   {` Nº : ${item.number_rpt}`}
                 </Text>
 
@@ -350,59 +250,50 @@ export default function Report({ navigation }) {
                 </Text>
 
 
-             <View style={styles.contentStatus}>
+                <View style={styles.contentStatus}>
 
                   <Text style={styles.textList}>
                     {` Status :  ${item.status_rpt}`}
-                  </Text>                             
+                  </Text>
 
-                {              
-                //item.status_rpt === `status: ${imgTags[0].status_tag.toLowerCase()}`
-                item.status_rpt === imgTags[0].status_tag
-                 ?   
-                 <Image
-                   style={styles.imgLogo}
-                  source={{ uri: 'data:image/png;base64,' + imgTags[0].img_tag }}                        
-                 />
-                 :
-                // item.status_rpt === `status: ${imgTags[1].status_tag.toLowerCase()}`
-                item.status_rpt === imgTags[1].status_tag
-                 ?                 
-                 <Image
-                   style={styles.imgLogo}
-                  source={{ uri: 'data:image/png;base64,' + imgTags[1].img_tag }}                        
-                 />
-                 :
-                // item.status_rpt === `status: ${imgTags[2].status_tag.toLowerCase()}`
-                item.status_rpt === imgTags[2].status_tag
-                 ?                 
-                 <Image
-                   style={styles.imgLogo}
-                  source={{ uri: 'data:image/png;base64,' + imgTags[2].img_tag }}                        
-                 />
-                 :
-               // item.status_rpt === `status: ${imgTags[3].status_tag.toLowerCase()}`
-                 item.status_rpt === imgTags[3].status_tag
-                 ?                 
-                 <Image
-                   style={styles.imgLogo}
-                  source={{ uri: 'data:image/png;base64,' + imgTags[3].img_tag }}                        
-                 />
-                :
-                <View></View>
-                }
-          
+                  {
+                    item.status_rpt === imgTags[0].status_tag
+                      ?
+                      <Image
+                        style={styles.imgLogo}
+                        source={{ uri: 'data:image/png;base64,' + imgTags[0].img_tag }}
+                      />
+                      :
+                      item.status_rpt === imgTags[1].status_tag
+                        ?
+                        <Image
+                          style={styles.imgLogo}
+                          source={{ uri: 'data:image/png;base64,' + imgTags[1].img_tag }}
+                        />
+                        :
+                        item.status_rpt === imgTags[2].status_tag
+                          ?
+                          <Image
+                            style={styles.imgLogo}
+                            source={{ uri: 'data:image/png;base64,' + imgTags[2].img_tag }}
+                          />
+                          :
+                          item.status_rpt === imgTags[3].status_tag
+                            ?
+                            <Image
+                              style={styles.imgLogo}
+                              source={{ uri: 'data:image/png;base64,' + imgTags[3].img_tag }}
+                            />
+                            :
+                           <View></View>
+                    }
 
+                </View>
 
-             
-             </View>
+              </View>
 
 
-
-
-             </View>
-
-
+             <View style={styles.containerBtn}>
               <LinearGradient
                 colors={['#B1B2AB', '#7D7F72']}
                 style={styles.styleBtnOne}
@@ -413,6 +304,8 @@ export default function Report({ navigation }) {
                   <Text style={styles.textAlert}>Selecione</Text>
                 </Pressable>
               </LinearGradient>
+            </View>
+
 
             </View>
 

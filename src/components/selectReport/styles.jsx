@@ -35,7 +35,7 @@ export default StyleSheet.create({
       borderRadius: 10,
       marginRight: 10
    },
-   
+
 
    userHeader: {
       height: 'auto',
@@ -54,30 +54,44 @@ export default StyleSheet.create({
       width: 'auto',
    },
 
+
    dataList: {
       width: "auto",
       height: "auto",
-      backgroundColor: 'rgba(75, 139, 117, 0.8)',
-      padding: 12,
+      backgroundColor: 'rgba(215, 202, 165, 0.2)', 
+      padding: 10,    
+      borderRadius: 4,
+      margin: 10,
+      flexDirection: 'column',  
+      borderRadius: 6,
+      shadowColor: 'black',    
+      elevation: 4,     
+      },
+
+
+   contentList: {
+      height: 'auto',
+      with: '100%',
+      backgroundColor: 'rgba(246, 242, 242, 1.2)',
+      marginBottom: 5,
       borderRadius: 10,
-      marginTop: 10,
+      flexWrap: 'wrap',
+      padding:10
    },
 
-  
+   contentStatus: {
+      flexDirection: 'column',
+      justifyContent: 'space-between',
+      padding: 10,
+      marginTop: 30,
+      marginBottom: 20
 
-      contentStatus: {
-         flexDirection: 'column',
-         justifyContent: 'space-between',
-         padding:10,
-         marginTop:30,
-         marginBottom:20
-         
-      },
-   
+   },
+
 
    contentImg: {
       height: 'auto',
-      with: '100%',
+      width: "auto",
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'space-around',
@@ -88,24 +102,25 @@ export default StyleSheet.create({
    },
 
 
-   
-   
 
-  
-   containerBtnIn:{    
-      flexDirection: 'row',     
+
+
+
+   containerBtnIn: {
+      flexDirection: 'row',
       justifyContent: 'center',
-      marginTop:15,
-      marginBottom:20,
+      marginTop: 15,
+      marginBottom: 20,
+      width: "100%",
    },
 
 
-   containerBtnOut:{
+   containerBtnOut: {
       backgroundColor: 'rgba(215, 202, 165, 0.22)',
-      flexDirection: 'row',     
+      flexDirection: 'row',
       justifyContent: 'space-around',
-      marginTop:15,
-      marginBottom:5,
+      marginTop: 15,
+      marginBottom: 5,
    },
 
 
@@ -123,8 +138,8 @@ export default StyleSheet.create({
       borderRadius: 10,
       marginRight: 10,
    },
-  
-  
+
+
 
    imgStatus: {
       height: 40,
@@ -133,15 +148,7 @@ export default StyleSheet.create({
       marginRight: 10
    },
 
-   contentList: {
-      height: 'auto',
-      with: '100%',
-      backgroundColor: 'gray',
-      padding: 10,
-      marginBottom: 5,
-      borderRadius: 10,
-      flexWrap: 'wrap'
-   },
+  
 
    textAlert: {
       color: '#FFF',
@@ -149,11 +156,11 @@ export default StyleSheet.create({
       fontSize: 14,
    },
 
-   textData: {
-      color: '#ffff',    
-      fontSize: 16,      
-      fontWeight: 'bold',
-      marginBottom: 8
+   textData: {   
+      color: '#5D3806',
+      fontSize: 16,
+      fontWeight: 'bold',    
+      marginBottom: 10
    },
 
    textMain: {
@@ -168,7 +175,6 @@ export default StyleSheet.create({
       fontSize: 16,
    },
 
-  
 
    styleBtnOne: {
       width: 'auto',
@@ -181,6 +187,8 @@ export default StyleSheet.create({
       padding: 10,
       backgroundColor: 'gray',
    },
+
+  
 
 
 });

@@ -68,16 +68,27 @@ export default StyleSheet.create({
       width: 'auto',
    },
 
+
+
    dataList: {
       width: "auto",
       height: "auto",
-      backgroundColor: 'rgba(75, 139, 117, 0.8)',
-      borderRadius: 10,
+      backgroundColor: 'rgba(215, 202, 165, 0.2)', 
+      padding: 10,    
+      borderRadius: 4,
       margin: 10,
+      flexDirection: 'column',  
+      borderRadius: 6,
+      shadowColor: 'black',    
+      elevation: 4,     
+      },
+
+   contentData: {
       flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center',
-   },
+      width: '100%',
+      padding:10 ,        
+   },  
+  
 
    contentImg: {
       flexDirection: 'row',
@@ -88,17 +99,12 @@ export default StyleSheet.create({
       width: '100%',
    },
 
-   resizeModel: {
-      //resizeMode: 'cover',
+   resizeModel: {     
       height: 140,
       width: 140,
       borderRadius: 10,
    },
 
-   contentData: {
-      flexDirection: 'column',
-      width: '100%',
-   },
 
    textInfo: {
       color: '#4E1313',
@@ -120,9 +126,19 @@ export default StyleSheet.create({
 
    textList: {
       fontSize: 16,
-      color: '#ffff',  
+      color: '#5D3806',  
       fontWeight: 'bold',
       marginBottom: 10
+   },
+
+
+
+   containerBtn: {
+      flexDirection: 'row',
+      justifyContent: 'center',
+      marginTop: 15,
+      marginBottom: 20,
+      width: "100%",
    },
 
    styleBtnOne: {
@@ -136,5 +152,7 @@ export default StyleSheet.create({
       padding: 10,
       backgroundColor: 'gray',
    },
+
+  
 
 });

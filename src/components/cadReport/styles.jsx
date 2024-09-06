@@ -4,7 +4,6 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
 
-    /*
     containerLoading: {
         flex: 1,
         backgroundColor: '#F5F5F5',
@@ -12,13 +11,12 @@ export default StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
      },
-      */
-
+ 
     containerMain: {
         flexDirection: 'column',
         height: '100%',
         width: 'auto',
-        paddingTop: 30,
+        paddingTop: 30,      
     },
 
     containerInfo: {
@@ -59,15 +57,16 @@ export default StyleSheet.create({
         alignItems: 'center',
         borderRadius: 14,
         flexDirection: 'column',
-        height: 'auto',
+        height: '100%',
         marginTop: 10,
         width: '100%',
-        backgroundColor: 'rgba(215, 202, 165, 0.22)',
+        backgroundColor: 'rgba(215, 202, 165, 0.22)',       
     },
 
     boxWith: {
         height: 'auto',
         width: '30%',
+        paddingBottom:10,
     },
 
     boxWithOut: {
@@ -127,7 +126,7 @@ export default StyleSheet.create({
         height: 'auto',
         color: "black",
         backgroundColor: 'white',
-        fontSize: 12,
+        fontSize: 14,
         fontWeight: 'bold',
         borderRadius: 10,
         marginTop: 10,
@@ -151,7 +150,7 @@ export default StyleSheet.create({
     },
 
     textBtn: {
-        color: 'black',
+        color: '#FFF',
         fontWeight: 'bold',
         fontSize: 14,
     },
@@ -159,7 +158,7 @@ export default StyleSheet.create({
     textAlert: {
         color: '#FFF',
         fontWeight: 'bold',
-        fontSize: 12,
+        fontSize: 14,
     },
 
     textInfo: {
@@ -180,6 +179,19 @@ export default StyleSheet.create({
         marginRight: 10
     },
 
+    /*
+    styleBtnImg: {        
+        width: "16%",
+        height: "9%",
+        alignItems:'center',
+        borderRadius: 10,
+        marginTop: 5,
+        marginBottom: 20,  
+        padding: 10,
+        borderRadius:10
+      },
+   */
+    
     styleBtnImg: {
         width: 'auto',
         height: 'auto',
@@ -188,8 +200,10 @@ export default StyleSheet.create({
         marginTop: 10,
         marginBottom: 20,
         alignItems: 'center',
-        padding: 10
+        padding: 14
     },
+   
+
 
     containerBtn: {
         flexDirection: 'row',
@@ -198,11 +212,6 @@ export default StyleSheet.create({
         width: '80%',
         padding: 10,
     },
-
-
-
-
-
 
     containerCheckBox: {             
        backgroundColor: 'transparent',  
@@ -215,8 +224,6 @@ export default StyleSheet.create({
         borderRadius: 10,
     },
 
-
-
     contentCheckBox: {
        backgroundColor: 'transparent',     
         flexDirection: 'row',
@@ -228,82 +235,5 @@ export default StyleSheet.create({
         borderWidth: 1,
         borderRadius: 10,
     }
-
-
-
-    /*
-    containerSwiitch: {
-        backgroundColor: 'transparent',
-        flexDirection: 'column',
-        width: '40%',
-        height: 'auto',
-        padding: 20,
-        marginTop: 10,
-        borderWidth: 1,
-        borderRadius: 10,
-    },
-    */
-
-    /*
-    contentSwiitch: {
-        marginBottom: 10
-    },
-     */
-
-
-    /*
-    checkboxBase: {
-        width: 28,
-        height: 28,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: 4,
-        borderWidth: 2,
-        borderColor: 'black',
-        backgroundColor: 'transparent',
-    },
-    */
-
-    /*
-    checkboxChecked: {
-        backgroundColor: 'gray',
-        alignItems: 'center',
-    },
-    */
-
-    /*
-    checkboxContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-    },
-    */
-
-    /*
-    checkboxLabel: {
-        marginLeft: 8,
-        fontWeight: 500,
-        fontSize: 18,
-    },
-    */
-
-
-    /*
-    dataList: {
-        width: "auto",
-        height: "auto",
-        //backgroundColor: 'rgba(75, 139, 117, 0.8)',
-        backgroundColor: 'blue',
-        padding: 12,
-        borderRadius: 10,
-        marginTop: 10,
-     },
-
-     textList: {
-        fontSize: 12,
-        color: 'white',
-     },
-     */
-
-
 
 });
